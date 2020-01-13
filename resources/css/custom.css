@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+[x-cloak] { display: none; }
+
+.fade {
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+ 
+.fade:hover {
+    opacity: 0.5;
+}
+
+.error {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+
+.modal-backdrop.show {
+    opacity: 0.8;
+}

@@ -1,0 +1,21 @@
+os:
+  - linux
+
+language: php
+
+services:
+  - mysql
+
+php:
+  - '7.3'
+  
+before_script:
+  - composer self-update
+  - composer install --no-interaction
+  - cp .env.travis .env
+  
+script:
+  - vendor/bin/php-cs-fixer fix --dry-run
+  - php artisan insights --no-interaction --min-quality=90 --min-complexity=85 --min-architecture=90 --min-style=95
+  - mysql -e 'CREATE DATABASE laravellte;'
+  - vendor/bin/phpunit
