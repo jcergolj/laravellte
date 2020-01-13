@@ -1,0 +1,30 @@
+on: push
+
+name: Run
+jobs:
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run composer install
+      run: composer install -n --prefer-dist
+      env:
+        APP_ENV: testing
+    - name: Prepare Laravel Application
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+    - name: Cache composer dependencies
+      uses: actions/cache@v1
+      with:
+        path: vendor
+        key: composer-${{ hashFiles('composer.lock') }}
+    - name: Run php cs fixer
+      run: vendor/bin/php-cs-fixer fix --dry-run
+    - name: Run insights
+      run: php artisan insights --no-interaction --min-quality=90 --min-complexity=85 --min-architecture=90 --min-style=95
+    - name: Run tests
+      run: ./vendor/bin/paratest --processes 2 --runner=WrapperRunner
+      env:
+        APP_ENV: testing
