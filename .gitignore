@@ -1,0 +1,10 @@
+.php_cs.cache
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+.env
+vendor/
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
