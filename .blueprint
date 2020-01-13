@@ -1,0 +1,10 @@
+created:
+    - /home/vagrant/projects/laravellte/app/Http/Controllers/RoleController.php
+    - /home/vagrant/projects/laravellte/app/Http/Requests/RoleStoreRequest.php
+    - /home/vagrant/projects/laravellte/app/Http/Requests/RoleUpdateRequest.php
+    - resources/views/roles/index.blade.php
+    - resources/views/roles/create.blade.php
+    - resources/views/roles/edit.blade.php
+    - tests/Feature/Http/Controllers/RoleControllerTest.php
+updated:
+    - routes/web.php

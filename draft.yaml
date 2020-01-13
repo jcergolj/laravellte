@@ -1,0 +1,53 @@
+models:
+  Role:
+    name: string:255
+    label: string:255
+
+controllers:
+  User:
+    index:
+      query: all
+      render: users.index with:users
+
+    create:
+      render: users.create
+
+    store:
+      validate: email, role_id
+      save: user
+      redirect: users.index
+
+    edit:
+      render: users.edit
+
+    update:
+      validate: email, role_id
+      save: user
+      redirect: users.index
+
+    destroy:
+      delete: user
+
+  Role:
+    index:
+      query: all
+      render: roles.index with:roles
+
+    create:
+      render: roles.create
+
+    store:
+      validate: name, label
+      save: user
+      redirect: roles.index
+
+    edit:
+      render: roles.edit
+
+    update:
+      validate: name, label
+      save: role
+      redirect: roles.index
+
+    destroy:
+      delete: role
