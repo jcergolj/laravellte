@@ -6,7 +6,7 @@
                 <select
                     name="roleId"
                     class="form-control form-control-sm custom-select custom-select-sm"
-                    wire:model="roleId.lazy"
+                    wire:model.lazy="roleId"
                     value="roleId"
                     placeholder="{{ trans("validation.attributes.roleId") }}"
                 >
