@@ -1,6 +1,6 @@
 # Opinionated Laravel based admin panel with merge features from branches approach
 
-This is installation guide for opinionated Laravel based admin panel build with Alpinejs, Livewire and Trubolinks mimicking SPA like
+This is installation guide for opinionated Laravel based admin panel build with Alpinejs, Livewire and Turbolinks mimicking SPA like
 apps.
 
 ~~# Warning! This repo is still in a early stage. Code changes a lot with only a init commit. I am going to release a version 1.0 by mid April.~~
