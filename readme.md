@@ -1,6 +1,6 @@
 # Boilerplate for Laravel admin panel
 
-## What?
+## Intro
 <table>
 <tr>
 <td>
@@ -74,9 +74,6 @@ Let's face it. Sometimes we are sloppy, and we don't take the best care of the c
 
 ## Potentially useful code snippets (actively added)
 Here are some ideas how you could tackle common problems:
-
-### Compound Rules
-//TODO
 
 ## License
 Licensed under the [MIT license](https://github.com/deployphp/deployer/blob/master/LICENSE)
