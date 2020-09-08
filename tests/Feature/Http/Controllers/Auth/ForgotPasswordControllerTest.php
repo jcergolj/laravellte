@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -32,7 +32,7 @@ class ForgotPasswordControllerTest extends TestCase
     /** @test */
     public function user_can_request_an_email_with_password_reset_link()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -55,7 +55,7 @@ class ForgotPasswordControllerTest extends TestCase
     /** @test */
     public function authenticated_user_is_redirected_to_tokens()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         $response = $this->actingAs($user)
             ->get(route('password.request'));
@@ -63,7 +63,7 @@ class ForgotPasswordControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_FOUND)
             ->assertRedirect(route('home.index'));
 
-        $response = $this->actingAs(factory(User::class)->create())
+        $response = $this->actingAs(UserFactory::new()->create())
             ->post(route('password.email'), ['email' => 'joe@example.com']);
 
         $response->assertStatus(Response::HTTP_FOUND)

@@ -5,8 +5,9 @@ namespace Tests\Feature\Http\Livewire\Users;
 use App\Http\Livewire\LivewireAuth;
 use App\Http\Livewire\Users\SaveUser;
 use App\Mail\InvitationMail;
-use App\Models\Role;
 use App\Models\User;
+use Database\Factories\RoleFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -65,7 +66,7 @@ class SaveUserTest extends TestCase
     /** @test */
     public function render_for_edit()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveUser::class, ['user' => $user])
@@ -112,9 +113,9 @@ class SaveUserTest extends TestCase
     /** @test */
     public function update_existing_user()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'jane@example.com',
-            'role_id' => factory(Role::class)->create(),
+            'role_id' => RoleFactory::new()->create(),
         ]);
 
         $this->assertCount(2, User::all());
@@ -156,7 +157,7 @@ class SaveUserTest extends TestCase
      */
     public function test_update_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveUser::class, ['user' => $user])
@@ -179,7 +180,7 @@ class SaveUserTest extends TestCase
     /** @test */
     public function unique_email_is_ignored_for_user_who_is_edited()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveUser::class, ['user' => $user])

@@ -3,6 +3,7 @@
 namespace Tests\Unit\Filters;
 
 use App\Models\Role;
+use Database\Factories\RoleFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,11 +15,11 @@ class RoleFilterTest extends TestCase
     /** @test */
     public function search_roles_by_name()
     {
-        $writer = factory(Role::class)->create([
+        $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
 
-        $manager = factory(Role::class)->create([
+        $manager = RoleFactory::new()->create([
             'name' => 'manager',
         ]);
 
@@ -34,11 +35,11 @@ class RoleFilterTest extends TestCase
     /** @test */
     public function order_roles_by_field()
     {
-        $writer = factory(Role::class)->create([
+        $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
 
-        $manager = factory(Role::class)->create([
+        $manager = RoleFactory::new()->create([
             'name' => 'manager',
         ]);
 

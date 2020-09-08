@@ -4,7 +4,7 @@ namespace Tests\Unit\Listeners;
 
 use App\Events\ProfileImageUploaded;
 use App\Listeners\ResizeImage;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +21,7 @@ class ResizeImageTest extends TestCase
         Storage::disk('avatar')
             ->putFileAs('', UploadedFile::fake()->image('abc123.jpg', 1000, 1000), 'abc123.jpg');
 
-        $event = new ProfileImageUploaded($user = factory(User::class)->create(['image' => 'abc123.jpg']));
+        $event = new ProfileImageUploaded($user = UserFactory::new()->create(['image' => 'abc123.jpg']));
         $listener = new ResizeImage();
         $listener->handle($event);
 

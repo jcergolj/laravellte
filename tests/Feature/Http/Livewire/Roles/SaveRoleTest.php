@@ -4,8 +4,9 @@ namespace Tests\Feature\Http\Livewire\Roles;
 
 use App\Http\Livewire\LivewireAuth;
 use App\Http\Livewire\Roles\SaveRole;
-use App\Models\Permission;
 use App\Models\Role;
+use Database\Factories\PermissionFactory;
+use Database\Factories\RoleFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Livewire\Livewire;
@@ -43,7 +44,7 @@ class SaveRoleTest extends TestCase
     /** @test */
     public function role_edit_page_contains_save_role_livewire_component()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         $this->actingAs($this->admin)
             ->get(route('roles.edit', $role))
@@ -63,7 +64,7 @@ class SaveRoleTest extends TestCase
     /** @test */
     public function render_for_edit()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveRole::class, ['role' => $role])
@@ -77,11 +78,11 @@ class SaveRoleTest extends TestCase
     /** @test */
     public function store_new_role()
     {
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'description' => 'Edit User',
         ]);
 
@@ -118,24 +119,24 @@ class SaveRoleTest extends TestCase
     /** @test */
     public function update_existing_role()
     {
-        $role = factory(Role::class)->create([
+        $role = RoleFactory::new()->create([
             'name' => 'manager',
             'label' => 'Manager',
         ]);
 
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'description' => 'Edit User',
         ]);
 
-        $permissionCreateRole = factory(Permission::class)->create([
+        $permissionCreateRole = PermissionFactory::new()->create([
             'description' => 'Create Role',
         ]);
 
-        $permissionEditRole = factory(Permission::class)->create([
+        $permissionEditRole = PermissionFactory::new()->create([
             'description' => 'Edit Role',
         ]);
 
@@ -188,7 +189,7 @@ class SaveRoleTest extends TestCase
     {
         //admin role is created when admin user is created
 
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
              'description' => 'Create User',
          ]);
 
@@ -228,8 +229,8 @@ class SaveRoleTest extends TestCase
      */
     public function test_update_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
-        $role = factory(Role::class)->create();
-        factory(Permission::class)->create();
+        $role = RoleFactory::new()->create();
+        PermissionFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveRole::class, ['role' => $role])
@@ -252,7 +253,7 @@ class SaveRoleTest extends TestCase
     /** @test*/
     public function permission_must_be_allowed_if_owner_restricted_is_checked()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveRole::class, ['role' => $role])
@@ -265,7 +266,7 @@ class SaveRoleTest extends TestCase
     /** @test */
     public function unique_name_is_ignored_for_role_who_is_edited()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(SaveRole::class, ['role' => $role])

@@ -1,5 +1,8 @@
 <?php
 
+use Database\Factories\RoleFactory;
+use Database\Factories\UserFactory;
+
 /**
  * Admin seeder.
  *
@@ -7,11 +10,11 @@
  */
 function create_admin()
 {
-    $role = factory(\App\Models\Role::class)->create([
+    $role = RoleFactory::new()->create([
         'name' => 'admin',
     ]);
 
-    return factory(\App\Models\User::class)->create([
+    return UserFactory::new()->create([
             'email' => 'admin@admin.lte',
             'role_id' => $role->id,
         ]);
@@ -24,11 +27,11 @@ function create_admin()
  */
 function create_user()
 {
-    $role = factory(\App\Models\Role::class)->create([
+    $role = RoleFactory::new()->create([
         'name' => 'manager',
     ]);
 
-    return factory(\App\Models\User::class)->create([
+    return UserFactory::new()->create([
             'email' => 'manager@admin.lte',
             'role_id' => $role->id,
         ]);

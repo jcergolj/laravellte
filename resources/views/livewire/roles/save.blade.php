@@ -19,7 +19,7 @@
                             Owner Restricted
                         </th>
                     </tr>
-                    
+
                 </thead>
 
                 <tbody>
@@ -49,7 +49,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-                
+
                 <tfoot>
                     <tr>
                         <th>
@@ -62,7 +62,7 @@
                                         value="1"
                                         @click="
                                             for(i in document.getElementsByClassName('permission-{{ $group }}')) {
-                                                document.getElementsByClassName('permission-{{ $group }}')[i].checked = $event.target.checked 
+                                                document.getElementsByClassName('permission-{{ $group }}')[i].checked = $event.target.checked
                                             }
                                         "
                                     >
@@ -80,7 +80,7 @@
                                         value="1"
                                         @click="
                                             for(i in document.getElementsByClassName('owner-restricted-{{ $group }}')) {
-                                                document.getElementsByClassName('owner-restricted-{{ $group }}')[i].checked = $event.target.checked 
+                                                document.getElementsByClassName('owner-restricted-{{ $group }}')[i].checked = $event.target.checked
                                             }
                                         "
                                     >

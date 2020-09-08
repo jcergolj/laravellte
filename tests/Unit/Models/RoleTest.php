@@ -5,6 +5,8 @@ namespace Tests\Unit\Models;
 use App\Models\Permission;
 use App\Models\PermissionRole;
 use App\Models\Role;
+use Database\Factories\PermissionFactory;
+use Database\Factories\RoleFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,13 +25,13 @@ class RoleTest extends TestCase
     /** @test */
     public function create_permissions()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'description' => 'Edit User',
         ]);
 
@@ -64,24 +66,24 @@ class RoleTest extends TestCase
     /** @test */
     public function update_permissions()
     {
-        $permissionCreateRole = factory(Permission::class)->create([
+        $permissionCreateRole = PermissionFactory::new()->create([
             'description' => 'Create Role',
         ]);
 
-        $permissionEditRole = factory(Permission::class)->create([
+        $permissionEditRole = PermissionFactory::new()->create([
             'description' => 'Edit Role',
         ]);
 
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         $role->permissions()->attach($permissionCreateRole->id, ['owner_restricted' => true]);
         $role->permissions()->attach($permissionEditRole->id, ['owner_restricted' => false]);
 
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'description' => 'Edit User',
         ]);
 
@@ -136,7 +138,7 @@ class RoleTest extends TestCase
     /** @test */
     public function has_permission()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
         $this->assertFalse($role->hasPermission('users.index'));
 
         $role->permissions()->save(new Permission([

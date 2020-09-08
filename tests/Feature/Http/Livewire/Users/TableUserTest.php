@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Livewire\Users;
 
 use App\Http\Livewire\Users\TableUser;
 use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Livewire\Livewire;
@@ -43,11 +44,11 @@ class TableUserTest extends TestCase
     /** @test */
     public function render_search()
     {
-        $joe = factory(User::class)->create([
+        $joe = UserFactory::new()->create([
             'email' => 'joe@example.com',
         ]);
 
-        $jane = factory(User::class)->create([
+        $jane = UserFactory::new()->create([
             'email' => 'jane@example.com',
         ]);
 
@@ -63,7 +64,7 @@ class TableUserTest extends TestCase
     public function render_paginate()
     {
         //the admin user exists too
-        $joe = factory(User::class)->create([
+        $joe = UserFactory::new()->create([
             'email' => 'joe@example.com',
         ]);
 
@@ -82,11 +83,11 @@ class TableUserTest extends TestCase
     {
         //the admin role exists too form admin user
 
-        $joe = factory(User::class)->create([
+        $joe = UserFactory::new()->create([
             'email' => 'joe@example.com',
         ]);
 
-        $jane = factory(User::class)->create([
+        $jane = UserFactory::new()->create([
             'email' => 'jane@example.com',
         ]);
 
@@ -116,7 +117,7 @@ class TableUserTest extends TestCase
     /** @test */
     public function admin_can_delete_user()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(TableUser::class)
@@ -129,7 +130,7 @@ class TableUserTest extends TestCase
     /** @test */
     public function close_event_is_emitted_when_user_is_deleted()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
             ->test(TableUser::class)

@@ -2,8 +2,9 @@
 
 namespace Tests\Unit\Filters;
 
-use App\Models\Role;
 use App\Models\User;
+use Database\Factories\RoleFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,11 +16,11 @@ class UserFilterTest extends TestCase
     /** @test */
     public function filter_users_by_email()
     {
-        $admin = factory(User::class)->create([
+        $admin = UserFactory::new()->create([
             'email' => 'admin@lte.com',
         ]);
 
-        factory(User::class)->create([
+        UserFactory::new()->create([
             'email' => 'manager@lte.com',
         ]);
 
@@ -35,20 +36,20 @@ class UserFilterTest extends TestCase
     /** @test */
     public function filter_users_by_role_id()
     {
-        $writer = factory(Role::class)->create([
+        $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
 
-        $manager = factory(Role::class)->create([
+        $manager = RoleFactory::new()->create([
             'name' => 'manager',
         ]);
 
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'role_id' => $writer->id,
             'email' => 'admin@lte.com',
         ]);
 
-        factory(User::class)->create([
+        UserFactory::new()->create([
             'role_id' => $manager->id,
             'email' => 'manager@lte.com',
         ]);
@@ -65,11 +66,11 @@ class UserFilterTest extends TestCase
     /** @test */
     public function order_users_by_field()
     {
-        $manager = factory(User::class)->create([
+        $manager = UserFactory::new()->create([
             'email' => 'manager@lte.com',
         ]);
 
-        $admin = factory(User::class)->create([
+        $admin = UserFactory::new()->create([
             'email' => 'admin@lte.com',
         ]);
 

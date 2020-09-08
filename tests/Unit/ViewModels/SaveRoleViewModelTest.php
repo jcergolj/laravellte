@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\ViewModels;
 
-use App\Models\Permission;
-use App\Models\Role;
 use App\ViewModels\SaveRoleViewModel;
+use Database\Factories\PermissionFactory;
+use Database\Factories\RoleFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,15 +16,15 @@ class SaveRoleViewModelTest extends TestCase
     /** @test */
     public function build_role_permissions_with_role()
     {
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'description' => 'Edit User',
         ]);
 
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         $role->permissions()->attach($permissionCreateUser->id, ['owner_restricted' => true]);
 
@@ -42,11 +42,11 @@ class SaveRoleViewModelTest extends TestCase
     /** @test */
     public function build_role_permissions_without_role()
     {
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'description' => 'Edit User',
         ]);
 
@@ -64,22 +64,22 @@ class SaveRoleViewModelTest extends TestCase
     /** @test */
     public function group_permissions_by_group_name_and_sort()
     {
-        $permissionCreateUser = factory(Permission::class)->create([
+        $permissionCreateUser = PermissionFactory::new()->create([
             'group' => 'users',
             'description' => 'Create User',
         ]);
 
-        $permissionEditUser = factory(Permission::class)->create([
+        $permissionEditUser = PermissionFactory::new()->create([
             'group' => 'users',
             'description' => 'Edit User',
         ]);
 
-        $permissionCreateRole = factory(Permission::class)->create([
+        $permissionCreateRole = PermissionFactory::new()->create([
             'group' => 'roles',
             'description' => 'Create Role',
         ]);
 
-        $permissionEditRole = factory(Permission::class)->create([
+        $permissionEditRole = PermissionFactory::new()->create([
             'group' => 'roles',
             'description' => 'Edit Role',
         ]);

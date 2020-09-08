@@ -1,12 +1,11 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a 
-                class="nav-link"
-                href="#"
-                data-turbolinks="false"
+            <a
                 x-on:click="click()"
                 @click.away="clickAway()"
+                class="nav-link"
+                href="#"
             >
                 <i class="fas fa-bars"></i>
             </a>
@@ -15,11 +14,11 @@
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu" x-data="{ open: false }">
-            <a href="#" class="nav-link" x-on:click="open= true" data-turbolinks="false">
+            <a href="#" class="nav-link" x-on:click="open= true">
                 <img src="{{ auth()->user()->imageFile }}" class="user-image img-circle elevation-2" alt="User Image">
                 <span class="d-none d-md-inline">{{ auth()->user()->email }}</span>
             </a>
-            
+
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" x-bind:class="{ 'show': open }" x-on:click.away="open= false" x-cloak>
                 <li class="user-header bg-primary">
                     <img src="{{ auth()->user()->imageFile }}" class="img-circle elevation-2">

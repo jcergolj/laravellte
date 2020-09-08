@@ -4,7 +4,8 @@ namespace Tests\Feature\Http\Livewire\Roles;
 
 use App\Http\Livewire\Roles\TableRole;
 use App\Models\Role;
-use App\Models\User;
+use Database\Factories\RoleFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Livewire\Livewire;
@@ -44,11 +45,11 @@ class TableRoleTest extends TestCase
     /** @test */
     public function render_search()
     {
-        $writer = factory(Role::class)->create([
+        $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
 
-        $manager = factory(Role::class)->create([
+        $manager = RoleFactory::new()->create([
             'name' => 'manager',
         ]);
 
@@ -64,11 +65,11 @@ class TableRoleTest extends TestCase
     {
         //the admin role exists too form admin user
 
-        $writer = factory(Role::class)->create([
+        $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
 
-        $manager = factory(Role::class)->create([
+        $manager = RoleFactory::new()->create([
             'name' => 'manager',
         ]);
 
@@ -88,11 +89,11 @@ class TableRoleTest extends TestCase
     {
         //the admin role exists too form admin user
 
-        $writer = factory(Role::class)->create([
+        $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
 
-        $manager = factory(Role::class)->create([
+        $manager = RoleFactory::new()->create([
             'name' => 'manager',
         ]);
 
@@ -111,8 +112,8 @@ class TableRoleTest extends TestCase
     /** @test */
     public function admin_can_delete_role_with_attached_user()
     {
-        $role = factory(Role::class)->create();
-        factory(User::class)->create(['role_id' => $role->id]);
+        $role = RoleFactory::new()->create();
+        UserFactory::new()->create(['role_id' => $role->id]);
 
         Livewire::actingAs($this->admin)->test(TableRole::class)
             ->call('destroy', $role->id);
@@ -123,7 +124,7 @@ class TableRoleTest extends TestCase
     /** @test */
     public function admin_can_delete_role()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)->test(TableRole::class)
             ->call('destroy', $role->id)
@@ -135,7 +136,7 @@ class TableRoleTest extends TestCase
     /** @test */
     public function admin_cannot_delete_admin_role()
     {
-        $role = factory(Role::class)->create([
+        $role = RoleFactory::new()->create([
             'name' => 'admin',
         ]);
 
@@ -149,7 +150,7 @@ class TableRoleTest extends TestCase
     /** @test */
     public function close_event_is_emitted_when_user_is_deleted()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)->test(TableRole::class)
             ->call('destroy', $role->id)

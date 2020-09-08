@@ -16,7 +16,7 @@ class TableUser extends Table
     public $roleId = '';
 
     /** @var array */
-    protected $updatesQueryString = [
+    protected $queryString = [
         'perPage',
         'sortField',
         'sortDirection',

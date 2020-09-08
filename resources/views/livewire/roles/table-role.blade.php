@@ -18,18 +18,18 @@
                         #
                     </th>
                     <th class="sorting">
-                        <a href="#" wire:click.prevent="sortBy('name')" data-turbolinks="false">Name</a>
+                        <a href="#" wire:click.prevent="sortBy('name')">Name</a>
                         <x-tables.sort-by :sortField="$sortField" :sortDirection="$sortDirection" field="name" />
                     </th>
                     <th class="sorting">
-                        <a href="#" wire:click.prevent="sortBy('label')" data-turbolinks="false">Label</a>
+                        <a href="#" wire:click.prevent="sortBy('label')">Label</a>
                         <x-tables.sort-by :sortField="$sortField" :sortDirection="$sortDirection" field="label" />
                     </th>
                     <th class="sorting">
-                        <a href="#" wire:click.prevent="sortBy('created_at')" data-turbolinks="false">Created</a>
+                        <a href="#" wire:click.prevent="sortBy('created_at')">Created</a>
                         <x-tables.sort-by :sortField="$sortField" :sortDirection="$sortDirection" field="created_at" />
                     </th>
-                    
+
                     <th class="sorting">
                         Edit
                     </th>

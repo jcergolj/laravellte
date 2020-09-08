@@ -1,13 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Models\Permission;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(Permission::class, function (Faker $faker) {
-    return [
-        'group' => strtoupper($faker->word),
-        'name' => $faker->word,
-        'description' => $faker->sentence,
-    ];
-});
+use App\Models\Permission;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class PermissionFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Permission::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'group' => strtoupper($this->faker->word),
+            'name' => $this->faker->word,
+            'description' => $this->faker->sentence,
+        ];
+    }
+}

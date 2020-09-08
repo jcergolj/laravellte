@@ -3,7 +3,7 @@
 
     <x-inputs.email required="required" autofocus />
 
-    <x-inputs.dropdown key="roleId" :options="$roles" textField="name"  />
+    <x-inputs.dropdown key="roleId" :options="$roles" textField="name" required="required" />
 
     <div class="row">
         <div class="offset-8 col-4">

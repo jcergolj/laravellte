@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -53,9 +53,9 @@ class ConfirmedEmailControllerTest extends TestCase
     {
         $user = create_user();
 
-        $response = $this->actingAs(factory(User::class)
-            ->create(['email' => 'jane@example.com']))
-            ->get($this->temporarySignedUri($user, 'new.email@example.com'));
+        $response = $this->actingAs(
+            UserFactory::new()->create(['email' => 'jane@example.com'])
+        )->get($this->temporarySignedUri($user, 'new.email@example.com'));
 
         $response->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHas('flash')

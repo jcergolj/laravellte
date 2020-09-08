@@ -3,8 +3,9 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Permission;
-use App\Models\Role;
 use App\Models\User;
+use Database\Factories\RoleFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -38,13 +39,13 @@ class UserTest extends TestCase
     /** @test */
     public function get_image_file_attribute()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'image' => null,
         ]);
 
         $this->assertSame(url('images/default-user.png'), $user->imageFile);
 
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'image' => 'image.png',
         ]);
 
@@ -54,7 +55,7 @@ class UserTest extends TestCase
     /** @test */
     public function save_user_password()
     {
-        $user = factory(User::class)->create(['password' => Hash::make('password')]);
+        $user = UserFactory::new()->create(['password' => Hash::make('password')]);
 
         $user->savePassword('new-password');
 
@@ -64,7 +65,7 @@ class UserTest extends TestCase
     /** @test */
     public function save_image()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'image' => null,
         ]);
 
@@ -76,8 +77,8 @@ class UserTest extends TestCase
     /** @test */
     public function is_himself()
     {
-        $jane = factory(User::class)->create(['email' => 'jane@example.com']);
-        $joe = factory(User::class)->create(['email' => 'joe@example.com']);
+        $jane = UserFactory::new()->create(['email' => 'jane@example.com']);
+        $joe = UserFactory::new()->create(['email' => 'joe@example.com']);
 
         $this->assertTrue($jane->isHimself($jane));
         $this->assertFalse($jane->isHimself($joe));
@@ -86,8 +87,8 @@ class UserTest extends TestCase
     /** @test */
     public function has_permission()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create(['role_id' => $role]);
+        $role = RoleFactory::new()->create();
+        $user = UserFactory::new()->create(['role_id' => $role]);
         $this->assertFalse($user->hasPermission('users.index'));
 
         $role->permissions()->save(new Permission([

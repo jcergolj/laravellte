@@ -12,6 +12,4 @@
     @livewireStyles
 
     @yield('styles')
-
-    <script src="{{ asset('js/turbolinks.js') }}"></script>
 </head>

@@ -4,7 +4,7 @@ namespace Tests\Feature\Http\Livewire\Profile;
 
 use App\Events\ProfileImageUploaded;
 use App\Http\Livewire\Profile\Image;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -25,7 +25,7 @@ class ImageTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = UserFactory::new()->create();
 
         Event::fake();
         Storage::fake('avatar');
@@ -85,7 +85,7 @@ class ImageTest extends TestCase
     /** @test */
     public function old_user_image_is_deleted()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'image' => 'abc123.jpg',
         ]);
 

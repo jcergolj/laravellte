@@ -4,7 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Http\AcceptedInvitationAuth;
 use App\Http\Controllers\AcceptedInvitationController;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -39,7 +39,7 @@ class AcceptedInvitationControllerTest extends TestCase
     /** @test */
     public function user_can_view_create_page()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'password' => null,
         ]);
 

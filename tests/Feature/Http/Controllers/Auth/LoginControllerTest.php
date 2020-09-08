@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -24,7 +24,7 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function user_can_login()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -58,7 +58,7 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function user_with_wrong_credentials_cannot_be_authenticated()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -82,7 +82,7 @@ class LoginControllerTest extends TestCase
      */
     public function test_validation_rules($clientFormInput, $clientFormValue)
     {
-        factory(User::class)->create([
+        UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -109,7 +109,7 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function authenticated_user_cannot_login_again()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -128,7 +128,7 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function authenticated_user_can_logout()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);

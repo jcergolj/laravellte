@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -15,7 +15,7 @@ class HomeControllerTest extends TestCase
     /** @test */
     public function user_can_view_home_page()
     {
-        $response = $this->actingAs(factory(User::class)->create())
+        $response = $this->actingAs(UserFactory::new()->create())
             ->get(route('home.index'));
 
         $response->assertStatus(Response::HTTP_OK)

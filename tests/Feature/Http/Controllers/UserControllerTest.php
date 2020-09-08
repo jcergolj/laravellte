@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase
     /** @test */
     public function admin_can_view_edit_page()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         $response = $this->actingAs(create_admin())
             ->get(route("{$this->routePrefix}.edit", $user));

@@ -2,7 +2,7 @@
 
 <div class="input-group mb-3">
     <input
-        wire:model.lazy="{{ $key }}"
+        wire:model.defer="{{ $key }}"
         type="password"
         name="{{ $key }}"
         class="form-control @errorClass($key)"
@@ -14,4 +14,3 @@
 
     <x-inputs.error field="{{ $key }}" />
 </div>
-

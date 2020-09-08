@@ -15,7 +15,7 @@
         @include('layouts._nav')
 
         @include('layouts._aside')
-    
+
         <div class="content-wrapper">
 
             <section class="content-header">
@@ -30,12 +30,12 @@
         </div>
 
         @include('layouts._footer')
-    </div>    
+    </div>
 
     @livewireScripts
 
     <script src="{{ asset('js/app.js') }}"></script>
-    
+
     @yield('scripts')
 
     @stack('scripts')

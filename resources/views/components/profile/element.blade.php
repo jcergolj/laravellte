@@ -5,7 +5,7 @@
         {{ $element }}
 
         <div class="col-4 col-md-4">
-            <a href="#" class="float-right" x-on:click="show = true" data-turbolinks="false">Edit</a>
+            <a href="#" class="float-right" x-on:click="show = true">Edit</a>
         </div>
     </div>
 

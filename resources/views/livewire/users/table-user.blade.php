@@ -4,7 +4,7 @@
             <x-tables.per-page />
             <div class="col-md-3 col-sm-12 form-group">
                 <select
-                    wire:model="roleId"
+                    wire:model.defer="roleId"
                     name="roleId"
                     class="form-control form-control-sm custom-select custom-select-sm"
                     value="roleId"
@@ -28,17 +28,17 @@
                         #
                     </th>
                     <th class="sorting">
-                        <a href="#" wire:click.prevent="sortBy('email')" data-turbolinks="false">Email</a>
+                        <a href="#" wire:click.prevent="sortBy('email')">Email</a>
                         <x-tables.sort-by :sortField="$sortField" :sortDirection="$sortDirection" field="email" />
                     </th>
                     <th class="sorting">
                         Role
                     </th>
                     <th class="sorting">
-                        <a href="#" wire:click.prevent="sortBy('created_at')" data-turbolinks="false">Created</a>
+                        <a href="#" wire:click.prevent="sortBy('created_at')">Created</a>
                         <x-tables.sort-by :sortField="$sortField" :sortDirection="$sortDirection" field="created_at" />
                     </th>
-                    
+
                     <th class="sorting">
                         Edit
                     </th>

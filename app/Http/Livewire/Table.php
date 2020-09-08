@@ -20,10 +20,12 @@ abstract class Table extends Component
     public $search = '';
 
     /** @var array */
-    protected $updatesQueryString = ['perPage', 'sortField', 'sortDirection', 'search'];
+    protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
 
     /** @var array */
     protected $listeners = ['destroy' => 'destroy'];
+
+    protected $paginationTheme = 'bootstrap';
 
     /**
      * Component mount.

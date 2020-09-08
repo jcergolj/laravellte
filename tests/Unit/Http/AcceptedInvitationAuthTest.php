@@ -3,7 +3,7 @@
 namespace Tests\Unit\Http;
 
 use App\Http\AcceptedInvitationAuth;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
@@ -20,7 +20,7 @@ class AcceptedInvitationAuthTest extends TestCase
     /** @test */
     public function authorize_passes()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'password' => null,
         ]);
 

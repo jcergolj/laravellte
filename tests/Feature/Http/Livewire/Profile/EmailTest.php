@@ -4,7 +4,7 @@ namespace Tests\Feature\Http\Livewire\Profile;
 
 use App\Http\Livewire\Profile\Email;
 use App\Mail\NewEmailConfirmationMail;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -29,7 +29,7 @@ class EmailTest extends TestCase
         Mail::fake();
         Event::fake();
 
-        $this->user = factory(User::class)->create();
+        $this->user = UserFactory::new()->create();
     }
 
     /** @test */

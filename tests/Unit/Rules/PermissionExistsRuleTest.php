@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Rules;
 
-use App\Models\Permission;
 use App\Rules\PermissionExistsRule;
+use Database\Factories\PermissionFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +15,7 @@ class PermissionExistsRuleTest extends TestCase
     /** @test */
     public function permission_must_exists()
     {
-        factory(Permission::class)->create();
+        PermissionFactory::new()->create();
 
         $rule = new PermissionExistsRule();
 
@@ -26,7 +26,7 @@ class PermissionExistsRuleTest extends TestCase
     /** @test */
     public function fails_if_permission_does_not_exist()
     {
-        factory(Permission::class)->create();
+        PermissionFactory::new()->create();
 
         $rule = new PermissionExistsRule();
 

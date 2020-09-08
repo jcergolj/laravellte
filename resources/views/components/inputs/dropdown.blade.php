@@ -3,7 +3,7 @@
 <div class="input-group mb-3">
     <select
         {{ $attributes }}
-        wire:model="{{ $key }}"
+        wire:model.defer="{{ $key }}"
         name="{{ $key }}"
         class="form-control @errorClass($key)"
         value="{{ old($key) }}"

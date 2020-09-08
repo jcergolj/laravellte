@@ -4,7 +4,7 @@ namespace Tests\Unit\Providers;
 
 use App\Models\Permission;
 use App\Models\Role;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
@@ -31,7 +31,7 @@ class AuthServiceProviderTest extends TestCase
     /** @test */
     public function user_is_not_allowed_to_proceed_if_he_does_not_have_role()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(UserFactory::new()->create());
 
         $this->assertFalse(Gate::allows('for-route', ['users.index']));
     }

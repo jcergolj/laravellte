@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-This is a boilerplate for opinionated Laravel admin panel build with Alpinejs, Livewire and Turbolinks mimicking SPA like apps. 
+This is a boilerplate for opinionated Laravel admin panel build with Alpinejs, Livewire and mimicking SPA like apps.
 
 ## Contents
 - [Have total control of the code](#control)
@@ -34,7 +34,7 @@ Don't like how a new user is added. No problem. You can amend the code however y
 **The idea is to create branches of common features and make them available for others to merge them into their master branch.**
 
 ## Features
-* Laravel 7, Alpinejs, Livewire, Turbolinks, AdminLTE theme :heavy_check_mark:
+* Laravel 7, Alpinejs, Livewire, AdminLTE theme :heavy_check_mark:
 * Login :heavy_check_mark:
 * Forgot Password :heavy_check_mark:
 * CRUD for Users :heavy_check_mark:

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Role;
+use Database\Factories\RoleFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -38,7 +38,7 @@ class RoleControllerTest extends TestCase
     /** @test */
     public function user_can_view_edit_page()
     {
-        $role = factory(Role::class)->create();
+        $role = RoleFactory::new()->create();
 
         $response = $this->actingAs(create_admin())
             ->get(route("{$this->routePrefix}.edit", $role));

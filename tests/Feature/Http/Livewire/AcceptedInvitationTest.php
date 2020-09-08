@@ -4,7 +4,7 @@ namespace Tests\Feature\Http\Livewire;
 
 use App\Http\AcceptedInvitationAuth;
 use App\Http\Livewire\AcceptedInvitation;
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,7 +27,7 @@ class AcceptedInvitationTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create([
+        $this->user = UserFactory::new()->create([
             'password' => null,
         ]);
     }
@@ -104,7 +104,7 @@ class AcceptedInvitationTest extends TestCase
     /** @test */
     public function abort_if_users_password_not_null()
     {
-        $user = factory(User::class)->create(['password' => 'not-null']);
+        $user = UserFactory::new()->create(['password' => 'not-null']);
 
         $request = $this->buildRequest($user);
         Livewire::test(AcceptedInvitation::class, ['request' => $request, 'user' => $user])

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
-use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Auth\Passwords\DatabaseTokenRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -26,7 +26,7 @@ class ResetPasswordControllerTest extends TestCase
     /** @test */
     public function user_with_valid_token_can_reset_his_password()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
         ]);
 
@@ -50,7 +50,7 @@ class ResetPasswordControllerTest extends TestCase
     /** @test */
     public function user_with_invalid_token_cannot_reset_his_password()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -66,7 +66,7 @@ class ResetPasswordControllerTest extends TestCase
     /** @test */
     public function authenticated_user_cannot_reset_password()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -91,7 +91,7 @@ class ResetPasswordControllerTest extends TestCase
      */
     public function test_validation_rules($clientFormInput, $clientFormValue)
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
@@ -122,7 +122,7 @@ class ResetPasswordControllerTest extends TestCase
     /** @test */
     public function password_must_be_confirmed()
     {
-        $user = factory(User::class)->create([
+        $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
             'password' => bcrypt('password'),
         ]);
