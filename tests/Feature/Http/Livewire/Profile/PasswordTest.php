@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Livewire\Profile;
 
-use App\Http\Livewire\Profile\Password;
+use App\Http\Livewire\Profile\UpdatePassword;
 use App\Mail\PasswordChangedMail;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\AuthenticationException;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Profile\Password */
+/** @see \App\Http\Livewire\Profile\UpdatePassword */
 class PasswordTest extends TestCase
 {
     use RefreshDatabase;
@@ -42,7 +42,7 @@ class PasswordTest extends TestCase
     {
         $this->expectException(AuthenticationException::class);
 
-        Livewire::test(Password::class)
+        Livewire::test(UpdatePassword::class)
             ->call('submit');
     }
 
@@ -50,7 +50,7 @@ class PasswordTest extends TestCase
     public function flash_browser_event_is_emitted()
     {
         Livewire::actingAs($this->user)
-            ->test(Password::class)
+            ->test(UpdatePassword::class)
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'new-password')
             ->set('currentPassword', 'password')
@@ -62,7 +62,7 @@ class PasswordTest extends TestCase
     public function close_browser_event_is_emitted()
     {
         Livewire::actingAs($this->user)
-            ->test(Password::class)
+            ->test(UpdatePassword::class)
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'new-password')
             ->set('currentPassword', 'password')
@@ -74,7 +74,7 @@ class PasswordTest extends TestCase
     public function email_notification_is_sent()
     {
         Livewire::actingAs($this->user)
-            ->test(Password::class)
+            ->test(UpdatePassword::class)
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'new-password')
             ->set('currentPassword', 'password')
@@ -89,7 +89,7 @@ class PasswordTest extends TestCase
     public function users_password_is_changed()
     {
         Livewire::actingAs($this->user)
-            ->test(Password::class)
+            ->test(UpdatePassword::class)
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'new-password')
             ->set('currentPassword', 'password')
@@ -105,7 +105,7 @@ class PasswordTest extends TestCase
     public function test_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
         Livewire::actingAs($this->user)
-            ->test(Password::class)
+            ->test(UpdatePassword::class)
             ->set($clientFormInput, $clientFormValue)
             ->call('submit')
             ->assertHasErrors([$clientFormInput => $rule]);
@@ -128,7 +128,7 @@ class PasswordTest extends TestCase
     public function password_must_be_confirmed()
     {
         Livewire::actingAs($this->user)
-            ->test(Password::class)
+            ->test(UpdatePassword::class)
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'invalid-password')
             ->call('submit');

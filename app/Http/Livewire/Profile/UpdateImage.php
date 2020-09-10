@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Image extends Component
+class UpdateImage extends Component
 {
     use WithFileUploads;
 
@@ -70,7 +70,7 @@ class Image extends Component
      */
     public function render()
     {
-        return view('livewire.profile.image');
+        return view('livewire.profile.update-image');
     }
 
     /**

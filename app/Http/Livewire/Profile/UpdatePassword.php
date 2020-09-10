@@ -10,7 +10,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
-class Password extends Component
+class UpdatePassword extends Component
 {
     use Flashable;
 
@@ -75,7 +75,7 @@ class Password extends Component
      */
     public function render()
     {
-        return view('livewire.profile.password');
+        return view('livewire.profile.update-password');
     }
 
     /**

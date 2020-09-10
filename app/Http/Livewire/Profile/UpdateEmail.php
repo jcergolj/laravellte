@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
-class Email extends Component
+class UpdateEmail extends Component
 {
     use Flashable;
 
@@ -72,7 +72,7 @@ class Email extends Component
      */
     public function render()
     {
-        return view('livewire.profile.email');
+        return view('livewire.profile.update-email');
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Livewire\Profile;
 
 use App\Events\ProfileImageUploaded;
-use App\Http\Livewire\Profile\Image;
+use App\Http\Livewire\Profile\UpdateImage;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Profile\Image */
+/** @see \App\Http\Livewire\Profile\UpdateImage */
 class ImageTest extends TestCase
 {
     use RefreshDatabase;
@@ -47,7 +47,7 @@ class ImageTest extends TestCase
     {
         $this->expectException(AuthenticationException::class);
 
-        Livewire::test(Image::class)
+        Livewire::test(UpdateImage::class)
             ->call('submit');
     }
 
@@ -55,7 +55,7 @@ class ImageTest extends TestCase
     public function user_can_update_image()
     {
         Livewire::actingAs($this->user)
-            ->test(Image::class)
+            ->test(UpdateImage::class)
             ->set('image', $this->imageFile)
             ->call('submit')
             ->assertRedirect(route('profile.users.index'));
@@ -70,7 +70,7 @@ class ImageTest extends TestCase
     public function event_profile_image_uploaded_is_dispatched()
     {
         Livewire::actingAs($this->user)
-            ->test(Image::class)
+            ->test(UpdateImage::class)
             ->set('image', $this->imageFile)
             ->call('submit');
 
@@ -93,7 +93,7 @@ class ImageTest extends TestCase
             ->putFileAs('', UploadedFile::fake()->image('abc123.jpg', 1000, 1000), 'abc123.jpg');
 
         Livewire::actingAs($user)
-                ->test(Image::class)
+                ->test(UpdateImage::class)
                 ->set('image', $this->imageFile)
                 ->call('submit');
 
@@ -109,7 +109,7 @@ class ImageTest extends TestCase
     public function test_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
         Livewire::actingAs($this->user)
-            ->test(Image::class)
+            ->test(UpdateImage::class)
             ->set($clientFormInput, $clientFormValue)
             ->call('submit')
             ->assertHasErrors([$clientFormInput => $rule]);

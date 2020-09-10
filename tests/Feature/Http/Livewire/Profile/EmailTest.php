@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Livewire\Profile;
 
-use App\Http\Livewire\Profile\Email;
+use App\Http\Livewire\Profile\UpdateEmail;
 use App\Mail\NewEmailConfirmationMail;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\AuthenticationException;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Queue;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Profile\Email */
+/** @see \App\Http\Livewire\Profile\UpdateEmail */
 class EmailTest extends TestCase
 {
     use RefreshDatabase;
@@ -45,7 +45,7 @@ class EmailTest extends TestCase
     {
         $this->expectException(AuthenticationException::class);
 
-        Livewire::test(Email::class)
+        Livewire::test(UpdateEmail::class)
             ->call('submit');
     }
 
@@ -53,7 +53,7 @@ class EmailTest extends TestCase
     public function flash_browser_event_is_emitted()
     {
         Livewire::actingAs($this->user)
-            ->test(Email::class)
+            ->test(UpdateEmail::class)
             ->set('email', 'new.user.email@example.com')
             ->set('currentPassword', 'password')
             ->call('submit')
@@ -64,7 +64,7 @@ class EmailTest extends TestCase
     public function close_browser_event_is_emitted()
     {
         Livewire::actingAs($this->user)
-            ->test(Email::class)
+            ->test(UpdateEmail::class)
             ->set('email', 'new.user.email@example.com')
             ->set('currentPassword', 'password')
             ->call('submit')
@@ -75,7 +75,7 @@ class EmailTest extends TestCase
     public function email_confirmation_is_sent()
     {
         Livewire::actingAs($this->user)
-            ->test(Email::class)
+            ->test(UpdateEmail::class)
             ->set('email', 'new.user.email@example.com')
             ->set('currentPassword', 'password')
             ->call('submit');
@@ -92,7 +92,7 @@ class EmailTest extends TestCase
     public function test_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
         Livewire::actingAs($this->user)
-            ->test(Email::class)
+            ->test(UpdateEmail::class)
             ->set($clientFormInput, $clientFormValue)
             ->call('submit')
             ->assertHasErrors([$clientFormInput => $rule]);

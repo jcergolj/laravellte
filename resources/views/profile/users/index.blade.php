@@ -32,7 +32,7 @@
                             </x-slot>
 
                             <x-slot name="livewire">
-                                <livewire:profile.email />
+                                <livewire:profile.update-email />
                             </x-slot>
                         </x-profile.element>
 
@@ -47,7 +47,7 @@
                             </x-slot>
 
                             <x-slot name="livewire">
-                                <livewire:profile.password />
+                                <livewire:profile.update-password />
                             </x-slot>
                         </x-profile.element>
 
@@ -65,7 +65,7 @@
                             </x-slot>
 
                             <x-slot name="livewire">
-                                <livewire:profile.image />
+                                <livewire:profile.update-image />
                             </x-slot>
                         </x-profile.element>
                     </ul>
