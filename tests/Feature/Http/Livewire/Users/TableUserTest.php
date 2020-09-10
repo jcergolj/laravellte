@@ -126,15 +126,4 @@ class TableUserTest extends TestCase
 
         $this->assertNull(User::find($user->id));
     }
-
-    /** @test */
-    public function close_event_is_emitted_when_user_is_deleted()
-    {
-        $user = UserFactory::new()->create();
-
-        Livewire::actingAs($this->admin)
-            ->test(TableUser::class)
-            ->call('destroy', $user->id)
-            ->assertDispatchedBrowserEvent('close');
-    }
 }

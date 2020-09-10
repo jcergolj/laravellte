@@ -1,4 +1,4 @@
-<div class="card-body">
+<div class="card-body" x-data="{showModal : false, deleteId : false}">
     <div class="dataTables_wrapper dt-bootstrap4">
         <div class="row">
             <x-tables.per-page />
@@ -65,14 +65,7 @@
                         <td>
                             @can('for-route', 'users.destroy')
                                 @if(!$user->isHimself(auth()->user()))
-                                    <a
-                                        href="#"
-                                        class="btn-default"
-                                        @click.prevent="$refs.modal.classList.add('d-block'); deleteId={{ $user->id }};"
-                                        @close.window="$refs.modal.classList.remove('d-block')"
-                                    >
-                                        <span class='fa fa-times'></span>
-                                    </a>
+                                    <x-inputs.delete :entity="$user" />
                                 @endif
                             @endcan
                         </td>
@@ -92,6 +85,6 @@
             <x-tables.pagination :data="$users" />
         </div>
     </div>
-</div>
 
-<x-modals.delete-warning />
+    <x-modals.delete-warning />
+</div>

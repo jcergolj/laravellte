@@ -60,7 +60,5 @@ class TableUser extends Table
         $this->dispatchFlashSuccessEvent('User has been successfully deleted.');
 
         $user->delete();
-
-        $this->dispatchBrowserEvent('close');
     }
 }

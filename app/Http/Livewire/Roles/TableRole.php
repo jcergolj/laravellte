@@ -47,7 +47,5 @@ class TableRole extends Table
         $role->delete();
 
         $this->dispatchFlashSuccessEvent('Role has been successfully deleted.');
-
-        $this->dispatchBrowserEvent('close');
     }
 }

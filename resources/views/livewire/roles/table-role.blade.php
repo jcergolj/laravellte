@@ -1,4 +1,4 @@
-<div class="card-body">
+<div class="card-body"  x-data="{showModal : false, deleteId : false}">
     <div class="dataTables_wrapper dt-bootstrap4">
         <div class="row">
             <x-tables.per-page />
@@ -72,6 +72,6 @@
             <x-tables.pagination :data="$roles" />
         </div>
     </div>
-</div>
 
-<x-modals.delete-warning />
+    <x-modals.delete-warning />
+</div>

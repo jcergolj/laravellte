@@ -146,14 +146,4 @@ class TableRoleTest extends TestCase
 
         $this->count(1, Role::where('name', 'admin')->get());
     }
-
-    /** @test */
-    public function close_event_is_emitted_when_user_is_deleted()
-    {
-        $role = RoleFactory::new()->create();
-
-        Livewire::actingAs($this->admin)->test(TableRole::class)
-            ->call('destroy', $role->id)
-            ->assertDispatchedBrowserEvent('close');
-    }
 }

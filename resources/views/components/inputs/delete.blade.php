@@ -1,11 +1,7 @@
 @props(['entity'])
 
 <a
-    @click.prevent="
-        $refs.modal.classList.add('d-block');
-        deleteId={{ $entity->id }};
-    "
-    @close.window="$refs.modal.classList.remove('d-block')"
+    x-on:click.prevent="{ showModal = true; deleteId = '{{ $entity->id }}' }"
     href="#"
     class="btn-default"
 >
