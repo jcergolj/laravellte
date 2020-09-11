@@ -4,7 +4,7 @@
             <x-tables.per-page />
             <div class="col-md-3 col-sm-12 form-group">
                 <select
-                    wire:model.defer="roleId"
+                    wire:model="roleId"
                     name="roleId"
                     class="form-control form-control-sm custom-select custom-select-sm"
                     value="roleId"
