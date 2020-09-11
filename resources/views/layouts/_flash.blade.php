@@ -5,7 +5,7 @@
 @endif
 
 @if (session('flash'))
-    <div class="alert alert-{{ session('flash')['level'] }}" role="alert">
+    <div class="alert alert-{{ session('flash')['level'] }}" role="alert" x-data="{show : true}" x-show="show" x-init="setTimeout(() => { show = false; }, 3500);">
         {{ session('flash')['message'] }}
     </div>
 @endif
