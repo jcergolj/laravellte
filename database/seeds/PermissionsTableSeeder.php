@@ -1,5 +1,6 @@
 <?php
 
+use Database\Factories\PermissionFactory;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder

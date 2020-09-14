@@ -1,5 +1,6 @@
 <?php
 
+use Database\Factories\RoleFactory;
 use Illuminate\Database\Seeder;
 
 class RolesTableSeeder extends Seeder
