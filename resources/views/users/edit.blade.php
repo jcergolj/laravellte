@@ -10,7 +10,6 @@
 </x-content-header>
 @endsection
 
-@section('content')
 <x-savings.content>
     <x-slot name="card_header">
         <h3 class="card-title">Edit Existing User</h3>
@@ -18,7 +17,19 @@
     </x-slot>
 
     <x-slot name="card_body">
-        <livewire:users.save-user :user="$user" />
+    <form method="POST" wire:submit.prevent="store">
+        @csrf
+
+        <x-inputs.email required="required" autofocus />
+
+        <x-inputs.dropdown key="roleId" :options="$roles" textField="name" required="required" />
+
+        <div class="row">
+            <div class="offset-8 col-4">
+                <x-inputs.button text="Save" class="btn-success" />
+            </div>
+        </div>
+    </form>
+
     </x-slot>
 </x-savings.content>
-@endsection

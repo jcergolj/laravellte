@@ -2,20 +2,18 @@
 
 namespace Tests\Feature\Http\Livewire\Users;
 
+use App\Http\Livewire\EditUserComponent;
 use App\Http\Livewire\LivewireAuth;
-use App\Http\Livewire\Users\SaveUser;
-use App\Mail\InvitationMail;
 use App\Models\User;
 use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Users\SaveUser */
-class SaveUserTest extends TestCase
+/** @see \App\Http\Livewire\EditUserComponent */
+class EditUserComponentTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -27,87 +25,25 @@ class SaveUserTest extends TestCase
         parent::setUp();
 
         $this->admin = create_admin();
-
-        Mail::fake();
     }
 
     /** @test */
-    public function assert_create_user_has_livewire_auth_trait()
+    public function assert_edit_user_component_uses_livewire_auth_trait()
     {
-        $this->assertContains(LivewireAuth::class, class_uses(SaveUser::class));
+        $this->assertContains(LivewireAuth::class, class_uses(EditUserComponent::class));
     }
 
     /** @test */
-    public function user_create_page_contains_save_user_livewire_component()
-    {
-        $this->actingAs($this->admin)
-            ->get(route('users.create'))
-            ->assertSeeLivewire('users.save-user');
-    }
-
-    /** @test */
-    public function user_edit_page_contains_save_user_livewire_component()
-    {
-        $this->actingAs($this->admin)
-            ->get(route('users.edit', $this->admin))
-            ->assertSeeLivewire('users.save-user');
-    }
-
-    /** @test */
-    public function render_for_store()
-    {
-        Livewire::actingAs($this->admin)
-            ->test(SaveUser::class)
-            ->assertSee('Save')
-            ->assertSet('action', 'store')
-            ->assertStatus(Response::HTTP_OK);
-    }
-
-    /** @test */
-    public function render_for_edit()
+    public function render()
     {
         $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveUser::class, ['user' => $user])
+            ->test(EditUserComponent::class, ['user' => $user])
             ->assertSet('email', $user->email)
             ->assertSet('roleId', $user->role->id)
-            ->assertSet('action', 'update')
             ->assertSee('Save')
             ->assertStatus(Response::HTTP_OK);
-    }
-
-    /** @test */
-    public function store_new_user()
-    {
-        Livewire::actingAs($this->admin)
-            ->test(SaveUser::class)
-            ->set('roleId', $this->admin->role->id)
-            ->set('email', 'joe@example.com')
-            ->call('store')
-            ->assertRedirect('users');
-
-        $this->assertTrue(session()->has('flash'));
-
-        $users = User::where('email', 'joe@example.com')
-            ->where('role_id', $this->admin->role->id)
-            ->whereNull('password')
-            ->get();
-
-        $this->assertCount(1, $users);
-    }
-
-    /** @test */
-    public function invitation_email_is_sent_to_a_newly_create_user()
-    {
-        Livewire::actingAs($this->admin)
-            ->test(SaveUser::class)
-            ->set('email', 'joe@example.com')
-            ->set('roleId', $this->admin->role->id)
-            ->call('store')
-            ->assertRedirect('users');
-
-        Mail::assertQueued(InvitationMail::class, 1);
     }
 
     /** @test */
@@ -121,7 +57,7 @@ class SaveUserTest extends TestCase
         $this->assertCount(2, User::all());
 
         Livewire::actingAs($this->admin)
-            ->test(SaveUser::class, ['user' => $user])
+            ->test(EditUserComponent::class, ['user' => $user])
             ->set('email', 'joe@example.com')
             ->set('roleId', $this->admin->role->id)
             ->call('update')
@@ -142,25 +78,12 @@ class SaveUserTest extends TestCase
      * @test
      * @dataProvider clientFormValidationProvider
      */
-    public function test_store_validation_rules($clientFormInput, $clientFormValue, $rule)
-    {
-        Livewire::actingAs($this->admin)
-            ->test(SaveUser::class)
-            ->set($clientFormInput, $clientFormValue)
-            ->call('store')
-            ->assertHasErrors([$clientFormInput => $rule]);
-    }
-
-    /**
-     * @test
-     * @dataProvider clientFormValidationProvider
-     */
     public function test_update_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
         $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveUser::class, ['user' => $user])
+            ->test(EditUserComponent::class, ['user' => $user])
             ->set($clientFormInput, $clientFormValue)
             ->call('update')
             ->assertHasErrors([$clientFormInput => $rule]);
@@ -183,7 +106,7 @@ class SaveUserTest extends TestCase
         $user = UserFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveUser::class, ['user' => $user])
+            ->test(EditUserComponent::class, ['user' => $user])
             ->set('roleId', $this->admin->role->id)
             ->call('update')
             ->assertHasNoErrors('roleId');
@@ -195,7 +118,7 @@ class SaveUserTest extends TestCase
     public function user_cannot_edit_himself()
     {
         Livewire::actingAs($this->admin)
-            ->test(SaveUser::class, ['user' => $this->admin])
+            ->test(EditUserComponent::class, ['user' => $this->admin])
             ->call('update')
             ->assertForbidden();
     }
