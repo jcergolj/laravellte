@@ -15,14 +15,14 @@
             @include('auth.form-elements._email')
 
             @include('auth.form-elements._password', ['key' => 'password_confirmation'])
-        
+
             <div class="row">
                 <div class="offset-8 col-4">
                     <x-inputs.button text="Register" class="btn-primary" />
                 </div>
             </div>
         </form>
-        
+
         <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
     </div>
 </div>

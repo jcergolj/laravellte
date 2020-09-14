@@ -23,7 +23,7 @@
                         <label for="remember">{{ trans('validation.attributes.remember_me') }}</label>
                     </div>
                 </div>
-          
+
                 <div class="col-4">
                     <x-inputs.button text="Sign In" class="btn-primary" />
                 </div>
@@ -35,4 +35,5 @@
         </p>
     </div>
 </div>
+
 @endsection

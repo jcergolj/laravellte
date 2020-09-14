@@ -18,9 +18,9 @@
             <x-inputs.email required="required" autofocus />
 
             <x-inputs.password />
-            
+
             <x-inputs.password key="password_confirmation" />
-            
+
             <div class="row">
                 <div class="offset-6 col-6">
                     <x-inputs.button text="__('Reset Password')" class="btn-primary" />
