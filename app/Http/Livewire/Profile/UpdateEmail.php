@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Profile;
 
-use App\Http\Livewire\Flashable;
+use App\Http\Livewire\CanFlash;
 use App\Mail\NewEmailConfirmationMail;
 use App\Rules\PasswordCheckRule;
 use Illuminate\Auth\AuthenticationException;
@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class UpdateEmail extends Component
 {
-    use Flashable;
+    use CanFlash;
 
     /** @var \App\Models\User */
     public $user;

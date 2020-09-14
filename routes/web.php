@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\UserController as ProfileUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\IndexUserComponent;
 
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -42,7 +43,11 @@ Route::middleware(['auth'])->group(function () {
     );
 
     Route::middleware(['authorization'])->group(function () {
-        Route::resource('users', UserController::class)->only(['index', 'create', 'edit']);
+        Route::resource('users', UserController::class)->only(['create', 'edit']);
+
+        Route::get('users', IndexUserComponent::class)->name('users.index');
+
+        Route::get('users/index', [UserController::class, 'index'])->name('usersa.index');
 
         Route::resource('roles', RoleController::class)->only(['index', 'create', 'edit']);
     });

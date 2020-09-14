@@ -25,9 +25,5 @@ trait LivewireAuth
         }
 
         $this->authorize('for-route', [$this->routeName]);
-
-        if (method_exists($this, 'extraHydrate')) {
-            $this->extraHydrate();
-        }
     }
 }

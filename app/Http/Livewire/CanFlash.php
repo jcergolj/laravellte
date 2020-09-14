@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-trait Flashable
+trait CanFlash
 {
     /**
      * Dispatch browser danger flash event.

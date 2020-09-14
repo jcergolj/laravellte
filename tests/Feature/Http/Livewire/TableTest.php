@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Http\Livewire;
 
-use App\Http\Livewire\LivewireAuth;
 use App\Http\Livewire\Table;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\Table */
@@ -13,15 +14,30 @@ class TableTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function assert_table_has_trait()
+    public function mount()
     {
-        $this->assertContains(LivewireAuth::class, class_uses(Table::class));
+        $table = new class() {
+            use Table;
+            public $sortField = 'name';
+            public $sortDirection = 'asc';
+        };
+
+        $request = new Request();
+        $request->setRouteResolver(function () {
+            return Route::get('home', 'App\Http\Controllers\HomeController@index')
+                ->name('home.index');
+        });
+
+        $table->mount($request);
+
+        $this->assertSame('home.index', $table->routeName);
     }
 
     /** @test */
     public function sortBy()
     {
-        $table = new class(1) extends Table {
+        $table = new class() {
+            use Table;
             public $sortField = 'name';
             public $sortDirection = 'asc';
         };

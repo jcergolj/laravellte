@@ -3,12 +3,11 @@
 namespace App\Http\Livewire;
 
 use Illuminate\Http\Request;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-abstract class Table extends Component
+trait Table
 {
-    use WithPagination, LivewireAuth, Flashable;
+    use WithPagination, CanFlash;
 
     /** @var int */
     public $perPage = 10;
@@ -18,12 +17,6 @@ abstract class Table extends Component
 
     /** @var string */
     public $search = '';
-
-    /** @var array */
-    protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
-
-    /** @var array */
-    protected $listeners = ['destroy' => 'destroy'];
 
     protected $paginationTheme = 'bootstrap';
 

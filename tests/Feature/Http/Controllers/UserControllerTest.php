@@ -16,16 +16,6 @@ class UserControllerTest extends TestCase
     private $routePrefix = 'users';
 
     /** @test */
-    public function user_can_view_index_page()
-    {
-        $response = $this->actingAs(create_admin())
-            ->get(route("{$this->routePrefix}.index"));
-
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertViewIs("{$this->routePrefix}.index");
-    }
-
-    /** @test */
     public function admin_can_view_create_page()
     {
         $response = $this->actingAs(create_admin())

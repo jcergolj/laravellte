@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Livewire\Users;
+namespace App\Http\Livewire;
 
-use App\Http\Livewire\Table;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Livewire\Component;
 
-class TableUser extends Table
+class IndexUserComponent extends Component
 {
+    use Table, LivewireAuth;
+
     /** @var string */
     public $sortField = 'email';
 
@@ -23,6 +25,9 @@ class TableUser extends Table
         'search',
         'roleId',
     ];
+
+    /** @var array */
+    protected $listeners = ['destroy' => 'destroy'];
 
     /**
      * Render the component view.
@@ -40,7 +45,8 @@ class TableUser extends Table
 
         $roles = Role::orderBy('name')->get();
 
-        return view('livewire.users.table-user', ['users' => $users, 'roles' => $roles]);
+        return view('users.index', ['users' => $users, 'roles' => $roles])
+            ->extends('layouts.app');
     }
 
     /**
