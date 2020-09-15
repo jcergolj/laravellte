@@ -9,9 +9,6 @@ trait LivewireAuth
 {
     use AuthorizesRequests;
 
-    /** @var string|null */
-    public $routeName = null;
-
     /**
      * Throws auth exception if user is not authenticated.
      *

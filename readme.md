@@ -34,7 +34,7 @@ Don't like how a new user is added. No problem. You can amend the code however y
 **The idea is to create branches of common features and make them available for others to merge them into their master branch.**
 
 ## Features
-* Laravel 7, Alpinejs, Livewire, AdminLTE theme :heavy_check_mark:
+* Laravel 8, Alpinejs, Livewire, AdminLTE theme :heavy_check_mark:
 * Login :heavy_check_mark:
 * Forgot Password :heavy_check_mark:
 * CRUD for Users :heavy_check_mark:

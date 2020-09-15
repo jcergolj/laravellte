@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Http\Request;
 use Livewire\WithPagination;
 
 trait Table
@@ -19,17 +18,6 @@ trait Table
     public $search = '';
 
     protected $paginationTheme = 'bootstrap';
-
-    /**
-     * Component mount.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-    public function mount(Request $request)
-    {
-        $this->routeName = $request->route()->getName();
-    }
 
     /**
      * Sort results by field.

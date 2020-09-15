@@ -5,8 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class EditUserComponent extends Component
@@ -14,31 +12,44 @@ class EditUserComponent extends Component
     use LivewireAuth;
 
     /** @var \App\Models\User */
-    public $user;
-
-    /** @var string */
-    public $email;
-
-    /** @var string */
-    public $roleId;
+    public User $user;
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $roles;
 
+    /** @var string */
+    public $routeName = 'users.edit';
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'user.email' => [
+                'required',
+                'email',
+                'unique:users,email,'.$this->user->id,
+            ],
+            'user.role_id' => [
+                'required',
+                'exists:roles,id',
+            ],
+        ];
+    }
+
     /**
      * Component mount.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param \App\Models\User|nullable  $user
      * @return void
      */
-    public function mount(Request $request, User $user = null)
+    public function mount()
     {
-        $this->routeName = $request->route()->getName();
-
-        $this->user = $user;
-        $this->email = $user->email;
-        $this->roleId = $user->role->id;
+        if ($this->user->isHimself(auth()->user())) {
+            throw new AuthorizationException();
+        }
     }
 
     /**
@@ -61,34 +72,15 @@ class EditUserComponent extends Component
      */
     public function update()
     {
-        if ($this->user->isHimself(auth()->user())) {
-            throw new AuthorizationException();
-        }
-
-        $this->runValidation();
+        $this->validate();
 
         $this->user->update([
-            'email' => $this->email,
-            'role_id' => $this->roleId,
+            'email' => $this->user->email,
+            'role_id' => $this->user->role_id,
         ]);
 
         msg_success('User has been successfully updated.');
 
         return redirect()->route('users.index');
-    }
-
-    private function runValidation()
-    {
-        return $this->validate([
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users')->ignore($this->user->id ?? ''),
-            ],
-            'roleId' => [
-                'required',
-                'exists:roles,id',
-            ],
-        ]);
     }
 }

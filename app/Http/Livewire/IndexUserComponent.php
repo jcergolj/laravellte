@@ -17,6 +17,9 @@ class IndexUserComponent extends Component
     /** @var string */
     public $roleId = '';
 
+    /** @var string */
+    public $routeName = 'users.index';
+
     /** @var array */
     protected $queryString = [
         'perPage',

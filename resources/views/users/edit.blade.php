@@ -1,5 +1,3 @@
-@extends('layouts.app')
-
 @section('title')
     Edit Existing User
 @endsection
@@ -17,12 +15,22 @@
     </x-slot>
 
     <x-slot name="card_body">
-    <form method="POST" wire:submit.prevent="store">
+    <form method="POST" wire:submit.prevent="update">
         @csrf
 
-        <x-inputs.email required="required" autofocus />
+        <x-inputs.email
+            key="user.email"
+            placeholder="{{ trans('validation.attributes.email') }}"
+            autofocus
+            required="required"
+        />
 
-        <x-inputs.dropdown key="roleId" :options="$roles" textField="name" required="required" />
+        <x-inputs.dropdown
+            key="user.role_id"
+            :options="$roles"
+            textField="name"
+            required="required"
+        />
 
         <div class="row">
             <div class="offset-8 col-4">

@@ -40,6 +40,8 @@ class UpdatePassword extends Component
     }
 
     /**
+     * Component mount.
+     *
      * @return void
      */
     public function mount()

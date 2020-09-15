@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Livewire\Users;
+namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\EditUserComponent;
 use App\Http\Livewire\LivewireAuth;
@@ -40,8 +40,8 @@ class EditUserComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(EditUserComponent::class, ['user' => $user])
-            ->assertSet('email', $user->email)
-            ->assertSet('roleId', $user->role->id)
+            ->assertSet('user.email', $user->email)
+            ->assertSet('user.role_id', $user->role->id)
             ->assertSee('Save')
             ->assertStatus(Response::HTTP_OK);
     }
@@ -58,8 +58,8 @@ class EditUserComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(EditUserComponent::class, ['user' => $user])
-            ->set('email', 'joe@example.com')
-            ->set('roleId', $this->admin->role->id)
+            ->set('user.email', 'joe@example.com')
+            ->set('user.role_id', $this->admin->role->id)
             ->call('update')
             ->assertRedirect('users');
 
@@ -92,11 +92,11 @@ class EditUserComponentTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
-            'Test email is required' => ['email', '', 'required'],
-            'Test email is valid' => ['email', 'not-an-email', 'email'],
-            'Test email must be unique' => ['email', 'admin@admin.lte', 'unique'],
-            'Test roleId is required' => ['roleId', '', 'required'],
-            'Test roleId must exist' => ['roleId', 'invalid-role-id', 'exists'],
+            'Test email is required' => ['user.email', '', 'required'],
+            'Test email is valid' => ['user.email', 'not-an-email', 'email'],
+            'Test email must be unique' => ['user.email', 'admin@admin.lte', 'unique'],
+            'Test role_id is required' => ['user.role_id', '', 'required'],
+            'Test role_id must exist' => ['user.role_id', 'invalid-role-id', 'exists'],
         ];
     }
 
@@ -107,7 +107,7 @@ class EditUserComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(EditUserComponent::class, ['user' => $user])
-            ->set('roleId', $this->admin->role->id)
+            ->set('user.role_id', $this->admin->role->id)
             ->call('update')
             ->assertHasNoErrors('roleId');
 
