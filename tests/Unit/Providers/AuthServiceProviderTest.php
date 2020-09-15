@@ -29,6 +29,14 @@ class AuthServiceProviderTest extends TestCase
     }
 
     /** @test */
+    public function user_is_not_allowed_to_proceed_if_route_is_empty()
+    {
+        $this->actingAs(UserFactory::new()->create());
+
+        $this->assertFalse(Gate::allows('for-route', []));
+    }
+
+    /** @test */
     public function user_is_not_allowed_to_proceed_if_he_does_not_have_role()
     {
         $this->actingAs(UserFactory::new()->create());

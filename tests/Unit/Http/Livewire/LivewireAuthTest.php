@@ -3,7 +3,6 @@
 namespace Tests\Unit\Http\Livewire;
 
 use App\Http\Livewire\LivewireAuth;
-use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -34,13 +33,11 @@ class LivewireAuthTest extends TestCase
 
         $customClass = new class() {
             use LivewireAuth;
+
+            public $routeName = 'users.index';
         };
 
-        $role = RoleFactory::new()->create([
-            'name' => 'manager',
-        ]);
-
-        $manager = UserFactory::new()->create(['role_id' => $role->id]);
+        $manager = UserFactory::new()->create();
 
         $this->expectException(AuthorizationException::class);
 

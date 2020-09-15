@@ -25,7 +25,11 @@ class AuthServiceProvider extends ServiceProvider
             return $user->isAdmin() ? true : null;
         });
 
-        Gate::define('for-route', function ($user, $routeName) {
+        Gate::define('for-route', function ($user, $routeName = '') {
+            if (empty($routeName)) {
+                return false;
+            }
+
             $routeName = str_replace(
                 ['create', 'edit'],
                 ['store', 'update'],

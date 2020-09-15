@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Filters;
 
+use App\Models\Role;
 use App\Models\User;
-use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -25,8 +25,8 @@ class UserFilterTest extends TestCase
         ]);
 
         $result = User::filter([
-                'search' => 'admin',
-            ])->get();
+            'search' => 'admin',
+        ])->get();
 
         $this->assertCount(1, $result);
 
@@ -36,26 +36,20 @@ class UserFilterTest extends TestCase
     /** @test */
     public function filter_users_by_role_id()
     {
-        $writer = RoleFactory::new()->create([
+        $user = UserFactory::new()->forRole([
             'name' => 'writer',
-        ]);
-
-        $manager = RoleFactory::new()->create([
-            'name' => 'manager',
-        ]);
-
-        $user = UserFactory::new()->create([
-            'role_id' => $writer->id,
+        ])->create([
             'email' => 'admin@lte.com',
         ]);
 
-        UserFactory::new()->create([
-            'role_id' => $manager->id,
+        UserFactory::new()->forRole([
+            'name' => 'manager',
+        ])->create([
             'email' => 'manager@lte.com',
         ]);
 
         $result = User::filter([
-            'roleId' => $writer->id,
+            'roleId' => Role::where('name', 'writer')->first()->id,
         ])->get();
 
         $this->assertCount(1, $result);
@@ -75,8 +69,8 @@ class UserFilterTest extends TestCase
         ]);
 
         $result = User::filter([
-                'orderByField' => ['email', 'asc'],
-            ])->get();
+            'orderByField' => ['email', 'asc'],
+        ])->get();
 
         $this->assertTrue(collect([$admin->id, $manager->id]) == $result->pluck('id'));
     }

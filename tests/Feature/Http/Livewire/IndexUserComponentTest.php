@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Livewire\Users;
+namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\IndexUserComponent;
 use App\Http\Livewire\LivewireAuth;

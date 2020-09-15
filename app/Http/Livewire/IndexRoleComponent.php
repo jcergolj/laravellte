@@ -1,15 +1,26 @@
 <?php
 
-namespace App\Http\Livewire\Roles;
+namespace App\Http\Livewire;
 
-use App\Http\Livewire\Table;
 use App\Models\Role;
 use App\Models\User;
+use Livewire\Component;
 
-class TableRole extends Table
+class IndexRoleComponent extends Component
 {
+    use Table, LivewireAuth;
+
     /** @var string */
     public $sortField = 'name';
+
+    /** @var string */
+    public $routeName = 'roles.index';
+
+    /** @var array */
+    protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
+
+    /** @var array */
+    protected $listeners = ['destroy' => 'destroy'];
 
     /**
      * Render the component view.
@@ -23,7 +34,8 @@ class TableRole extends Table
             'orderByField' => [$this->sortField, $this->sortDirection],
         ])->paginate($this->perPage);
 
-        return view('livewire.roles.table-role', ['roles' => $roles]);
+        return view('roles.index', ['roles' => $roles])
+            ->extends('layouts.app');
     }
 
     /**

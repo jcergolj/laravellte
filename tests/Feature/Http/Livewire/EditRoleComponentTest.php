@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Livewire\Roles;
+namespace Tests\Feature\Http\Livewire;
 
-use App\Http\Livewire\LivewireAuth;
-use App\Http\Livewire\Roles\SaveRole;
+use App\Http\Livewire\EditRoleComponent;
 use App\Models\Role;
 use Database\Factories\PermissionFactory;
 use Database\Factories\RoleFactory;
@@ -12,13 +11,13 @@ use Illuminate\Http\Response;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Roles\SaveRole */
-class SaveRoleTest extends TestCase
+/** @see \App\Http\Livewire\EditUserComponent */
+class EditRoleComponentTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @var \App\Models\User */
-    private $admin;
+    protected $admin;
 
     public function setUp() : void
     {
@@ -28,96 +27,20 @@ class SaveRoleTest extends TestCase
     }
 
     /** @test */
-    public function assert_create_user_has_livewire_auth_trait()
-    {
-        $this->assertContains(LivewireAuth::class, class_uses(SaveRole::class));
-    }
-
-    /** @test */
-    public function role_create_page_contains_save_role_livewire_component()
-    {
-        $this->actingAs($this->admin)
-            ->get(route('roles.create'))
-            ->assertSeeLivewire('roles.save-role');
-    }
-
-    /** @test */
-    public function role_edit_page_contains_save_role_livewire_component()
-    {
-        $role = RoleFactory::new()->create();
-
-        $this->actingAs($this->admin)
-            ->get(route('roles.edit', $role))
-            ->assertSeeLivewire('roles.save-role');
-    }
-
-    /** @test */
-    public function render_for_store()
-    {
-        Livewire::actingAs($this->admin)
-            ->test(SaveRole::class)
-            ->assertSee('Save')
-            ->assertSet('action', 'store')
-            ->assertStatus(Response::HTTP_OK);
-    }
-
-    /** @test */
-    public function render_for_edit()
+    public function render()
     {
         $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveRole::class, ['role' => $role])
+            ->test(EditRoleComponent::class, ['role' => $role])
             ->assertSet('name', $role->name)
             ->assertSet('label', $role->label)
-            ->assertSet('action', 'update')
             ->assertSee('Save')
             ->assertStatus(Response::HTTP_OK);
     }
 
     /** @test */
-    public function store_new_role()
-    {
-        $permissionCreateUser = PermissionFactory::new()->create([
-            'description' => 'Create User',
-        ]);
-
-        $permissionEditUser = PermissionFactory::new()->create([
-            'description' => 'Edit User',
-        ]);
-
-        Livewire::actingAs($this->admin)
-            ->test(SaveRole::class)
-            ->set('name', 'manager')
-            ->set('label', 'Manager')
-            ->set('permissions.1.allowed', true)
-            ->set('permissions.1.owner_restricted', true)
-            ->set('permissions.2.allowed', true)
-            ->set('permissions.2.owner_restricted', false)
-            ->call('store')
-            ->assertRedirect('roles');
-
-        $this->assertTrue(session()->has('flash'));
-
-        $roles = Role::where('name', 'manager')
-            ->where('label', 'Manager')
-            ->get();
-
-        $this->assertCount(1, $roles);
-
-        $permissions = $roles[0]->permissions;
-
-        $this->assertSame($roles[0]->id, $permissions[0]->pivot->role_id);
-        $this->assertSame($permissionCreateUser->id, $permissions[0]->pivot->permission_id);
-        $this->assertTrue($permissions[0]->pivot->owner_restricted);
-
-        $this->assertSame($roles[0]->id, $permissions[1]->pivot->role_id);
-        $this->assertSame($permissionEditUser->id, $permissions[1]->pivot->permission_id);
-        $this->assertFalse($permissions[1]->pivot->owner_restricted);
-    }
-
-    /** @test */
-    public function update_existing_role()
+    public function update()
     {
         $role = RoleFactory::new()->create([
             'name' => 'manager',
@@ -147,7 +70,7 @@ class SaveRoleTest extends TestCase
         $this->assertCount(2, Role::all());
 
         Livewire::actingAs($this->admin)
-            ->test(SaveRole::class, ['role' => $role])
+            ->test(EditRoleComponent::class, ['role' => $role])
             ->set('name', 'writer')
             ->set('label', 'Writer')
             ->set('permissions.1.allowed', true)
@@ -164,8 +87,8 @@ class SaveRoleTest extends TestCase
         $this->assertTrue(session()->has('flash'));
 
         $roles = Role::where('name', 'writer')
-            ->where('label', 'Writer')
-            ->get();
+                ->where('label', 'Writer')
+                ->get();
 
         $this->assertCount(1, $roles);
 
@@ -190,18 +113,18 @@ class SaveRoleTest extends TestCase
         //admin role is created when admin user is created
 
         $permissionCreateUser = PermissionFactory::new()->create([
-             'description' => 'Create User',
-         ]);
+            'description' => 'Create User',
+        ]);
 
         $this->assertCount(1, Role::where('name', 'admin')->get());
 
         $role = Role::where('name', 'admin')->first();
         Livewire::actingAs($this->admin)
-             ->test(SaveRole::class, ['role' => $role])
-             ->set('permissions.1.allowed', true)
-             ->set('permissions.1.owner_restricted', true)
-             ->call('update')
-             ->assertRedirect('roles');
+            ->test(EditRoleComponent::class, ['role' => $role])
+            ->set('permissions.1.allowed', true)
+            ->set('permissions.1.owner_restricted', true)
+            ->call('update')
+            ->assertRedirect('roles');
 
         $this->assertTrue(session()->has('flash'));
 
@@ -214,26 +137,13 @@ class SaveRoleTest extends TestCase
      * @test
      * @dataProvider clientFormValidationProvider
      */
-    public function test_store_validation_rules($clientFormInput, $clientFormValue, $rule)
-    {
-        Livewire::actingAs($this->admin)
-            ->test(SaveRole::class)
-            ->set($clientFormInput, $clientFormValue)
-            ->call('store')
-            ->assertHasErrors([$clientFormInput => $rule]);
-    }
-
-    /**
-     * @test
-     * @dataProvider clientFormValidationProvider
-     */
     public function test_update_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
         $role = RoleFactory::new()->create();
         PermissionFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveRole::class, ['role' => $role])
+            ->test(EditRoleComponent::class, ['role' => $role])
             ->set($clientFormInput, $clientFormValue)
             ->call('update')
             ->assertHasErrors([$clientFormInput => $rule]);
@@ -256,7 +166,7 @@ class SaveRoleTest extends TestCase
         $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveRole::class, ['role' => $role])
+            ->test(EditRoleComponent::class, ['role' => $role])
             ->set('permissions.1.allowed', false)
             ->set('permissions.1.owner_restricted', true)
             ->call('update')
@@ -269,7 +179,7 @@ class SaveRoleTest extends TestCase
         $role = RoleFactory::new()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(SaveRole::class, ['role' => $role])
+            ->test(EditRoleComponent::class, ['role' => $role])
             ->set('label', 'something')
             ->call('update')
             ->assertHasNoErrors('label');

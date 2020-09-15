@@ -15,29 +15,29 @@
     </x-slot>
 
     <x-slot name="card_body">
-    <form method="POST" wire:submit.prevent="update">
-        @csrf
+        <form method="POST" wire:submit.prevent="update">
+            @csrf
 
-        <x-inputs.email
-            key="user.email"
-            placeholder="{{ trans('validation.attributes.email') }}"
-            autofocus
-            required="required"
-        />
+            <x-inputs.email
+                key="user.email"
+                placeholder="{{ trans('validation.attributes.email') }}"
+                autofocus
+                required="required"
+            />
 
-        <x-inputs.dropdown
-            key="user.role_id"
-            :options="$roles"
-            textField="name"
-            required="required"
-        />
+            <x-inputs.dropdown
+                key="user.role_id"
+                :options="$roles"
+                textField="name"
+                required="required"
+            />
 
-        <div class="row">
-            <div class="offset-8 col-4">
-                <x-inputs.button text="Save" class="btn-success" />
+            <div class="row">
+                <div class="offset-8 col-4">
+                    <x-inputs.button text="Save" class="btn-success" />
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
     </x-slot>
 </x-savings.content>

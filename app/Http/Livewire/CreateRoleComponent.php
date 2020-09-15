@@ -1,19 +1,29 @@
 <?php
 
-namespace App\Http\Livewire\Roles;
+namespace App\Http\Livewire;
 
-use App\Http\Livewire\LivewireAuth;
 use App\Models\Role;
 use App\Rules\OwnerRestrictedRule;
 use App\Rules\PermissionExistsRule;
 use App\ViewModels\SaveRoleViewModel;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
-class SaveRole extends Component
+class CreateRoleComponent extends Component
 {
     use LivewireAuth;
+
+    /** @var string */
+    public $email;
+
+    /** @var string */
+    public $roleId;
+
+    /** @var \Illuminate\Database\Eloquent\Collection */
+    public $roles;
+
+    /** @var string */
+    public $routeName = 'roles.create';
 
     /** @var \App\Models\Role */
     public $role;
@@ -33,26 +43,11 @@ class SaveRole extends Component
     /**
      * Component mount.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
      * @return void
      */
-    public function mount(Request $request, Role $role = null)
+    public function mount()
     {
-        $this->routeName = $request->route()->getName();
-
-        $this->permissions = SaveRoleViewModel::buildRolePermissions($role->id);
-
-        if ($role->id === null) {
-            $this->action = 'store';
-
-            return;
-        }
-
-        $this->action = 'update';
-        $this->role = $role;
-        $this->name = $role->name;
-        $this->label = $role->label;
+        $this->permissions = SaveRoleViewModel::buildRolePermissions();
     }
 
     /**
@@ -62,9 +57,10 @@ class SaveRole extends Component
      */
     public function render()
     {
-        return view('livewire.roles.save', [
+        return view('roles.create', [
             'permissionGroups' => SaveRoleViewModel::groupPermissions($this->permissions),
-        ]);
+        ])
+        ->extends('layouts.app');
     }
 
     /**
@@ -84,29 +80,6 @@ class SaveRole extends Component
         $role->createPermissions($this->permissions);
 
         msg_success('Role has been successfully created.');
-
-        return redirect()->route('roles.index');
-    }
-
-    /**
-     * Update existing role.
-     *
-     * @return void
-     */
-    public function update()
-    {
-        $this->runValidation();
-
-        $this->role->update([
-            'name' => $this->name,
-            'label' => $this->label,
-        ]);
-
-        if (! $this->role->isAdmin()) {
-            $this->role->updatePermissions($this->permissions);
-        }
-
-        msg_success('Role has been successfully updated.');
 
         return redirect()->route('roles.index');
     }

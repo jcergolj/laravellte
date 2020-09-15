@@ -1309,16 +1309,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.2.2",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "ad3f8de28e77acded47af1bc1cba2f9d719e2323"
+                "reference": "0480aa04aa08314dd2ed1b62615d8184e7d3071a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/ad3f8de28e77acded47af1bc1cba2f9d719e2323",
-                "reference": "ad3f8de28e77acded47af1bc1cba2f9d719e2323",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/0480aa04aa08314dd2ed1b62615d8184e7d3071a",
+                "reference": "0480aa04aa08314dd2ed1b62615d8184e7d3071a",
                 "shasum": ""
             },
             "require": {
@@ -1370,7 +1370,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-13T23:07:50+00:00"
+            "time": "2020-09-15T02:25:20+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7289,16 +7289,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.1.8",
+            "version": "9.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb"
+                "reference": "cf6582906d4b2502c5f4c6be6a3d0b4cd5b3ef7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f98f8466126d83b55b924a94d2244c53c216b8fb",
-                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/cf6582906d4b2502c5f4c6be6a3d0b4cd5b3ef7f",
+                "reference": "cf6582906d4b2502c5f4c6be6a3d0b4cd5b3ef7f",
                 "shasum": ""
             },
             "require": {
@@ -7306,7 +7306,7 @@
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
                 "nikic/php-parser": "^4.8",
-                "php": "^7.3 || ^8.0",
+                "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
                 "sebastian/code-unit-reverse-lookup": "^2.0.2",
@@ -7358,7 +7358,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-07T08:07:10+00:00"
+            "time": "2020-09-15T06:14:11+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",

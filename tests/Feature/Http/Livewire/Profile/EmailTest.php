@@ -37,7 +37,7 @@ class EmailTest extends TestCase
     {
         $this->actingAs(create_user())
             ->get(route('profile.users.index'))
-            ->assertSeeLivewire('profile.email');
+            ->assertSeeLivewire('profile.update-email');
     }
 
     /** @test */

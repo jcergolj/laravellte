@@ -16,19 +16,19 @@
     </x-slot>
 
     <x-slot name="card_body">
-    <form method="POST" wire:submit.prevent="store">
-        @csrf
+        <form method="POST" wire:submit.prevent="store">
+            @csrf
 
-        <x-inputs.email required="required" autofocus />
+            <x-inputs.email required="required" autofocus />
 
-        <x-inputs.dropdown key="roleId" :options="$roles" textField="name" required="required" />
+            <x-inputs.dropdown key="roleId" :options="$roles" textField="name" required="required" />
 
-        <div class="row">
-            <div class="offset-8 col-4">
-                <x-inputs.button text="Save" class="btn-success" />
+            <div class="row">
+                <div class="offset-8 col-4">
+                    <x-inputs.button text="Save" class="btn-success" />
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
     </x-slot>
 </x-savings.content>

@@ -1,6 +1,5 @@
 <?php
 
-use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
 
 /**
@@ -10,13 +9,10 @@ use Database\Factories\UserFactory;
  */
 function create_admin()
 {
-    $role = RoleFactory::new()->create([
-        'name' => 'admin',
-    ]);
-
-    return UserFactory::new()->create([
+    return UserFactory::new()->forRole([
+            'name' => 'admin',
+        ])->create([
             'email' => 'admin@admin.lte',
-            'role_id' => $role->id,
         ]);
 }
 
@@ -27,12 +23,9 @@ function create_admin()
  */
 function create_user()
 {
-    $role = RoleFactory::new()->create([
-        'name' => 'manager',
-    ]);
-
-    return UserFactory::new()->create([
+    return UserFactory::new()->forRole([
+            'name' => 'manager',
+        ])->create([
             'email' => 'manager@admin.lte',
-            'role_id' => $role->id,
         ]);
 }

@@ -1,8 +1,10 @@
 <?php
 
-namespace Tests\Feature\Http\Livewire\Roles;
+namespace Tests\Feature\Http\Livewire;
 
-use App\Http\Livewire\Roles\TableRole;
+use App\Http\Livewire\IndexRoleComponent;
+use App\Http\Livewire\LivewireAuth;
+use App\Http\Livewire\Table;
 use App\Models\Role;
 use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
@@ -11,8 +13,8 @@ use Illuminate\Http\Response;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Roles\TableRole */
-class TableRoleTest extends TestCase
+/** @see \App\Http\Livewire\IndexRoleComponent */
+class IndexRoleComponentTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -27,18 +29,31 @@ class TableRoleTest extends TestCase
     }
 
     /** @test */
-    public function roles_index_page_contains_table_role_livewire_component()
+    public function assert_index_role_component_uses_table_trait()
     {
-        $this->actingAs($this->admin)
-            ->get(route('roles.index'))
-            ->assertSeeLivewire('roles.table-role');
+        $this->assertContains(Table::class, class_uses(IndexRoleComponent::class));
+    }
+
+    /** @test */
+    public function assert_index_role_component_uses_livewire_auth_trait()
+    {
+        $this->assertContains(LivewireAuth::class, class_uses(IndexRoleComponent::class));
+    }
+
+    /** @test */
+    public function user_can_view_index_page()
+    {
+        $response = $this->actingAs($this->admin)
+            ->get(route('roles.index'));
+
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /** @test */
     public function render()
     {
         Livewire::actingAs($this->admin)
-            ->test(TableRole::class)
+            ->test(IndexRoleComponent::class)
             ->assertStatus(Response::HTTP_OK);
     }
 
@@ -53,7 +68,7 @@ class TableRoleTest extends TestCase
             'name' => 'manager',
         ]);
 
-        Livewire::actingAs($this->admin)->test(TableRole::class)
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
             ->set('perPage', 1)
             ->set('search', 'writer')
             ->assertSee('writer')
@@ -63,8 +78,6 @@ class TableRoleTest extends TestCase
     /** @test */
     public function render_paginate()
     {
-        //the admin role exists too form admin user
-
         $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
@@ -73,7 +86,7 @@ class TableRoleTest extends TestCase
             'name' => 'manager',
         ]);
 
-        Livewire::actingAs($this->admin)->test(TableRole::class)
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
             ->set('perPage', 1)
             ->assertSee('admin')
             ->assertDontSee('writer')
@@ -87,8 +100,6 @@ class TableRoleTest extends TestCase
     /** @test */
     public function render_order_by()
     {
-        //the admin role exists too form admin user
-
         $writer = RoleFactory::new()->create([
             'name' => 'writer',
         ]);
@@ -97,7 +108,7 @@ class TableRoleTest extends TestCase
             'name' => 'manager',
         ]);
 
-        Livewire::actingAs($this->admin)->test(TableRole::class)
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
             ->set('perPage', 1)
             ->set('sortField', 'name')
             ->call('sortBy', 'name')
@@ -115,7 +126,7 @@ class TableRoleTest extends TestCase
         $role = RoleFactory::new()->create();
         UserFactory::new()->create(['role_id' => $role->id]);
 
-        Livewire::actingAs($this->admin)->test(TableRole::class)
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
             ->call('destroy', $role->id);
 
         $this->assertNull(Role::find($role->id));
@@ -126,7 +137,7 @@ class TableRoleTest extends TestCase
     {
         $role = RoleFactory::new()->create();
 
-        Livewire::actingAs($this->admin)->test(TableRole::class)
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
             ->call('destroy', $role->id)
             ->assertDispatchedBrowserEvent('flash');
 
@@ -140,7 +151,7 @@ class TableRoleTest extends TestCase
             'name' => 'admin',
         ]);
 
-        Livewire::actingAs($this->admin)->test(TableRole::class)
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
             ->call('destroy', $role->id)
             ->assertDispatchedBrowserEvent('flash');
 

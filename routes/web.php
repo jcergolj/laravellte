@@ -8,9 +8,11 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ConfirmedEmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\UserController as ProfileUserController;
-use App\Http\Controllers\RoleController;
+use App\Http\Livewire\CreateRoleComponent;
 use App\Http\Livewire\CreateUserComponent;
+use App\Http\Livewire\EditRoleComponent;
 use App\Http\Livewire\EditUserComponent;
+use App\Http\Livewire\IndexRoleComponent;
 use App\Http\Livewire\IndexUserComponent;
 
 Route::post('login', [LoginController::class, 'login']);
@@ -48,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('users/create', CreateUserComponent::class)->name('users.create');
         Route::get('users/{user}/edit', EditUserComponent::class)->name('users.edit');
 
-        Route::resource('roles', RoleController::class)->only(['index', 'create', 'edit']);
+        Route::get('roles', IndexRoleComponent::class)->name('roles.index');
+        Route::get('roles/create', CreateRoleComponent::class)->name('roles.create');
+        Route::get('roles/{role}/edit', EditRoleComponent::class)->name('roles.edit');
     });
 });

@@ -34,7 +34,7 @@ class PasswordTest extends TestCase
     {
         $this->actingAs(create_user())
             ->get(route('profile.users.index'))
-            ->assertSeeLivewire('profile.password');
+            ->assertSeeLivewire('profile.update-password');
     }
 
     /** @test */

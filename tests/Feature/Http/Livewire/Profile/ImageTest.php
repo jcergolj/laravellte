@@ -39,7 +39,7 @@ class ImageTest extends TestCase
     {
         $this->actingAs(create_user())
             ->get(route('profile.users.index'))
-            ->assertSeeLivewire('profile.image');
+            ->assertSeeLivewire('profile.update-image');
     }
 
     /** @test */
