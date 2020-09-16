@@ -19,9 +19,9 @@
         <form method="POST" wire:submit.prevent="store">
             @csrf
 
-            <x-inputs.email required="required" autofocus />
+            <x-inputs.email key="user.email" required="required" placeholder="{{ trans('validation.attributes.email') }}" autofocus />
 
-            <x-inputs.dropdown key="roleId" :options="$roles" textField="name" required="required" />
+            <x-inputs.dropdown key="user.role_id" :options="$roles" textField="name" required="required" />
 
             <div class="row">
                 <div class="offset-8 col-4">

@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\AcceptedInvitationAuth;
-use App\Http\Livewire\AcceptedInvitation;
+use App\Http\Livewire\AcceptedInvitationComponent;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -15,8 +15,8 @@ use Livewire\Livewire;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\AcceptedInvitation */
-class AcceptedInvitationTest extends TestCase
+/** @see \App\Http\Livewire\AcceptedInvitationComponent */
+class AcceptedInvitationComponentTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -35,13 +35,13 @@ class AcceptedInvitationTest extends TestCase
     /** @test */
     public function assert_component_uses_accepted_invitation_auth_trait()
     {
-        $this->assertContains(AcceptedInvitationAuth::class, class_uses(AcceptedInvitation::class));
+        $this->assertContains(AcceptedInvitationAuth::class, class_uses(AcceptedInvitationComponent::class));
     }
 
     /** @test */
     public function assert_authorize_invitation_is_called()
     {
-        $livewireComponent = $this->getMockBuilder(AcceptedInvitation::class)
+        $livewireComponent = $this->getMockBuilder(AcceptedInvitationComponent::class)
             ->disableOriginalConstructor()
             ->setMethods(['authorizeInvitation'])
             ->getMock();
@@ -56,7 +56,7 @@ class AcceptedInvitationTest extends TestCase
     public function user_can_set_up_new_password()
     {
         $request = $this->buildRequest($this->user);
-        Livewire::test(AcceptedInvitation::class, ['request' => $request, 'user' => $this->user])
+        Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'new-password')
             ->call('submit')
@@ -72,7 +72,7 @@ class AcceptedInvitationTest extends TestCase
     public function test_validation_rules($clientFormInput, $clientFormValue, $rule)
     {
         $request = $this->buildRequest($this->user);
-        Livewire::test(AcceptedInvitation::class, ['request' => $request, 'user' => $this->user])
+        Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
             ->set($clientFormInput, $clientFormValue)
             ->call('submit')
             ->assertHasErrors([$clientFormInput => $rule]);
@@ -92,7 +92,7 @@ class AcceptedInvitationTest extends TestCase
     public function password_must_be_confirmed()
     {
         $request = $this->buildRequest($this->user);
-        Livewire::test(AcceptedInvitation::class, ['request' => $request, 'user' => $this->user])
+        Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'invalid-password')
             ->call('submit')
@@ -107,7 +107,7 @@ class AcceptedInvitationTest extends TestCase
         $user = UserFactory::new()->create(['password' => 'not-null']);
 
         $request = $this->buildRequest($user);
-        Livewire::test(AcceptedInvitation::class, ['request' => $request, 'user' => $user])
+        Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $user])
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 

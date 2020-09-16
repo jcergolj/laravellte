@@ -25,6 +25,6 @@ jobs:
     - name: Run insights
       run: php artisan insights --no-interaction --min-quality=90 --min-complexity=85 --min-architecture=90 --min-style=95
     - name: Run tests
-      run: ./vendor/bin/paratest --processes 2 --runner=WrapperRunner
+      run: ./vendor/bin/phpunit
       env:
         APP_ENV: testing

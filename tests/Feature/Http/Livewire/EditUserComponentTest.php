@@ -95,7 +95,7 @@ class EditUserComponentTest extends TestCase
             'Test email is required' => ['user.email', '', 'required'],
             'Test email is valid' => ['user.email', 'not-an-email', 'email'],
             'Test email must be unique' => ['user.email', 'admin@admin.lte', 'unique'],
-            'Test role_id is required' => ['user.role_id', '', 'required'],
+            'Test role_id is required' => ['user.role_id', null, 'required'],
             'Test role_id must exist' => ['user.role_id', 'invalid-role-id', 'exists'],
         ];
     }
@@ -119,7 +119,11 @@ class EditUserComponentTest extends TestCase
     {
         Livewire::actingAs($this->admin)
             ->test(EditUserComponent::class, ['user' => $this->admin])
-            ->call('update')
+            ->assertForbidden();
+
+        Livewire::actingAs($this->admin)
+            ->test(EditUserComponent::class, ['user' => $this->admin])
+            //->call('update')
             ->assertForbidden();
     }
 }

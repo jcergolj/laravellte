@@ -49,8 +49,8 @@ class CreateUserComponentTest extends TestCase
     {
         Livewire::actingAs($this->admin)
             ->test(CreateUserComponent::class)
-            ->set('roleId', $this->admin->role->id)
-            ->set('email', 'joe@example.com')
+            ->set('user.role_id', $this->admin->role->id)
+            ->set('user.email', 'joe@example.com')
             ->call('store')
             ->assertRedirect('users');
 
@@ -69,8 +69,8 @@ class CreateUserComponentTest extends TestCase
     {
         Livewire::actingAs($this->admin)
             ->test(CreateUserComponent::class)
-            ->set('email', 'joe@example.com')
-            ->set('roleId', $this->admin->role->id)
+            ->set('user.email', 'joe@example.com')
+            ->set('user.role_id', $this->admin->role->id)
             ->call('store')
             ->assertRedirect('users');
 
@@ -93,11 +93,11 @@ class CreateUserComponentTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
-            'Test email is required' => ['email', '', 'required'],
-            'Test email is valid' => ['email', 'not-an-email', 'email'],
-            'Test email must be unique' => ['email', 'admin@admin.lte', 'unique'],
-            'Test roleId is required' => ['roleId', '', 'required'],
-            'Test roleId must exist' => ['roleId', 'invalid-role-id', 'exists'],
+            'Test email is required' => ['user.email', '', 'required'],
+            'Test email is valid' => ['user.email', 'not-an-email', 'email'],
+            'Test email must be unique' => ['user.email', 'admin@admin.lte', 'unique'],
+            'Test role id is required' => ['user.role_id', '', 'required'],
+            'Test role id must exist' => ['user.role_id', 'invalid-role-id', 'exists'],
         ];
     }
 }

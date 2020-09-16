@@ -7,36 +7,21 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class CreateUserComponent extends Component
 {
     use LivewireAuth;
 
-    /** @var string */
-    public $email;
-
-    /** @var string */
-    public $roleId;
+    /** @var \App\Models\User */
+    public $user;
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $roles;
 
     /** @var string */
     public $routeName = 'users.create';
-
-    /** @var array */
-    protected $rules = [
-        'email' => [
-            'required',
-            'email',
-            'unique:users',
-        ],
-        'roleId' => [
-            'required',
-            'exists:roles,id',
-        ],
-    ];
 
     /**
      * Render the component view.
@@ -61,8 +46,8 @@ class CreateUserComponent extends Component
         $this->validate();
 
         $user = User::create([
-            'email' => $this->email,
-            'role_id' => $this->roleId,
+            'email' => $this->user['email'],
+            'role_id' => $this->user['role_id'],
         ]);
 
         msg_success('User has been successfully created.');
@@ -71,5 +56,25 @@ class CreateUserComponent extends Component
             ->queue(new InvitationMail($user, Carbon::tomorrow()));
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'user.email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email'),
+            ],
+            'user.role_id' => [
+                'required',
+                Rule::exists('roles', 'id'),
+            ],
+        ];
     }
 }

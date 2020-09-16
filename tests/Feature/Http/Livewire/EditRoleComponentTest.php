@@ -33,8 +33,8 @@ class EditRoleComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(EditRoleComponent::class, ['role' => $role])
-            ->assertSet('name', $role->name)
-            ->assertSet('label', $role->label)
+            ->assertSet('role.name', $role->name)
+            ->assertSet('role.label', $role->label)
             ->assertSee('Save')
             ->assertStatus(Response::HTTP_OK);
     }
@@ -71,8 +71,8 @@ class EditRoleComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(EditRoleComponent::class, ['role' => $role])
-            ->set('name', 'writer')
-            ->set('label', 'Writer')
+            ->set('role.name', 'writer')
+            ->set('role.label', 'Writer')
             ->set('permissions.1.allowed', true)
             ->set('permissions.1.owner_restricted', true)
             ->set('permissions.2.allowed', false)
@@ -152,9 +152,9 @@ class EditRoleComponentTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
-            'Test name is required' => ['name', '', 'required'],
-            'Test name must be unique' => ['name', 'admin', 'unique'],
-            'Test label is required' => ['label', '', 'required'],
+            'Test name is required' => ['role.name', '', 'required'],
+            'Test name must be unique' => ['role.name', 'admin', 'unique'],
+            'Test label is required' => ['role.label', '', 'required'],
             'Test allowed must be a boolean' => ['permissions.1.allowed', 'string', 'boolean'],
             'Test owner restricted must be a boolean' => ['permissions.1.owner_restricted', 'string', 'boolean'],
         ];
@@ -180,7 +180,7 @@ class EditRoleComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(EditRoleComponent::class, ['role' => $role])
-            ->set('label', 'something')
+            ->set('role.label', 'something')
             ->call('update')
             ->assertHasNoErrors('label');
 

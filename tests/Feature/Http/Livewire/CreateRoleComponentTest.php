@@ -54,8 +54,8 @@ class CreateRoleComponentTest extends TestCase
 
         Livewire::actingAs($this->admin)
             ->test(CreateRoleComponent::class)
-            ->set('name', 'manager')
-            ->set('label', 'Manager')
+            ->set('role.name', 'manager')
+            ->set('role.label', 'Manager')
             ->set('permissions.1.allowed', true)
             ->set('permissions.1.owner_restricted', true)
             ->set('permissions.2.allowed', true)
@@ -98,9 +98,9 @@ class CreateRoleComponentTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
-            'Test name is required' => ['name', '', 'required'],
-            'Test name must be unique' => ['name', 'admin', 'unique'],
-            'Test label is required' => ['label', '', 'required'],
+            'Test name is required' => ['role.name', '', 'required'],
+            'Test name must be unique' => ['role.name', 'admin', 'unique'],
+            'Test label is required' => ['role.label', '', 'required'],
             'Test allowed must be a boolean' => ['permissions.1.allowed', 'string', 'boolean'],
             'Test owner restricted must be a boolean' => ['permissions.1.owner_restricted', 'string', 'boolean'],
         ];
