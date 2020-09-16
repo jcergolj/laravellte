@@ -14,16 +14,10 @@ class EditRoleComponent extends Component
     use LivewireAuth;
 
     /** @var \App\Models\Role */
-    public $role;
+    public Role $role;
 
     /** @var string */
     public $routeName = 'roles.edit';
-
-    /** @var string */
-    public $name;
-
-    /** @var string */
-    public $label;
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $permissions;
@@ -37,10 +31,6 @@ class EditRoleComponent extends Component
     public function mount(Role $role)
     {
         $this->permissions = SaveRoleViewModel::buildRolePermissions($role->id);
-
-        $this->role = $role;
-        $this->name = $role->name;
-        $this->label = $role->label;
     }
 
     /**
@@ -63,12 +53,9 @@ class EditRoleComponent extends Component
      */
     public function update()
     {
-        $this->runValidation();
+        $this->validate($this->validationRules(), [], $this->attributes());
 
-        $this->role->update([
-            'name' => $this->name,
-            'label' => $this->label,
-        ]);
+        $this->role->save();
 
         if (! $this->role->isAdmin()) {
             $this->role->updatePermissions($this->permissions);
@@ -80,18 +67,19 @@ class EditRoleComponent extends Component
     }
 
     /**
-     * Run validation.
+     * Validation rules.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    private function runValidation()
+    protected function validationRules()
     {
-        $this->validate([
-            'name' => [
+        return [
+            'role.name' => [
                 'required',
-                Rule::unique('roles')->ignore($this->role->id ?? ''),
+                Rule::unique('roles', 'name')->ignore($this->role->id),
+                'unique:roles,id,'.$this->role->id,
             ],
-            'label' => [
+            'role.label' => [
                 'required',
             ],
             'permissions.*.allowed' => [
@@ -102,7 +90,24 @@ class EditRoleComponent extends Component
                 'boolean',
                 new OwnerRestrictedRule($this->permissions),
             ],
-        ], [], $this->attributes());
+        ];
+    }
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'role.name' => [
+                'required',
+            ],
+            'role.label' => [
+                'required',
+            ],
+        ];
     }
 
     /**
@@ -110,7 +115,7 @@ class EditRoleComponent extends Component
      *
      * @return array
      */
-    private function attributes()
+    protected function attributes()
     {
         $attributes = [];
         $iteration = 1;

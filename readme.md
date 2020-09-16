@@ -1,4 +1,4 @@
-# Boilerplate for Laravel admin panel
+# Boilerplate for Laravel admin panel 2.0
 
 ## Intro
 <table>
@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-This is a boilerplate for opinionated Laravel admin panel build with Alpinejs, Livewire and mimicking SPA like apps.
+This is a boilerplate for opinionated Laravel 8.0 admin panel build with Alpinejs 2.0, Livewire 2.0.
 
 ## Contents
 - [Have total control of the code](#control)
@@ -34,7 +34,7 @@ Don't like how a new user is added. No problem. You can amend the code however y
 **The idea is to create branches of common features and make them available for others to merge them into their master branch.**
 
 ## Features
-* Laravel 8, Alpinejs, Livewire, AdminLTE theme :heavy_check_mark:
+* Laravel 8.0, Alpinejs, Livewire 2.0, AdminLTE theme 3.0 :heavy_check_mark:
 * Login :heavy_check_mark:
 * Forgot Password :heavy_check_mark:
 * CRUD for Users :heavy_check_mark:
@@ -71,9 +71,6 @@ Let's face it. Sometimes we are sloppy, and we don't take the best care of the c
 - Are tests still slow? [johnkary/phpunit-speedtrap](https://github.com/johnkary/phpunit-speedtrap) package finds the slow tests for you.
 - Lastly [brainmaestro/composer-git-hooks](https://github.com/BrainMaestro/composer-git-hooks) package is utilized so everything is done automatically.
 <a href="https://github.com/jcergolj/laravellte/blob/master/composer.json#L45">See how</a>
-
-## Potentially useful code snippets (actively added)
-Here are some ideas how you could tackle common problems:
 
 ## License
 Licensed under the [MIT license](https://github.com/deployphp/deployer/blob/master/LICENSE)

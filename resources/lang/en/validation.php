@@ -158,5 +158,6 @@ return [
         'image' => 'Profile Image',
         'name' => 'Name',
         'label' => 'Label',
+        'role' => 'Role',
     ],
 ];

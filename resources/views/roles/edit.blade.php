@@ -18,8 +18,8 @@
         <form wire:submit.prevent="update" method="POST">
             @csrf
 
-            <x-inputs.text key="name" autofocus />
-            <x-inputs.text key="label" required="required" />
+            <x-inputs.text key="role.name" autofocus placeholder="{{ trans('validation.attributes.role') }}" />
+            <x-inputs.text key="role.label" required="required" placeholder="{{ trans('validation.attributes.label') }}" />
 
             @if (($role !== null && !$role->isAdmin()) || $role === null)
                 <h3>Assign Permissions</h3>

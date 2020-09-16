@@ -21,26 +21,6 @@ class EditUserComponent extends Component
     public $routeName = 'users.edit';
 
     /**
-     * Validation rules.
-     *
-     * @return array
-     */
-    protected function rules()
-    {
-        return [
-            'user.email' => [
-                'required',
-                'email',
-                'unique:users,email,'.$this->user->id,
-            ],
-            'user.role_id' => [
-                'required',
-                'exists:roles,id',
-            ],
-        ];
-    }
-
-    /**
      * Component mount.
      *
      * @return void
@@ -72,15 +52,49 @@ class EditUserComponent extends Component
      */
     public function update()
     {
-        $this->validate();
+        $this->validate($this->validationRules());
 
-        $this->user->update([
-            'email' => $this->user->email,
-            'role_id' => $this->user->role_id,
-        ]);
+        $this->user->save();
 
         msg_success('User has been successfully updated.');
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function validationRules()
+    {
+        return [
+            'user.email' => [
+                'required',
+                'email',
+                'unique:users,email,'.$this->user->id,
+            ],
+            'user.role_id' => [
+                'required',
+                'exists:roles,id',
+            ],
+        ];
+    }
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'user.email' => [
+                'required',
+            ],
+            'user.role_id' => [
+                'required',
+            ],
+        ];
     }
 }

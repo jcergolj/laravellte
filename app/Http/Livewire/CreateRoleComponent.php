@@ -14,28 +14,10 @@ class CreateRoleComponent extends Component
     use LivewireAuth;
 
     /** @var string */
-    public $email;
-
-    /** @var string */
-    public $roleId;
-
-    /** @var \Illuminate\Database\Eloquent\Collection */
-    public $roles;
-
-    /** @var string */
     public $routeName = 'roles.create';
 
     /** @var \App\Models\Role */
     public $role;
-
-    /** @var string */
-    public $action;
-
-    /** @var string */
-    public $name;
-
-    /** @var string */
-    public $label;
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $permissions;
@@ -59,8 +41,7 @@ class CreateRoleComponent extends Component
     {
         return view('roles.create', [
             'permissionGroups' => SaveRoleViewModel::groupPermissions($this->permissions),
-        ])
-        ->extends('layouts.app');
+        ])->extends('layouts.app');
     }
 
     /**
@@ -70,11 +51,11 @@ class CreateRoleComponent extends Component
      */
     public function store()
     {
-        $this->runValidation();
+        $this->validate(null, [], $this->attributes());
 
         $role = Role::create([
-            'name' => $this->name,
-            'label' => $this->label,
+            'name' => $this->role['name'],
+            'label' => $this->role['label'],
         ]);
 
         $role->createPermissions($this->permissions);
@@ -85,18 +66,18 @@ class CreateRoleComponent extends Component
     }
 
     /**
-     * Run validation.
+     * Validation rules.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    private function runValidation()
+    protected function rules()
     {
-        $this->validate([
-            'name' => [
+        return [
+            'role.name' => [
                 'required',
-                Rule::unique('roles')->ignore($this->role->id ?? ''),
+                Rule::unique('roles', 'name'),
             ],
-            'label' => [
+            'role.label' => [
                 'required',
             ],
             'permissions.*.allowed' => [
@@ -107,7 +88,7 @@ class CreateRoleComponent extends Component
                 'boolean',
                 new OwnerRestrictedRule($this->permissions),
             ],
-        ], [], $this->attributes());
+        ];
     }
 
     /**

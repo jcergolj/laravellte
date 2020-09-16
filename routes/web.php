@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AcceptedInvitationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ConfirmedEmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\UserController as ProfileUserController;
+use App\Http\Livewire\AcceptedInvitationComponent;
 use App\Http\Livewire\CreateRoleComponent;
 use App\Http\Livewire\CreateUserComponent;
 use App\Http\Livewire\EditRoleComponent;
@@ -29,7 +29,7 @@ Route::post('email/resend', [VerificationController::class, 'resend'])->name('ve
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 
-Route::get('accepted-invitations/create', [AcceptedInvitationController::class, 'create'])
+Route::get('accepted-invitations/create', AcceptedInvitationComponent::class)
     ->name('accepted-invitations.create');
 
 Route::get('confirmed-emails/store', [ConfirmedEmailController::class, 'store'])

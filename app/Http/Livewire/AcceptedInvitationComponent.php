@@ -8,7 +8,7 @@ use App\Rules\PasswordRule;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
-class AcceptedInvitation extends Component
+class AcceptedInvitationComponent extends Component
 {
     use AcceptedInvitationAuth;
 
@@ -36,6 +36,17 @@ class AcceptedInvitation extends Component
     }
 
     /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        return view('accepted-invitations.create')
+            ->extends('layouts.guest-app');
+    }
+
+    /**
      * Submit the form.
      *
      * @return void
@@ -48,15 +59,5 @@ class AcceptedInvitation extends Component
         auth()->login($this->user);
 
         return redirect()->to('/home');
-    }
-
-    /**
-     * Render the component view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function render()
-    {
-        return view('livewire.accepted-invitation');
     }
 }
