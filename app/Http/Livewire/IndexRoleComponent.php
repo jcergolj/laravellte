@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Role;
-use App\Models\User;
 use Livewire\Component;
 
 class IndexRoleComponent extends Component
@@ -20,7 +19,7 @@ class IndexRoleComponent extends Component
     protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
 
     /** @var array */
-    protected $listeners = ['destroy' => 'destroy'];
+    protected $listeners = ['entity-deleted' => 'render'];
 
     /**
      * Render the component view.
@@ -36,28 +35,5 @@ class IndexRoleComponent extends Component
 
         return view('roles.index', ['roles' => $roles])
             ->extends('layouts.app');
-    }
-
-    /**
-     * Delete role.
-     *
-     * @param  string  $roleId
-     * @return void
-     */
-    public function destroy($roleId)
-    {
-        $role = Role::findOrFail($roleId);
-
-        if ($role->isAdmin()) {
-            $this->dispatchFlashDangerEvent('Admin role cannot be deleted.');
-
-            return;
-        }
-
-        User::where('role_id', $roleId)->delete();
-
-        $role->delete();
-
-        $this->dispatchFlashSuccessEvent('Role has been successfully deleted.');
     }
 }

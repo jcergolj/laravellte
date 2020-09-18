@@ -120,25 +120,16 @@ class IndexUserComponentTest extends TestCase
             ->assertDontSee('jane@example.com');
     }
 
-    /** @test */
-    public function user_cannot_delete_himself()
+    /** @test  */
+    public function index_user_page_contains_livewire_component()
     {
-        Livewire::actingAs($this->admin)
-            ->test(IndexUserComponent::class)
-            ->call('destroy', $this->admin->id)
-            ->assertForbidden();
+        $this->actingAs($this->admin)->get('/users')->assertSeeLivewire('delete-user-component');
     }
 
     /** @test */
-    public function admin_can_delete_user()
+    public function entity_deleted_listener_exists()
     {
-        $user = UserFactory::new()->create();
-
-        Livewire::actingAs($this->admin)
-            ->test(IndexUserComponent::class)
-            ->call('destroy', $user->id)
-            ->assertDispatchedBrowserEvent('flash');
-
-        $this->assertNull(User::find($user->id));
+        $component = new IndexUserComponent;
+        $this->assertContains('entity-deleted', $component->getEventsBeingListenedFor());
     }
 }

@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('for-route', function ($user, $routeName = '') {
-            if ($routeName == '') {
+            if ($routeName === '' || $routeName === null) {
                 return false;
             }
 

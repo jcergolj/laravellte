@@ -84,11 +84,7 @@
                             @endcan
                         </td>
                         <td>
-                            @can('for-route', 'users.destroy')
-                                @if(!$user->isHimself(auth()->user()))
-                                    <x-inputs.delete :entity="$user" />
-                                @endif
-                            @endcan
+                            <livewire:delete-user-component :user="$user" :key="'user-'.$user->id" />
                         </td>
                     </tr>
                 @empty
@@ -106,8 +102,6 @@
                         <x-tables.pagination :data="$users" />
                     </div>
                 </div>
-
-                <x-modals.delete-warning />
             </div>
 
         </div>

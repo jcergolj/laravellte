@@ -5,9 +5,7 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\IndexRoleComponent;
 use App\Http\Livewire\LivewireAuth;
 use App\Http\Livewire\Table;
-use App\Models\Role;
 use Database\Factories\RoleFactory;
-use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Livewire\Livewire;
@@ -120,41 +118,18 @@ class IndexRoleComponentTest extends TestCase
             ->assertDontSee('manager');
     }
 
-    /** @test */
-    public function admin_can_delete_role_with_attached_user()
+    /** @test  */
+    public function index_role_page_contains_livewire_delete_role_component()
     {
-        $role = RoleFactory::new()->create();
-        UserFactory::new()->create(['role_id' => $role->id]);
-
-        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
-            ->call('destroy', $role->id);
-
-        $this->assertNull(Role::find($role->id));
+        $this->actingAs($this->admin)
+            ->get('roles')
+            ->assertSeeLivewire('delete-role-component');
     }
 
     /** @test */
-    public function admin_can_delete_role()
+    public function entity_deleted_listener_exists()
     {
-        $role = RoleFactory::new()->create();
-
-        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
-            ->call('destroy', $role->id)
-            ->assertDispatchedBrowserEvent('flash');
-
-        $this->assertNull(Role::find($role->id));
-    }
-
-    /** @test */
-    public function admin_cannot_delete_admin_role()
-    {
-        $role = RoleFactory::new()->create([
-            'name' => 'admin',
-        ]);
-
-        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class)
-            ->call('destroy', $role->id)
-            ->assertDispatchedBrowserEvent('flash');
-
-        $this->count(1, Role::where('name', 'admin')->get());
+        $component = new IndexRoleComponent;
+        $this->assertContains('entity-deleted', $component->getEventsBeingListenedFor());
     }
 }

@@ -18,7 +18,7 @@
                 @endcan
             </div>
 
-            <div class="card-body"  x-data="{showModal : false, deleteId : false}">
+            <div class="card-body">
                 <div class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <x-tables.per-page />
@@ -72,9 +72,7 @@
                                         @endcan
                                     </td>
                                     <td>
-                                        @can('for-route', 'roles.destroy')
-                                            <x-inputs.delete :entity="$role" />
-                                        @endcan
+                                        <livewire:delete-role-component :role="$role" :key="'role-'.$role->id" />
                                     </td>
                                 </tr>
                             @empty
@@ -92,10 +90,7 @@
                         <x-tables.pagination :data="$roles" />
                     </div>
                 </div>
-
-                <x-modals.delete-warning />
             </div>
-
         </div>
     </div>
 </div>
