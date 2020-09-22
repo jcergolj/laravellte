@@ -9,16 +9,13 @@ use Livewire\Component;
 
 class EditUserComponent extends Component
 {
-    use LivewireAuth;
+    use HasLivewireAuth;
 
     /** @var \App\Models\User */
     public User $user;
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $roles;
-
-    /** @var string */
-    public $routeName = 'users.edit';
 
     /**
      * Component mount.
@@ -27,6 +24,7 @@ class EditUserComponent extends Component
      */
     public function mount()
     {
+        $this->model = $this->user;
         if ($this->user->isHimself(auth()->user())) {
             throw new AuthorizationException();
         }

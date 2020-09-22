@@ -11,13 +11,10 @@ use Livewire\Component;
 
 class EditRoleComponent extends Component
 {
-    use LivewireAuth;
+    use HasLivewireAuth;
 
     /** @var \App\Models\Role */
     public Role $role;
-
-    /** @var string */
-    public $routeName = 'roles.edit';
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $permissions;
@@ -30,6 +27,7 @@ class EditRoleComponent extends Component
      */
     public function mount(Role $role)
     {
+        $this->model = $this->role;
         $this->permissions = SaveRoleViewModel::buildRolePermissions($role->id);
     }
 
@@ -58,7 +56,7 @@ class EditRoleComponent extends Component
         $this->role->save();
 
         if (! $this->role->isAdmin()) {
-            $this->role->updatePermissions($this->permissions);
+            $this->model->updatePermissions($this->permissions);
         }
 
         msg_success('Role has been successfully updated.');

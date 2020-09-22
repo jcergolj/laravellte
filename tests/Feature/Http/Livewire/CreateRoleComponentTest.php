@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\CreateRoleComponent;
-use App\Http\Livewire\LivewireAuth;
+use App\Http\Livewire\HasLivewireAuth;
 use App\Models\Role;
 use Database\Factories\PermissionFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,7 +29,7 @@ class CreateRoleComponentTest extends TestCase
     /** @test */
     public function assert_create_role_component_uses_livewire_auth_trait()
     {
-        $this->assertContains(LivewireAuth::class, class_uses(CreateRoleComponent::class));
+        $this->assertContains(HasLivewireAuth::class, class_uses(CreateRoleComponent::class));
     }
 
     /** @test */

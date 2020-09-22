@@ -2,15 +2,14 @@
 
 namespace Tests\Unit\Http\Livewire;
 
-use App\Http\Livewire\LivewireAuth;
-use Database\Factories\UserFactory;
+use App\Http\Livewire\HasLivewireAuth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\LivewireAuth */
-class LivewireAuthTest extends TestCase
+/** @see \App\Http\Livewire\HasLivewireAuth */
+class HasLivewireAuthTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,7 +17,7 @@ class LivewireAuthTest extends TestCase
     public function guest_cannot_access_component()
     {
         $customClass = new class() {
-            use LivewireAuth;
+            use HasLivewireAuth;
         };
 
         $this->expectException(AuthenticationException::class);
@@ -32,17 +31,34 @@ class LivewireAuthTest extends TestCase
         $this->withoutExceptionHandling();
 
         $customClass = new class() {
-            use LivewireAuth;
-
-            public $routeName = 'users.index';
+            use HasLivewireAuth;
         };
 
-        $manager = UserFactory::new()->create();
+        $customClass->permissionName = 'users.index';
 
         $this->expectException(AuthorizationException::class);
 
-        $this->actingAs($manager);
+        $this->actingAs(create_user());
 
         $customClass->hydrate();
+    }
+
+    /** @test */
+    public function route_name_is_extracted_from_component_name()
+    {
+        $customClass = new class() {
+            use HasLivewireAuth;
+
+            public static function getName()
+            {
+                return 'index-user-component';
+            }
+        };
+
+        $this->actingAs(create_admin());
+
+        $customClass->hydrate();
+
+        $this->assertSame('users.index', $customClass->permissionName);
     }
 }

@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">List of Roles</h3>
-                @can('for-route', 'roles.create')
+                @can('for-route', ['roles.create'])
                     <a href="{{ route('roles.create') }}" class="float-right">Add New</a>
                 @endcan
             </div>
@@ -67,7 +67,7 @@
                                     <td>{{ $role->label }}</td>
                                     <td>{{ $role->created_at->format('d/m/Y') }}</td>
                                     <td>
-                                        @can('for-route', 'roles.edit')
+                                        @can('for-route', ['roles.edit', $role])
                                             <a href="{{ route('roles.edit', $role) }}"><span class="fas fa-edit"></a></span>
                                         @endcan
                                     </td>

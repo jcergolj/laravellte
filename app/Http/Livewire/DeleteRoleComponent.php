@@ -7,13 +7,20 @@ use Livewire\Component;
 
 class DeleteRoleComponent extends Component
 {
-    use CanFlash, LivewireAuth;
-
-    /** @var string */
-    public $routeName = 'roles.destroy';
+    use CanFlash, HasLivewireAuth;
 
     /** @var \App\Models\Role */
     public $role;
+
+    /**
+     * Component mount.
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        $this->model = $this->role;
+    }
 
     public function render()
     {

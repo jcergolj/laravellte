@@ -1,5 +1,5 @@
 <div>
-    @can('for-route', 'users.destroy')
+    @can('for-route', ['users.delete', $this->user])
         @if(!$user->isHimself(auth()->user()))
             <a
                 x-data

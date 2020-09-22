@@ -3,13 +3,14 @@
 namespace Tests\Unit\Http\Middleware;
 
 use App\Http\Middleware\Authorization;
-use App\Models\Permission;
-use App\Models\Role;
+use Database\Factories\PermissionFactory;
+use Database\Factories\RoleFactory;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Component;
 use Tests\TestCase;
 
 /** @see \App\Http\Middleware\Authenticate; */
@@ -24,7 +25,7 @@ class AuthorizationTest extends TestCase
         $this->expectException(AuthorizationException::class);
 
         Gate::shouldReceive('authorize')
-            ->with('for-route', 'users.index')
+            ->with('for-route', ['users.index', null])
             ->once()
             ->andThrow(AuthorizationException::class);
 
@@ -32,10 +33,15 @@ class AuthorizationTest extends TestCase
 
         $request = new Request;
 
-        $request->setRouteResolver(function () {
-            return new Route('GET', 'users', [
+        $request->setRouteResolver(function () use ($request) {
+            $route = new Route('GET', 'users', [
                 'as' => 'users.index',
+                'controller' => new LivewireComponent(),
             ]);
+
+            $route->bind($request);
+
+            return $route;
         });
 
         $middleware->handle($request, function ($request) {
@@ -49,7 +55,7 @@ class AuthorizationTest extends TestCase
         $this->expectException(AuthorizationException::class);
 
         Gate::shouldReceive('authorize')
-            ->with('for-route', 'users.index')
+            ->with('for-route', ['users.index', null])
             ->once()
             ->andThrow(AuthorizationException::class);
 
@@ -57,10 +63,15 @@ class AuthorizationTest extends TestCase
 
         $request = new Request;
 
-        $request->setRouteResolver(function () {
-            return new Route('GET', 'users', [
+        $request->setRouteResolver(function () use ($request) {
+            $route = new Route('GET', 'users', [
                 'as' => 'users.index',
+                'controller' => new LivewireComponent(),
             ]);
+
+            $route->bind($request);
+
+            return $route;
         });
 
         $this->be(create_user());
@@ -73,7 +84,7 @@ class AuthorizationTest extends TestCase
     public function user_with_permission_is_authorized()
     {
         Gate::shouldReceive('authorize')
-            ->with('for-route', 'users.index')
+            ->with('for-route', ['users.index', null])
             ->once()
             ->andReturn(true);
 
@@ -81,10 +92,15 @@ class AuthorizationTest extends TestCase
 
         $request = new Request;
 
-        $request->setRouteResolver(function () {
-            return new Route('GET', 'users', [
+        $request->setRouteResolver(function () use ($request) {
+            $route = new Route('GET', 'users', [
                 'as' => 'users.index',
+                'controller' => new LivewireComponent(),
             ]);
+
+            $route->bind($request);
+
+            return $route;
         });
 
         $next = new class {
@@ -99,15 +115,14 @@ class AuthorizationTest extends TestCase
             }
         };
 
-        $user = create_user();
-        $role = Role::find($user->role_id);
-        $role->permissions()->save(new Permission([
-            'group' => 'users',
-            'name' =>'users.index',
-            'description' => 'index',
-        ]));
+        $role = RoleFactory::new()
+            ->hasUsers(1)
+            ->hasAttached(
+                PermissionFactory::new(['name' => 'index.user']),
+            )
+            ->create();
 
-        $this->be($user->fresh());
+        $this->be($role->users[0]);
         $response = $middleware->handle($request, $next);
 
         $this->assertTrue($next->called);
@@ -141,4 +156,8 @@ class AuthorizationTest extends TestCase
             'Route roles.edit doesn\'t have authenticate middleware.' => ['roles.edit'],
         ];
     }
+}
+
+class LivewireComponent extends Component
+{
 }

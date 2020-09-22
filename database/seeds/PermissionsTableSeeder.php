@@ -20,19 +20,19 @@ class PermissionsTableSeeder extends Seeder
 
         PermissionFactory::new()->create([
             'group' => 'users',
-            'name' => 'users.store',
+            'name' => 'users.create',
             'description' => 'Create New User',
         ]);
 
         PermissionFactory::new()->create([
             'group' => 'users',
-            'name' => 'users.update',
+            'name' => 'users.edit',
             'description' => 'Edit Existing User',
         ]);
 
         PermissionFactory::new()->create([
             'group' => 'users',
-            'name' => 'users.destroy',
+            'name' => 'users.delete',
             'description' => 'Delete Existing User',
         ]);
 
@@ -44,19 +44,19 @@ class PermissionsTableSeeder extends Seeder
 
         PermissionFactory::new()->create([
             'group' => 'roles',
-            'name' => 'roles.store',
+            'name' => 'roles.create',
             'description' => 'Create New Role',
         ]);
 
         PermissionFactory::new()->create([
             'group' => 'roles',
-            'name' => 'roles.update',
+            'name' => 'roles.edit',
             'description' => 'Edit Existing Role',
         ]);
 
         PermissionFactory::new()->create([
             'group' => 'roles',
-            'name' => 'roles.destroy',
+            'name' => 'roles.delete',
             'description' => 'Delete Exiting Role',
         ]);
     }

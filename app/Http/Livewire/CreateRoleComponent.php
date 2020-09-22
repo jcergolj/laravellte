@@ -11,10 +11,7 @@ use Livewire\Component;
 
 class CreateRoleComponent extends Component
 {
-    use LivewireAuth;
-
-    /** @var string */
-    public $routeName = 'roles.create';
+    use HasLivewireAuth;
 
     /** @var \App\Models\Role */
     public $role;
@@ -29,6 +26,7 @@ class CreateRoleComponent extends Component
      */
     public function mount()
     {
+        $this->model = $this->role;
         $this->permissions = SaveRoleViewModel::buildRolePermissions();
     }
 

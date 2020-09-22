@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ForRouteGate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,23 +22,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Gate::before(function ($user) {
-            return $user->isAdmin() ? true : null;
-        });
-
-        Gate::define('for-route', function ($user, $routeName = '') {
-            if ($routeName === '' || $routeName === null) {
-                return false;
-            }
-
-            $routeName = str_replace(
-                ['create', 'edit'],
-                ['store', 'update'],
-                $routeName
-            );
-
-            return $user->hasPermission($routeName);
-        });
+        Gate::define('for-route', ForRouteGate::class);
 
         $this->registerPolicies();
     }

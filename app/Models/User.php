@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filters\UserFilter;
+use App\Providers\AppServiceProvider;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -99,6 +100,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Get first user's permission.
+     *
+     * @param  string  $permission
+     * @return bool
+     */
+    public function getPermission($permission)
+    {
+        return $this->role->permissions()
+            ->where('name', $permission)
+            ->first();
+    }
+
+    /**
      * Save user's image name.
      *
      * @return string
@@ -128,5 +142,29 @@ class User extends Authenticatable
     public function isHimself($comparedUser)
     {
         return $this->is($comparedUser);
+    }
+
+    /**
+     * Is user a model owner.
+     *
+     * @param  string  $permissionName
+     * @param  mixed  $model
+     * @return bool
+     */
+    public function isModelOwner($permissionName, $model)
+    {
+        $ownerField = AppServiceProvider::OWNER_FIELD;
+
+        $permission = $this->getPermission($permissionName);
+
+        if ($permission === null) {
+            return false;
+        }
+
+        if ($permission->pivot->owner_restricted === false) {
+            return true;
+        }
+
+        return $model->$ownerField === $this->id;
     }
 }

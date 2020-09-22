@@ -8,16 +8,13 @@ use Livewire\Component;
 
 class IndexUserComponent extends Component
 {
-    use Table, LivewireAuth;
+    use Table, HasLivewireAuth;
 
     /** @var string */
     public $sortField = 'email';
 
     /** @var string */
     public $roleId = '';
-
-    /** @var string */
-    public $routeName = 'users.index';
 
     /** @var array */
     protected $queryString = [

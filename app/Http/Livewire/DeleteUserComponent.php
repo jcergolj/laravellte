@@ -7,13 +7,20 @@ use Livewire\Component;
 
 class DeleteUserComponent extends Component
 {
-    use CanFlash, LivewireAuth;
-
-    /** @var string */
-    public $routeName = 'users.destroy';
+    use CanFlash, HasLivewireAuth;
 
     /** @var \App\Models\User */
     public $user;
+
+    /**
+     * Component mount.
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        $this->model = $this->user;
+    }
 
     public function render()
     {

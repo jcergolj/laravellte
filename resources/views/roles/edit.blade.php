@@ -48,7 +48,7 @@
                                                 wire:model="permissions.{{ $id }}.allowed"
                                                 class="permission-{{ $group }}"
                                                 type="checkbox"
-                                                value="{{ $id }}"
+                                                value="1"
                                             >
                                             {{ $permission['description'] ?? '' }}
                                         </label>

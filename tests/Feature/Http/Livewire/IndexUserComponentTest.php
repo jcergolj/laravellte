@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Livewire;
 
+use App\Http\Livewire\HasLivewireAuth;
 use App\Http\Livewire\IndexUserComponent;
-use App\Http\Livewire\LivewireAuth;
 use App\Http\Livewire\Table;
 use App\Models\User;
 use Database\Factories\UserFactory;
@@ -36,7 +36,7 @@ class IndexUserComponentTest extends TestCase
     /** @test */
     public function assert_index_user_component_uses_livewire_auth_trait()
     {
-        $this->assertContains(LivewireAuth::class, class_uses(IndexUserComponent::class));
+        $this->assertContains(HasLivewireAuth::class, class_uses(IndexUserComponent::class));
     }
 
     /** @test */

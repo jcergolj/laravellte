@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\DeleteUserComponent;
-use App\Http\Livewire\LivewireAuth;
+use App\Http\Livewire\HasLivewireAuth;
 use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,7 +28,7 @@ class DeleteUserComponentTest extends TestCase
     /** @test */
     public function assert_delete_user_component_uses_livewire_auth_trait()
     {
-        $this->assertContains(LivewireAuth::class, class_uses(DeleteUserComponent::class));
+        $this->assertContains(HasLivewireAuth::class, class_uses(DeleteUserComponent::class));
     }
 
     /** @test */

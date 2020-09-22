@@ -4,10 +4,17 @@ namespace App\Http\Livewire;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Str;
 
-trait LivewireAuth
+trait HasLivewireAuth
 {
     use AuthorizesRequests;
+
+    /** @var string */
+    public $permissionName;
+
+    /** @var mixed */
+    public $model = null;
 
     /**
      * Throws auth exception if user is not authenticated.
@@ -21,6 +28,11 @@ trait LivewireAuth
             throw new AuthenticationException();
         }
 
-        $this->authorize('for-route', [$this->routeName]);
+        if (! isset($this->permissionName)) {
+            $splitted = explode('-', self::getName());
+            $this->permissionName = Str::plural($splitted[1]).'.'.$splitted[0];
+        }
+
+        $this->authorize('for-route', [$this->permissionName, $this->model]);
     }
 }

@@ -7,13 +7,10 @@ use Livewire\Component;
 
 class IndexRoleComponent extends Component
 {
-    use Table, LivewireAuth;
+    use Table, HasLivewireAuth;
 
     /** @var string */
     public $sortField = 'name';
-
-    /** @var string */
-    public $routeName = 'roles.index';
 
     /** @var array */
     protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];

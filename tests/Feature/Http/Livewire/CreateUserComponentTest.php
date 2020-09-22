@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\CreateUserComponent;
-use App\Http\Livewire\LivewireAuth;
+use App\Http\Livewire\HasLivewireAuth;
 use App\Mail\InvitationMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -32,7 +32,7 @@ class CreateUserComponentTest extends TestCase
     /** @test */
     public function assert_create_user_component_uses_livewire_auth_trait()
     {
-        $this->assertContains(LivewireAuth::class, class_uses(CreateUserComponent::class));
+        $this->assertContains(HasLivewireAuth::class, class_uses(CreateUserComponent::class));
     }
 
     /** @test */

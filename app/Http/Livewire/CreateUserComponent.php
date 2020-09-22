@@ -12,16 +12,13 @@ use Livewire\Component;
 
 class CreateUserComponent extends Component
 {
-    use LivewireAuth;
+    use HasLivewireAuth;
 
     /** @var \App\Models\User */
     public $user;
 
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $roles;
-
-    /** @var string */
-    public $routeName = 'users.create';
 
     /**
      * Render the component view.

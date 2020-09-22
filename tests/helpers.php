@@ -19,13 +19,14 @@ function create_admin()
 /**
  * User seeder.
  *
+ * @param  $email
  * @return \App\Models\User
  */
-function create_user()
+function create_user($email = null)
 {
     return UserFactory::new()->forRole([
             'name' => 'manager',
         ])->create([
-            'email' => 'manager@admin.lte',
+            'email' => $email ?? 'manager@admin.lte',
         ]);
 }

@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">List of Users</h3>
-                @can('for-route', 'users.create')
+                @can('for-route', ['users.create'])
                     <a href="{{ route('users.create') }}" class="float-right">Add New</a>
                 @endcan
             </div>
@@ -70,28 +70,29 @@
                         </x-slot>
 
                         <x-slot name="tbody">
-                @forelse($users as $user)
-                    <tr class="@if($loop->odd) odd @endif">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role->label }}</td>
-                        <td>{{ $user->created_at->format('d/m/Y') }}</td>
-                        <td>
-                            @can('for-route', 'users.edit')
-                                @if(!$user->isHimself(auth()->user()))
-                                    <a href="{{ route('users.edit', $user) }}"><span class="fas fa-edit"></a></span>
-                                @endif
-                            @endcan
-                        </td>
-                        <td>
-                            <livewire:delete-user-component :user="$user" :key="'user-'.$user->id" />
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5">No results.</td>
-                    </tr>
-                @endforelse
+                            @forelse($users as $user)
+                                <tr class="@if($loop->odd) odd @endif">
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role->label }}</td>
+                                    <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                    <td>
+
+                                        @can('for-route', ['users.edit', $user])
+                                            @if(!$user->isHimself(auth()->user()))
+                                                <a href="{{ route('users.edit', $user) }}"><span class="fas fa-edit"></a></span>
+                                            @endif
+                                        @endcan
+                                    </td>
+                                    <td>
+                                        <livewire:delete-user-component :user="$user" :key="'user-'.$user->id" />
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5">No results.</td>
+                                </tr>
+                            @endforelse
                         </x-slot>
 
                     </x-tables.table>
