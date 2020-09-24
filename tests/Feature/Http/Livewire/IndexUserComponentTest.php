@@ -5,7 +5,9 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\HasLivewireAuth;
 use App\Http\Livewire\IndexUserComponent;
 use App\Http\Livewire\Table;
-use App\Models\User;
+use App\Providers\AppServiceProvider;
+use Database\Factories\PermissionFactory;
+use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -120,8 +122,37 @@ class IndexUserComponentTest extends TestCase
             ->assertDontSee('jane@example.com');
     }
 
+    /** @test */
+    public function render_visible_to_non_admin_role()
+    {
+        $role = RoleFactory::new()
+            ->hasUsers(1)
+            ->hasAttached(
+                PermissionFactory::new(['name' => 'users.index']),
+                ['owner_restricted' => true]
+            )
+            ->create();
+
+        UserFactory::new()
+            ->create([
+                'email' => 'joe@example.com',
+                AppServiceProvider::OWNER_FIELD => $role->users[0]->id,
+            ]);
+
+        UserFactory::new()
+            ->create([
+                'email' => 'jane@example.com',
+                AppServiceProvider::OWNER_FIELD => $this->admin->id,
+            ]);
+
+        Livewire::actingAs($role->users[0])
+            ->test(IndexUserComponent::class)
+            ->assertSee('joe@example.com')
+            ->assertDontSee('jane@example.com');
+    }
+
     /** @test  */
-    public function index_user_page_contains_livewire_component()
+    public function index_user_page_contains_delete_user_livewire_component()
     {
         $this->actingAs($this->admin)->get('/users')->assertSeeLivewire('delete-user-component');
     }

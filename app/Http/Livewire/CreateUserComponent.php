@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Mail\InvitationMail;
 use App\Models\Role;
 use App\Models\User;
+use App\Providers\AppServiceProvider;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
@@ -45,6 +46,7 @@ class CreateUserComponent extends Component
         $user = User::create([
             'email' => $this->user['email'],
             'role_id' => $this->user['role_id'],
+            AppServiceProvider::OWNER_FIELD => auth()->id(),
         ]);
 
         msg_success('User has been successfully created.');

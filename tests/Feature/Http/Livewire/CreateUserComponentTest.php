@@ -6,6 +6,7 @@ use App\Http\Livewire\CreateUserComponent;
 use App\Http\Livewire\HasLivewireAuth;
 use App\Mail\InvitationMail;
 use App\Models\User;
+use App\Providers\AppServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -58,6 +59,7 @@ class CreateUserComponentTest extends TestCase
 
         $users = User::where('email', 'joe@example.com')
             ->where('role_id', $this->admin->role->id)
+            ->where(AppServiceProvider::OWNER_FIELD, $this->admin->id)
             ->whereNull('password')
             ->get();
 

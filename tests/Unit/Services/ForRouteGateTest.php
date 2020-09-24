@@ -3,12 +3,15 @@
 namespace Tests\Unit\Services;
 
 use App\Exceptions\MissingModel;
+use App\Providers\AppServiceProvider;
 use App\Services\ForRouteGate;
 use Database\Factories\PermissionFactory;
 use Database\Factories\RoleFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/** @see \App\Services\ForRouteGate */
 class ForRouteGateTest extends TestCase
 {
     use RefreshDatabase;
@@ -60,7 +63,11 @@ class ForRouteGateTest extends TestCase
 
         $user = $role->users[0];
 
-        $this->assertTrue((new ForRouteGate)($user, $route, new Team($user->id)));
+        $joe = UserFactory::new()->create([
+            AppServiceProvider::OWNER_FIELD => $user,
+        ]);
+
+        $this->assertTrue((new ForRouteGate)($user, $route, $joe));
     }
 
     /**
@@ -79,7 +86,13 @@ class ForRouteGateTest extends TestCase
 
         $user = $role->users[0];
 
-        $this->assertTrue((new ForRouteGate)($user, $route, new Team($user->id)));
+        $user = $role->users[0];
+
+        $joe = UserFactory::new()->create([
+            AppServiceProvider::OWNER_FIELD => $user,
+        ]);
+
+        $this->assertTrue((new ForRouteGate)($user, $route, $joe));
     }
 
     /**
@@ -96,7 +109,13 @@ class ForRouteGateTest extends TestCase
             )
             ->create();
 
-        $this->assertFalse((new ForRouteGate)($role->users[0], $route, new Team(create_user()->id)));
+        $user = $role->users[0];
+
+        $joe = UserFactory::new()->create([
+            AppServiceProvider::OWNER_FIELD => create_user(),
+        ]);
+
+        $this->assertFalse((new ForRouteGate)($role->users[0], $route, $joe));
     }
 
     /**
@@ -117,15 +136,5 @@ class ForRouteGateTest extends TestCase
             'Test for edit route failed.' => ['edit.user'],
             'Test for delete route failed.' => ['delete.user'],
         ];
-    }
-}
-
-class Team
-{
-    public $owner_id;
-
-    public function __construct($ownerId)
-    {
-        $this->owner_id = $ownerId;
     }
 }

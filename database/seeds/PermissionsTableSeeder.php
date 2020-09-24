@@ -35,29 +35,5 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'users.delete',
             'description' => 'Delete Existing User',
         ]);
-
-        PermissionFactory::new()->create([
-            'group' => 'roles',
-            'name' => 'roles.index',
-            'description' => 'View Roles',
-        ]);
-
-        PermissionFactory::new()->create([
-            'group' => 'roles',
-            'name' => 'roles.create',
-            'description' => 'Create New Role',
-        ]);
-
-        PermissionFactory::new()->create([
-            'group' => 'roles',
-            'name' => 'roles.edit',
-            'description' => 'Edit Existing Role',
-        ]);
-
-        PermissionFactory::new()->create([
-            'group' => 'roles',
-            'name' => 'roles.delete',
-            'description' => 'Delete Exiting Role',
-        ]);
     }
 }

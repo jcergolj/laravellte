@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\PermissionRole;
 use PHPUnit\Framework\TestCase;
 
+/** @see \App\Models\PermissionRole */
 class PermissionRoleTest extends TestCase
 {
     /** @test */

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Filters\UserFilter;
 use App\Providers\AppServiceProvider;
+use App\Scopes\VisibleToScope;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -37,9 +38,21 @@ class User extends Authenticatable
      */
     protected $casts = [
         'id' => 'integer',
+        AppServiceProvider::OWNER_FIELD => 'integer',
         'email_verified_at' => 'datetime',
         'role_id' => 'integer',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new VisibleToScope());
+    }
 
     /**
      * Get the user's role.
@@ -49,6 +62,16 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the user's owner.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -102,13 +125,13 @@ class User extends Authenticatable
     /**
      * Get first user's permission.
      *
-     * @param  string  $permission
+     * @param  string  $permissionName
      * @return bool
      */
-    public function getPermission($permission)
+    public function getPermission($permissionName)
     {
         return $this->role->permissions()
-            ->where('name', $permission)
+            ->where('name', $permissionName)
             ->first();
     }
 
