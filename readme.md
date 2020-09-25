@@ -23,6 +23,7 @@ This is a boilerplate for opinionated Laravel 8.0 admin panel build with Alpinej
 - [Installation](#installation)
 - [Care for the code](#code)
 - [Potentially useful code snippets](#snippets)
+- [Authorisation](#authorisation)
 - [Licence](#licence)
 - [Contributors](#contributors)
 
@@ -31,7 +32,7 @@ Sometimes packages are to **too big or too cumbersome** to use. Other times pack
 
 What you are missing is having control over the code, and now you have it!
 Don't like how a new user is added. No problem. You can amend the code however you like. No more forking of packages and messing with their code.
-**The idea is to create branches of common features and make them available for others to merge them into their master branch.**
+**The idea is to create branches of standard features and make them available for others to merge them into their master branch.**
 
 ## Features
 * Laravel 8.0, Alpinejs, Livewire 2.0, AdminLTE theme 3.0 :heavy_check_mark:
@@ -71,6 +72,41 @@ Let's face it. Sometimes we are sloppy, and we don't take the best care of the c
 - Are tests still slow? [johnkary/phpunit-speedtrap](https://github.com/johnkary/phpunit-speedtrap) package finds the slow tests for you.
 - Lastly [brainmaestro/composer-git-hooks](https://github.com/BrainMaestro/composer-git-hooks) package is utilized so everything is done automatically.
 <a href="https://github.com/jcergolj/laravellte/blob/master/composer.json#L45">See how</a>
+
+## Authorisation
+Laravellte uses role - permissions based authorisation system. Only users with Admin role can add new roles and assign permissions to it.
+
+### About permissions
+For new resources permissions are added through [PermissionsTableSeeder](https://github.com/jcergolj/laravellte/blob/master/database/seeds/PermissionsTableSeeder.php). By convention the main permissions type are *index*, *create*, *edit*, *show*, and *delete* with resource in plural prefix. Example: *users.index*. Having said that, you are free to add your own. However you'll have to review/amend the code.
+<br/>
+Based on convention route names must be on of those types: *index*, *create*, *edit*, *show*, and *delete*.
+[See example](https://github.com/jcergolj/laravellte/blob/master/routes/web.php#L49).
+<br/>
+For livewire components the convention for naming them is as follows: you have to use one those types follow by resource name and then Component. e.g. [IndexUserComponent](https://github.com/jcergolj/laravellte/blob/master/app/Http/Livewire/IndexUserComponent.php)
+All Livewire components must use [HasLivewireAuth](https://github.com/jcergolj/laravellte/blob/master/app/Http/Livewire/IndexUserComponent.php#L11) trait. Here is [implementation](https://github.com/jcergolj/laravellte/blob/master/app/Http/Livewire/HasLivewireAuth.php).
+
+### Owner restricted for index pages
+When adding permission to the role, there is an extra filed called *owner_restricted*.
+If *owner restricted* field is **true** for any index page user with that permission can only see its own resources. However, in order this to work, resource must have [owner_id filed](https://github.com/jcergolj/laravellte/blob/master/app/Providers/AppServiceProvider.php#L14) and *VisibleTo* global attached in [boot method](https://github.com/jcergolj/laravellte/blob/master/app/Models/User.php#L46).
+
+### Owner restricted for show, edit, delete actions
+If *owner restricted* field is **true** for *show*, *edit* and *delete* types, user can only amend resources that he owns.
+
+### Owner restricted for create
+For create types *owner restricted* is ignored.
+
+### For Route Gate
+In the core of it is [ForRouteGate](https://github.com/jcergolj/laravellte/blob/master/app/Services/ForRouteGate.php) that handles authorisation. The honourable mention goes to [Authorisation Middleware](https://github.com/jcergolj/laravellte/blob/master/app/Http/Middleware/Authorisation.php).
+
+### Authorisation cookbook
+1. Apply permissions to the role.
+2. Make sure that **Authorisation** middleware is applied to resource's routes [Example](https://github.com/jcergolj/laravellte/blob/master/routes/web.php#L48)
+3. Make sure routes and permissions are named **resources.index** (according to convention) [Example](https://github.com/jcergolj/laravellte/blob/master/routes/web.php#L49)
+4. Make sure **VisibleTo** global scope is applied to models [Example](https://github.com/jcergolj/laravellte/blob/master/app/Models/User.php#L51)
+5. Make sure **HasLivewireAuth** trait is applied to all Livewire Components [Example](https://github.com/jcergolj/laravellte/blob/master/app/Http/Livewire/CreateUserComponent.php#L16)
+
+### Warning
+**For Admin Role permissions restriction do not apply.**
 
 ## License
 Licensed under the [MIT license](https://github.com/deployphp/deployer/blob/master/LICENSE)

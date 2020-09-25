@@ -7,8 +7,9 @@ use App\Scopes\VisibleToScope;
 use Database\Factories\PermissionFactory;
 use Database\Factories\RoleFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 /** @see \App\Scopes\VisibleToScope */
@@ -19,13 +20,16 @@ class VisibleToScopeTest extends TestCase
     public function setUp() : void
     {
         parent::setUp();
+
+        Schema::create('teams', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('owner_id');
+        });
     }
 
     /** @test */
     public function filter_visible_to_owner_restricted_is_true()
     {
-        DB::statement('CREATE TABLE IF NOT EXISTS `teams` (`id` BIGINT AUTO_INCREMENT, `owner_id` BIGINT NOT NULL, PRIMARY KEY (`id`));');
-
         $role = RoleFactory::new()
             ->hasUsers(1)
             ->hasAttached(
@@ -51,8 +55,6 @@ class VisibleToScopeTest extends TestCase
     /** @test */
     public function filter_visible_to_owner_restricted_is_false()
     {
-        DB::statement('CREATE TABLE IF NOT EXISTS `teams` (`id` BIGINT AUTO_INCREMENT, `owner_id` BIGINT NOT NULL, PRIMARY KEY (`id`));');
-
         $role = RoleFactory::new()
             ->hasUsers(1)
             ->hasAttached(
@@ -77,9 +79,9 @@ class VisibleToScopeTest extends TestCase
     }
 
     /** @test */
-    public function filter_visible_to_owner_if_field_does_not_exists()
+    public function filter_visible_to_if_owner_field_does_not_exists()
     {
-        DB::statement('CREATE TABLE IF NOT EXISTS `teams` (`id` BIGINT AUTO_INCREMENT, PRIMARY KEY (`id`));');
+        $this->dropOwnerIdField();
 
         $role = RoleFactory::new()
             ->hasUsers(1)
@@ -105,8 +107,6 @@ class VisibleToScopeTest extends TestCase
     /** @test */
     public function filter_visible_to_for_admin()
     {
-        DB::statement('CREATE TABLE IF NOT EXISTS `teams` (`id` BIGINT AUTO_INCREMENT, `owner_id` BIGINT NOT NULL, PRIMARY KEY (`id`));');
-
         $admin = create_admin();
         $user = create_user();
 
@@ -121,6 +121,13 @@ class VisibleToScopeTest extends TestCase
 
         $this->assertTrue($teams->contains($team1));
         $this->assertTrue($teams->contains($team2));
+    }
+
+    private function dropOwnerIdField()
+    {
+        Schema::table('teams', function (Blueprint $table) {
+            $table->dropColumn(['owner_id']);
+        });
     }
 }
 
