@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\AcceptedInvitationAuth;
+use App\Http\HasAcceptedInvitationAuth;
 use App\Models\User;
 use App\Rules\PasswordRule;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class AcceptedInvitationComponent extends Component
 {
-    use AcceptedInvitationAuth;
+    use HasAcceptedInvitationAuth;
 
     /**
      * @var \App\Models\User

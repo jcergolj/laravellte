@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class IndexRoleComponent extends Component
 {
-    use Table, HasLivewireAuth;
+    use HasTable, HasLivewireAuth;
 
     /** @var string */
     public $sortField = 'name';

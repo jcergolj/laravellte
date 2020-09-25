@@ -56,7 +56,7 @@ class VisibleToScope implements Scope
      *
      * @param  \App\Models\User  $user
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return mixed
+     * @return bool
      */
     public function returnEarlyPermission($user, $model)
     {

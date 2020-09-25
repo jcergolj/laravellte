@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Http;
 
-use App\Http\AcceptedInvitationAuth;
+use App\Http\HasAcceptedInvitationAuth;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
-/** @see \App\Http\AcceptedInvitationAuth */
+/** @see \App\Http\HasAcceptedInvitationAuth */
 class AcceptedInvitationAuthTest extends TestCase
 {
     use RefreshDatabase;
@@ -25,7 +25,7 @@ class AcceptedInvitationAuthTest extends TestCase
         ]);
 
         $acceptedInvitation = new class {
-            use AcceptedInvitationAuth;
+            use HasAcceptedInvitationAuth;
         };
 
         $url = app()->make(UrlGenerator::class);
@@ -45,7 +45,7 @@ class AcceptedInvitationAuthTest extends TestCase
 
         $user = create_user();
         $acceptedInvitation = new class {
-            use AcceptedInvitationAuth;
+            use HasAcceptedInvitationAuth;
         };
 
         $url = app()->make(UrlGenerator::class);
@@ -65,7 +65,7 @@ class AcceptedInvitationAuthTest extends TestCase
 
         $user = create_user();
         $acceptedInvitation = new class {
-            use AcceptedInvitationAuth;
+            use HasAcceptedInvitationAuth;
         };
 
         $url = app()->make(UrlGenerator::class);

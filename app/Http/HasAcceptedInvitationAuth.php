@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-trait AcceptedInvitationAuth
+trait HasAcceptedInvitationAuth
 {
     /**
      * Authorize accepted invitation request.

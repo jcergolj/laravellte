@@ -3,8 +3,8 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\HasLivewireAuth;
+use App\Http\Livewire\HasTable;
 use App\Http\Livewire\IndexRoleComponent;
-use App\Http\Livewire\Table;
 use Database\Factories\RoleFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -29,7 +29,7 @@ class IndexRoleComponentTest extends TestCase
     /** @test */
     public function assert_index_role_component_uses_table_trait()
     {
-        $this->assertContains(Table::class, class_uses(IndexRoleComponent::class));
+        $this->assertContains(HasTable::class, class_uses(IndexRoleComponent::class));
     }
 
     /** @test */

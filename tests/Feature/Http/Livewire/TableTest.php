@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Http\Livewire;
 
-use App\Http\Livewire\Table;
+use App\Http\Livewire\HasTable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** @see \App\Http\Livewire\Table */
+/** @see \App\Http\Livewire\HasTable */
 class TableTest extends TestCase
 {
     use RefreshDatabase;
@@ -15,7 +15,7 @@ class TableTest extends TestCase
     public function sortBy()
     {
         $table = new class() {
-            use Table;
+            use HasTable;
             public $sortField = 'name';
             public $sortDirection = 'asc';
         };

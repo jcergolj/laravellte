@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\WithPagination;
 
-trait Table
+trait HasTable
 {
     use WithPagination, CanFlash;
 

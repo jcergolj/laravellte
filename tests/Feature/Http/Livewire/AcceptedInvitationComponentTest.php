@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Livewire;
 
-use App\Http\AcceptedInvitationAuth;
+use App\Http\HasAcceptedInvitationAuth;
 use App\Http\Livewire\AcceptedInvitationComponent;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -35,7 +35,7 @@ class AcceptedInvitationComponentTest extends TestCase
     /** @test */
     public function assert_component_uses_accepted_invitation_auth_trait()
     {
-        $this->assertContains(AcceptedInvitationAuth::class, class_uses(AcceptedInvitationComponent::class));
+        $this->assertContains(HasAcceptedInvitationAuth::class, class_uses(AcceptedInvitationComponent::class));
     }
 
     /** @test */
