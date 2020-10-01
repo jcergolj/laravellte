@@ -90,7 +90,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5">No results.</td>
+                                    <td colspan="6">No results.</td>
                                 </tr>
                             @endforelse
                         </x-slot>
