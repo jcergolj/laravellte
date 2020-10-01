@@ -13,7 +13,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\Profile\UpdatePassword */
-class PasswordTest extends TestCase
+class UpdatePasswordTest extends TestCase
 {
     use RefreshDatabase;
 

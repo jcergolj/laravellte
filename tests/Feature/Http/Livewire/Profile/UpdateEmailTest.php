@@ -14,7 +14,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\Profile\UpdateEmail */
-class EmailTest extends TestCase
+class UpdateEmailTest extends TestCase
 {
     use RefreshDatabase;
 

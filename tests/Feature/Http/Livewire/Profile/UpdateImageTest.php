@@ -14,7 +14,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\Profile\UpdateImage */
-class ImageTest extends TestCase
+class UpdateImageTest extends TestCase
 {
     use RefreshDatabase;
 
