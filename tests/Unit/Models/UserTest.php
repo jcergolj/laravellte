@@ -205,4 +205,10 @@ class UserTest extends TestCase
 
         $this->assertTrue($role->users[0]->isModelOwner('show.users', $jane));
     }
+
+    /** @test */
+    public function assert_user_class_implements_must_verify_email_interface()
+    {
+        $this->assertContains('Illuminate\Contracts\Auth\MustVerifyEmail', class_implements(User::class));
+    }
 }

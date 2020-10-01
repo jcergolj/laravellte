@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Filters\UserFilter;
 use App\Providers\AppServiceProvider;
 use App\Scopes\VisibleToScope;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, SoftDeletes;
 

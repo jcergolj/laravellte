@@ -17,10 +17,10 @@ class PasswordRule implements ImplicitRule
     /**
      * Create a new rule instance.
      *
-     * @param  string  $confirmationValue
+     * @param  string|null  $confirmationValue
      * @return void
      */
-    public function __construct($confirmationValue)
+    public function __construct($confirmationValue = null)
     {
         $this->confirmationValue = $confirmationValue;
     }
@@ -35,12 +35,15 @@ class PasswordRule implements ImplicitRule
      */
     public function passes($attribute, $value)
     {
-        $validator = Validator::make([
-            $attribute => $value,
-            $attribute.'_confirmation' => $this->confirmationValue,
-        ], [
-            $attribute => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $rules[$attribute] = ['required', 'string', 'min:8'];
+        $data = [$attribute => $value];
+
+        if ($this->confirmationValue !== null) {
+            array_push($rules[$attribute], 'confirmed');
+            $data[$attribute.'_confirmation'] = $this->confirmationValue;
+        }
+
+        $validator = Validator::make($data, $rules);
 
         try {
             $validator->validate();

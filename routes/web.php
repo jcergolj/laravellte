@@ -8,6 +8,7 @@ use App\Http\Controllers\ConfirmedEmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\UserController as ProfileUserController;
 use App\Http\Livewire\AcceptedInvitationComponent;
+use App\Http\Livewire\Auth\RegisterNewUserComponent;
 use App\Http\Livewire\CreateRoleComponent;
 use App\Http\Livewire\CreateUserComponent;
 use App\Http\Livewire\EditRoleComponent;
@@ -17,6 +18,8 @@ use App\Http\Livewire\IndexUserComponent;
 
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('register', RegisterNewUserComponent::class)->name('register');
 
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
