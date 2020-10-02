@@ -19,7 +19,8 @@ This is a boilerplate for opinionated Laravel 8.0 admin panel build with Alpinej
 
 ## Contents
 - [Have total control of the code](#control)
-- [Features](#features)
+- [Summary](#summary)
+- [Feature Branches](#features)
 - [Installation](#installation)
 - [Care for the code](#code)
 - [Potentially useful code snippets](#snippets)
@@ -34,7 +35,7 @@ What you are missing is having control over the code, and now you have it!
 Don't like how a new user is added. No problem. You can amend the code however you like. No more forking of packages and messing with their code.
 **The idea is to create branches of standard features and make them available for others to merge them into their master branch.**
 
-## Features
+## Summary
 * Laravel 8.0, Alpinejs, Livewire 2.0, AdminLTE theme 3.0 :heavy_check_mark:
 * Login :heavy_check_mark:
 * Forgot Password :heavy_check_mark:
@@ -47,8 +48,11 @@ Don't like how a new user is added. No problem. You can amend the code however y
 * CI included (github actions) :heavy_check_mark:
 * Over 200 tests included :heavy_check_mark:
 
-## Installation
+## Feature Branches
+Here is the list of supported feature branches. By merging them into master you unlock new features.
+1. [User Registration](https://github.com/jcergolj/laravellte/tree/feature/registration)
 
+## Installation
 After installing <a href="https://laravel.com/docs/7.0/">Laravel</a> you should run those commands:
 ```
 cp .env.example .env
