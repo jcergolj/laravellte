@@ -68,14 +68,14 @@
                 <span class="brand-text">Admin dashboard</span>
             </a>
 
-            @can('for-route', ['users.index'])
+            @can('for-route', [['manager']])
                 <a href="{{ route('users.index') }}" class="brand-link">
                     <i class="nav-icon fas fa-user elevation-3"></i>
                     <span class="brand-text">Users</span>
                 </a>
             @endcan
 
-            @can('for-route', ['roles.index'])
+            @can('for-route')
                 <a href="{{ route('roles.index') }}" class="brand-link">
                     <i class="nav-icon fas fa-users elevation-3"></i>
                     <span class="brand-text">Roles</span>

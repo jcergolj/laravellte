@@ -35,18 +35,6 @@ class Role extends Model
     }
 
     /**
-     * The permissions that belong to the role.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class)
-            ->withPivot('owner_restricted')
-            ->using(PermissionRole::class);
-    }
-
-    /**
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -58,45 +46,6 @@ class Role extends Model
     }
 
     /**
-     * Create role's permissions.
-     *
-     * @param  array  $permissions
-     * @return void
-     */
-    public function createPermissions($permissions)
-    {
-        $permissions = $this->removeDisallowedPermissions($permissions);
-
-        $this->permissions()->attach($this->dataToSync($permissions));
-    }
-
-    /**
-     * Does role have permission.
-     *
-     * @param  string  $permission
-     * @return bool
-     */
-    public function hasPermission($permission)
-    {
-        return $this->permissions()
-            ->where('name', $permission)
-            ->first() ? true : false;
-    }
-
-    /**
-     * Update role's permissions.
-     *
-     * @param  array  $permissions
-     * @return void
-     */
-    public function updatePermissions($permissions)
-    {
-        $permissions = $this->removeDisallowedPermissions($permissions);
-
-        $this->permissions()->sync($this->dataToSync($permissions));
-    }
-
-    /**
      * Is this an admin role.
      *
      * @return bool
@@ -104,34 +53,5 @@ class Role extends Model
     public function isAdmin()
     {
         return $this->name === 'admin';
-    }
-
-    /**
-     * Remove permissions where allowed is false.
-     *
-     * @param  array  $permissions
-     * @return array
-     */
-    protected function dataToSync($permissions)
-    {
-        $dataForSync = [];
-        foreach ($permissions as $id => $permission) {
-            $dataForSync[$id] = ['owner_restricted' => $permission['owner_restricted'] ?? false];
-        }
-
-        return $dataForSync;
-    }
-
-    /**
-     * Remove permissions where allowed is false.
-     *
-     * @param  array  $permissions
-     * @return array
-     */
-    protected function removeDisallowedPermissions($permissions)
-    {
-        return array_filter($permissions, function ($permission) {
-            return $permission['allowed'];
-        });
     }
 }

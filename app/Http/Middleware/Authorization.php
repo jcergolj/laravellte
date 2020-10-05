@@ -2,9 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Gate;
-use Livewire\ImplicitRouteBinding;
 
 class Authorization
 {
@@ -13,17 +11,12 @@ class Authorization
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $next
+     * @param  string  $rolesString
      * @return mixed
      */
-    public function handle($request, $next)
+    public function handle($request, $next, $rolesString)
     {
-        $component = $request->route()->action['controller'];
-
-        $model = (new ImplicitRouteBinding(new Container()))->resolveComponentProps(
-            $request->route(), new $component()
-        );
-
-        Gate::authorize('for-route', [$request->route()->getName(), $model->first() ?? null]);
+        Gate::authorize('for-route', [preg_split('/\|/', $rolesString)]);
 
         return $next($request);
     }

@@ -25,55 +25,14 @@ class VisibleToScope implements Scope
 
         $user = auth()->user();
 
-        if ($this->returnEarly($user)) {
+        if ($user->isAdmin()) {
             return $builder;
         }
 
-        if ($this->returnEarlyPermission($user, $model)) {
+        if (! Schema::hasColumn($model->getTable(), AppServiceProvider::OWNER_FIELD)) {
             return $builder;
         }
 
         return $builder->where(AppServiceProvider::OWNER_FIELD, $user->id);
-    }
-
-    /**
-     * Should we return early form global scope.
-     *
-     * @param  \App\Models\User  $user
-     * @return bool
-     */
-    private function returnEarly($user)
-    {
-        if ($user === null) {
-            return true;
-        }
-
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Should we return early form global scope base on permission and owner field.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return bool
-     */
-    public function returnEarlyPermission($user, $model)
-    {
-        $permission = $user->getPermission($model->getTable().'.index');
-
-        if (! $permission->pivot->owner_restricted === true) {
-            return true;
-        }
-
-        if (! Schema::hasColumn($model->getTable(), AppServiceProvider::OWNER_FIELD)) {
-            return true;
-        }
-
-        return false;
     }
 }

@@ -3,9 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Role;
-use App\Rules\OwnerRestrictedRule;
-use App\Rules\PermissionExistsRule;
-use App\ViewModels\SaveRoleViewModel;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -16,20 +13,6 @@ class CreateRoleComponent extends Component
     /** @var \App\Models\Role */
     public $role;
 
-    /** @var \Illuminate\Database\Eloquent\Collection */
-    public $permissions;
-
-    /**
-     * Component mount.
-     *
-     * @return void
-     */
-    public function mount()
-    {
-        $this->model = $this->role;
-        $this->permissions = SaveRoleViewModel::buildRolePermissions();
-    }
-
     /**
      * Render the component view.
      *
@@ -37,9 +20,7 @@ class CreateRoleComponent extends Component
      */
     public function render()
     {
-        return view('roles.create', [
-            'permissionGroups' => SaveRoleViewModel::groupPermissions($this->permissions),
-        ])->extends('layouts.app');
+        return view('roles.create')->extends('layouts.app');
     }
 
     /**
@@ -49,14 +30,12 @@ class CreateRoleComponent extends Component
      */
     public function store()
     {
-        $this->validate(null, [], $this->attributes());
+        $this->validate();
 
         $role = Role::create([
             'name' => $this->role['name'],
             'label' => $this->role['label'],
         ]);
-
-        $role->createPermissions($this->permissions);
 
         msg_success('Role has been successfully created.');
 
@@ -78,33 +57,6 @@ class CreateRoleComponent extends Component
             'role.label' => [
                 'required',
             ],
-            'permissions.*.allowed' => [
-                'boolean',
-                new PermissionExistsRule(),
-            ],
-            'permissions.*.owner_restricted' => [
-                'boolean',
-                new OwnerRestrictedRule($this->permissions),
-            ],
         ];
-    }
-
-    /**
-     * Rename attributes.
-     *
-     * @return array
-     */
-    private function attributes()
-    {
-        $attributes = [];
-        $iteration = 1;
-
-        foreach ($this->permissions as $id => $permission) {
-            $attributes["permissions.$id.allowed"] = "Permission in row $iteration";
-            $attributes["permissions.$id.owner_restricted"] = "Owner Restricted in row $iteration";
-            $iteration++;
-        }
-
-        return $attributes;
     }
 }

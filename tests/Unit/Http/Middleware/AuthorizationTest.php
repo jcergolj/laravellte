@@ -3,14 +3,11 @@
 namespace Tests\Unit\Http\Middleware;
 
 use App\Http\Middleware\Authorization;
-use Database\Factories\PermissionFactory;
 use Database\Factories\RoleFactory;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Gate;
-use Livewire\Component;
 use Tests\TestCase;
 
 /** @see \App\Http\Middleware\Authenticate; */
@@ -25,27 +22,14 @@ class AuthorizationTest extends TestCase
         $this->expectException(AuthorizationException::class);
 
         Gate::shouldReceive('authorize')
-            ->with('for-route', ['users.index', null])
+            ->with('for-route')
             ->once()
             ->andThrow(AuthorizationException::class);
 
         $middleware = new Authorization;
 
-        $request = new Request;
-
-        $request->setRouteResolver(function () use ($request) {
-            $route = new Route('GET', 'users', [
-                'as' => 'users.index',
-                'controller' => new LivewireComponent(),
-            ]);
-
-            $route->bind($request);
-
-            return $route;
-        });
-
-        $middleware->handle($request, function ($request) {
-        });
+        $middleware->handle(new Request, function ($request) {
+        }, 'manager|writer');
     }
 
     /** @test */
@@ -61,23 +45,10 @@ class AuthorizationTest extends TestCase
 
         $middleware = new Authorization;
 
-        $request = new Request;
-
-        $request->setRouteResolver(function () use ($request) {
-            $route = new Route('GET', 'users', [
-                'as' => 'users.index',
-                'controller' => new LivewireComponent(),
-            ]);
-
-            $route->bind($request);
-
-            return $route;
-        });
-
         $this->be(create_user());
 
         $middleware->handle($request, function ($request) {
-        });
+        }, 'manager');
     }
 
     /** @test */
@@ -91,17 +62,6 @@ class AuthorizationTest extends TestCase
         $middleware = new Authorization;
 
         $request = new Request;
-
-        $request->setRouteResolver(function () use ($request) {
-            $route = new Route('GET', 'users', [
-                'as' => 'users.index',
-                'controller' => new LivewireComponent(),
-            ]);
-
-            $route->bind($request);
-
-            return $route;
-        });
 
         $next = new class {
             /** @var bool */
@@ -117,13 +77,10 @@ class AuthorizationTest extends TestCase
 
         $role = RoleFactory::new()
             ->hasUsers(1)
-            ->hasAttached(
-                PermissionFactory::new(['name' => 'index.user']),
-            )
             ->create();
 
         $this->be($role->users[0]);
-        $response = $middleware->handle($request, $next);
+        $response = $middleware->handle($request, $next, 'manager');
 
         $this->assertTrue($next->called);
         $this->assertSame($response, $request);
@@ -156,8 +113,4 @@ class AuthorizationTest extends TestCase
             'Route roles.edit doesn\'t have authenticate middleware.' => ['roles.edit'],
         ];
     }
-}
-
-class LivewireComponent extends Component
-{
 }

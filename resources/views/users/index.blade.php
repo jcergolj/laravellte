@@ -78,7 +78,7 @@
                                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                                     <td>
 
-                                        @can('for-route', ['users.edit', $user])
+                                        @can('for-route', [['manager']])
                                             @if(!$user->isHimself(auth()->user()))
                                                 <a href="{{ route('users.edit', $user) }}"><span class="fas fa-edit"></a></span>
                                             @endif

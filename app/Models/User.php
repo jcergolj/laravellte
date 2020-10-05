@@ -110,32 +110,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Does user have permission.
-     *
-     * @param  string  $permission
-     * @return bool
-     */
-    public function hasPermission($permission)
-    {
-        return $this->role->permissions()
-            ->where('name', $permission)
-            ->first() ? true : false;
-    }
-
-    /**
-     * Get first user's permission.
-     *
-     * @param  string  $permissionName
-     * @return bool
-     */
-    public function getPermission($permissionName)
-    {
-        return $this->role->permissions()
-            ->where('name', $permissionName)
-            ->first();
-    }
-
-    /**
      * Save user's image name.
      *
      * @return string
@@ -165,29 +139,5 @@ class User extends Authenticatable
     public function isHimself($comparedUser)
     {
         return $this->is($comparedUser);
-    }
-
-    /**
-     * Is user a model owner.
-     *
-     * @param  string  $permissionName
-     * @param  mixed  $model
-     * @return bool
-     */
-    public function isModelOwner($permissionName, $model)
-    {
-        $ownerField = AppServiceProvider::OWNER_FIELD;
-
-        $permission = $this->getPermission($permissionName);
-
-        if ($permission === null) {
-            return false;
-        }
-
-        if ($permission->pivot->owner_restricted === false) {
-            return true;
-        }
-
-        return $model->$ownerField === $this->id;
     }
 }

@@ -1,5 +1,5 @@
 <div>
-@can('for-route', ['roles.delete', $this->role])
+@can('for-route')
     <a
         x-data
         x-on:click.prevent="confirm('Are you sure?') && $wire.destroy()"

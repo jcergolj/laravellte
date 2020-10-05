@@ -6,7 +6,6 @@ use App\Http\Livewire\HasLivewireAuth;
 use App\Http\Livewire\HasTable;
 use App\Http\Livewire\IndexUserComponent;
 use App\Providers\AppServiceProvider;
-use Database\Factories\PermissionFactory;
 use Database\Factories\RoleFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -127,10 +126,6 @@ class IndexUserComponentTest extends TestCase
     {
         $role = RoleFactory::new()
             ->hasUsers(1)
-            ->hasAttached(
-                PermissionFactory::new(['name' => 'users.index']),
-                ['owner_restricted' => true]
-            )
             ->create();
 
         UserFactory::new()

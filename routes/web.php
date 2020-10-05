@@ -45,11 +45,13 @@ Route::middleware(['auth'])->group(function () {
         }
     );
 
-    Route::middleware(['authorization'])->group(function () {
+    Route::middleware(['authorization:manager'])->group(function () {
         Route::get('users', IndexUserComponent::class)->name('users.index');
         Route::get('users/create', CreateUserComponent::class)->name('users.create');
         Route::get('users/{user}/edit', EditUserComponent::class)->name('users.edit');
+    });
 
+    Route::middleware(['authorization'])->group(function () {
         Route::get('roles', IndexRoleComponent::class)->name('roles.index');
         Route::get('roles/create', CreateRoleComponent::class)->name('roles.create');
         Route::get('roles/{role}/edit', EditRoleComponent::class)->name('roles.edit');

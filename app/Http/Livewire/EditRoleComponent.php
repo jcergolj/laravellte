@@ -3,9 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Role;
-use App\Rules\OwnerRestrictedRule;
-use App\Rules\PermissionExistsRule;
-use App\ViewModels\SaveRoleViewModel;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -16,19 +13,14 @@ class EditRoleComponent extends Component
     /** @var \App\Models\Role */
     public Role $role;
 
-    /** @var \Illuminate\Database\Eloquent\Collection */
-    public $permissions;
-
     /**
      * Component mount.
      *
-     * @param  \App\Models\Role  $role
      * @return void
      */
-    public function mount(Role $role)
+    public function mount()
     {
         $this->model = $this->role;
-        $this->permissions = SaveRoleViewModel::buildRolePermissions($role->id);
     }
 
     /**
@@ -38,10 +30,7 @@ class EditRoleComponent extends Component
      */
     public function render()
     {
-        return view('roles.edit', [
-            'role' => $this->role,
-            'permissionGroups' => SaveRoleViewModel::groupPermissions($this->permissions),
-        ])->extends('layouts.app');
+        return view('roles.edit')->extends('layouts.app');
     }
 
     /**
@@ -51,13 +40,9 @@ class EditRoleComponent extends Component
      */
     public function update()
     {
-        $this->validate($this->validationRules(), [], $this->attributes());
+        $this->validate($this->validationRules());
 
         $this->role->save();
-
-        if (! $this->role->isAdmin()) {
-            $this->model->updatePermissions($this->permissions);
-        }
 
         msg_success('Role has been successfully updated.');
 
@@ -80,14 +65,6 @@ class EditRoleComponent extends Component
             'role.label' => [
                 'required',
             ],
-            'permissions.*.allowed' => [
-                'boolean',
-                new PermissionExistsRule(),
-            ],
-            'permissions.*.owner_restricted' => [
-                'boolean',
-                new OwnerRestrictedRule($this->permissions),
-            ],
         ];
     }
 
@@ -106,24 +83,5 @@ class EditRoleComponent extends Component
                 'required',
             ],
         ];
-    }
-
-    /**
-     * Rename attributes.
-     *
-     * @return array
-     */
-    protected function attributes()
-    {
-        $attributes = [];
-        $iteration = 1;
-
-        foreach ($this->permissions as $id => $permission) {
-            $attributes["permissions.$id.allowed"] = "Permission in row $iteration";
-            $attributes["permissions.$id.owner_restricted"] = "Owner Restricted in row $iteration";
-            $iteration++;
-        }
-
-        return $attributes;
     }
 }
