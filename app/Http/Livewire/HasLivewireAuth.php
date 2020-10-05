@@ -4,17 +4,10 @@ namespace App\Http\Livewire;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Str;
 
 trait HasLivewireAuth
 {
     use AuthorizesRequests;
-
-    /** @var string */
-    public $permissionName;
-
-    /** @var mixed */
-    public $model = null;
 
     /**
      * Throws auth exception if user is not authenticated.
@@ -28,11 +21,11 @@ trait HasLivewireAuth
             throw new AuthenticationException();
         }
 
-        if (! isset($this->permissionName)) {
-            $splitted = explode('-', self::getName());
-            $this->permissionName = Str::plural($splitted[1]).'.'.$splitted[0];
-        }
+        // set models for edit, show, delete
+        // if admin allow
+        // if model has owner_id field auth user should be owner
+        // else allow to anyone
 
-        $this->authorize('for-route', [$this->permissionName, $this->model]);
+        $this->authorize('for-route', [$this->allowedRoles ?? []]);
     }
 }

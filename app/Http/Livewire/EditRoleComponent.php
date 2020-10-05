@@ -13,15 +13,8 @@ class EditRoleComponent extends Component
     /** @var \App\Models\Role */
     public Role $role;
 
-    /**
-     * Component mount.
-     *
-     * @return void
-     */
-    public function mount()
-    {
-        $this->model = $this->role;
-    }
+    /** @var array */
+    protected $allowedRoles = [];
 
     /**
      * Render the component view.

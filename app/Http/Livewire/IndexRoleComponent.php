@@ -16,6 +16,9 @@ class IndexRoleComponent extends Component
     protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
 
     /** @var array */
+    protected $allowedRoles = [];
+
+    /** @var array */
     protected $listeners = ['entity-deleted' => 'render'];
 
     /**

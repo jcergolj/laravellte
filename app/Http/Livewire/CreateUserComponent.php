@@ -21,6 +21,9 @@ class CreateUserComponent extends Component
     /** @var \Illuminate\Database\Eloquent\Collection */
     public $roles;
 
+    /** @var array */
+    protected $allowedRoles = ['manager'];
+
     /**
      * Render the component view.
      *

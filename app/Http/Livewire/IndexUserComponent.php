@@ -26,6 +26,9 @@ class IndexUserComponent extends Component
     ];
 
     /** @var array */
+    protected $allowedRoles = ['manager'];
+
+    /** @var array */
     protected $listeners = ['entity-deleted' => 'render'];
 
     /**

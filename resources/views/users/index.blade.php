@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">List of Users</h3>
-                @can('for-route', ['users.create'])
+                @can('for-route', [['manager']])
                     <a href="{{ route('users.create') }}" class="float-right">Add New</a>
                 @endcan
             </div>

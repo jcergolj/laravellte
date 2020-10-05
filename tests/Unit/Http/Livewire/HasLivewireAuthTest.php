@@ -26,7 +26,23 @@ class HasLivewireAuthTest extends TestCase
     }
 
     /** @test */
-    public function user_without_allowed_permission_cannot_access_component()
+    public function user_with_allowed_role_can_access_component()
+    {
+        $customClass = new class() {
+            use HasLivewireAuth;
+        };
+
+        $customClass->allowedRoles = ['manager'];
+
+        $this->actingAs(create_user());
+
+        $result = $customClass->hydrate();
+
+        $this->assertNull($result);
+    }
+
+    /** @test */
+    public function user_without_allowed_role_cannot_access_component()
     {
         $this->withoutExceptionHandling();
 
@@ -34,31 +50,12 @@ class HasLivewireAuthTest extends TestCase
             use HasLivewireAuth;
         };
 
-        $customClass->permissionName = 'users.index';
+        $customClass->allowedRoles = ['writer'];
 
         $this->expectException(AuthorizationException::class);
 
         $this->actingAs(create_user());
 
         $customClass->hydrate();
-    }
-
-    /** @test */
-    public function route_name_is_extracted_from_component_name()
-    {
-        $customClass = new class() {
-            use HasLivewireAuth;
-
-            public static function getName()
-            {
-                return 'index-user-component';
-            }
-        };
-
-        $this->actingAs(create_admin());
-
-        $customClass->hydrate();
-
-        $this->assertSame('users.index', $customClass->permissionName);
     }
 }

@@ -41,6 +41,7 @@ class IndexRoleComponentTest extends TestCase
     /** @test */
     public function user_can_view_index_page()
     {
+        $this->withoutExceptionHandling();
         $response = $this->actingAs($this->admin)
             ->get(route('roles.index'));
 

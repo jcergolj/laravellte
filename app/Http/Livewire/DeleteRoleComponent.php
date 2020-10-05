@@ -12,15 +12,8 @@ class DeleteRoleComponent extends Component
     /** @var \App\Models\Role */
     public $role;
 
-    /**
-     * Component mount.
-     *
-     * @return void
-     */
-    public function mount()
-    {
-        $this->model = $this->role;
-    }
+    /** @var array */
+    protected $allowedRoles = [];
 
     public function render()
     {

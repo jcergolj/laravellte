@@ -13,6 +13,9 @@ class CreateRoleComponent extends Component
     /** @var \App\Models\Role */
     public $role;
 
+    /** @var array */
+    protected $allowedRoles = [];
+
     /**
      * Render the component view.
      *
