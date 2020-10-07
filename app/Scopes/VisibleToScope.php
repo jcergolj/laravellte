@@ -19,6 +19,10 @@ class VisibleToScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
+        if (! auth()->hasUser()) {
+            return $builder;
+        }
+
         $user = auth()->user();
 
         if ($this->returnEarly($user)) {
