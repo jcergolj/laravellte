@@ -16,7 +16,7 @@ class Authorization
      * @param  array  $roleString
      * @return mixed
      */
-    public function handle($request, $next, $rolesString)
+    public function handle($request, $next, $rolesString = '')
     {
         $component = $request->route()->action['controller'];
 

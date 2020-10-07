@@ -1,5 +1,5 @@
 <div>
-    @can('for-route', [['manager']])
+    @can('for-route', [['manager'], $this->user])
         @if(!$user->isHimself(auth()->user()))
             <a
                 x-data

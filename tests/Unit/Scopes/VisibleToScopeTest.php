@@ -22,7 +22,7 @@ class VisibleToScopeTest extends TestCase
 
         Schema::create('teams', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('owner_id');
+            $table->unsignedBigInteger(AppServiceProvider::OWNER_FIELD);
         });
     }
 
@@ -91,7 +91,7 @@ class VisibleToScopeTest extends TestCase
     private function dropOwnerIdField()
     {
         Schema::table('teams', function (Blueprint $table) {
-            $table->dropColumn(['owner_id']);
+            $table->dropColumn([AppServiceProvider::OWNER_FIELD]);
         });
     }
 }
@@ -102,7 +102,7 @@ class Team extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'owner_id' => 'integer',
+        AppServiceProvider::OWNER_FIELD => 'integer',
     ];
 
     public $timestamps = false;
