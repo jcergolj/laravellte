@@ -1,4 +1,4 @@
-# Boilerplate for Laravel admin panel 2.0
+# Fully customizable and tests supported Laravel admin dashboard 2.0
 
 ## Intro
 <table>
@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-This is a boilerplate for opinionated Laravel 8.0 admin panel build with Alpinejs 2.0, Livewire 2.0.
+This is a boilerplate for opinionated Laravel 8.0 admin panel build with AdminLTE 3.0 theme, Alpinejs 2.0, Livewire 2.0, supported with tests and optional feature branches.
 
 ## Contents
 - [Have total control of the code](#control)
@@ -29,10 +29,10 @@ This is a boilerplate for opinionated Laravel 8.0 admin panel build with Alpinej
 - [Contributors](#contributors)
 
 ## Have total control of the code
-Sometimes packages are to **too big or too cumbersome** to use. Other times package **doesn't have a critical feature** that you are looking for.
+Sometimes packages are to **too big or too cumbersome** to use. Other times package **doesn't have a critical feature** that you are looking for and you are doing some hacks to get around it.
 
 What you are missing is having control over the code, and now you have it!
-Don't like how a new user is added. No problem. You can amend the code however you like. No more forking of packages and messing with their code.
+Don't like how a new user is added. No problem. You can amend the code however you like. No more forking packages and messing with their code.
 **The idea is to create branches of standard features and make them available for others to merge them into their master branch.**
 
 ## Summary
