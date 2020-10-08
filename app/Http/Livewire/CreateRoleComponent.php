@@ -35,7 +35,7 @@ class CreateRoleComponent extends Component
     {
         $this->validate();
 
-        $role = Role::create([
+        Role::create([
             'name' => $this->role['name'],
             'label' => $this->role['label'],
         ]);

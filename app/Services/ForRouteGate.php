@@ -21,7 +21,7 @@ class ForRouteGate
             return true;
         }
 
-        if ($allowedRoles == []) {
+        if ($allowedRoles === []) {
             return false;
         }
 
