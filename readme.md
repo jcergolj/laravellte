@@ -51,6 +51,7 @@ Don't like how a new user is added. No problem. You can amend the code however y
 ## Feature Branches
 Here is the list of supported feature branches. By merging them into master you unlock new features.
 1. [User Registration](https://github.com/jcergolj/laravellte/tree/feature/registration)
+2. [Simple Role Based Authorisation](https://github.com/jcergolj/laravellte/tree/feature/simple-role-based-auth)
 
 ## Installation
 After installing <a href="https://laravel.com/docs/7.0/">Laravel</a> you should run those commands:
