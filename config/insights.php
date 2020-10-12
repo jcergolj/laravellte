@@ -72,6 +72,8 @@ return [
         SlevomatCodingStandard\Sniffs\Commenting\EmptyCommentSniff::class,
         SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff::class,
         SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff::class,
+
+        PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer::class,
     ],
 
     'config' => [

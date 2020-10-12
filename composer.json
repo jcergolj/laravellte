@@ -48,7 +48,7 @@
                 "STAGED_FILES=$(git diff --name-only --cached)",
                 "vendor/bin/php-cs-fixer fix",
                 "for FILE in $STAGED_FILES ; do git add $FILE; done",
-                "php artisan insights --no-interaction --min-quality=90 --min-complexity=85 --min-architecture=90 --min-style=95"
+                "php artisan insights --no-interaction --min-quality=80 --min-complexity=80 --min-architecture=80 --min-style=80"
             ]
         }
     },
