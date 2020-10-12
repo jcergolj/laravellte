@@ -61,4 +61,33 @@ class HasLivewireAuthTest extends TestCase
 
         $this->assertSame('users.index', $customClass->permissionName);
     }
+
+    /** @test */
+    public function set_model_method_is_called_if_exists()
+    {
+        $customClass = new class() {
+            use HasLivewireAuth;
+
+            /** @var bool */
+            public $called = false;
+
+            protected function setModel()
+            {
+                $this->called = true;
+            }
+
+            protected function authorize($string, $array)
+            {
+                return true;
+            }
+        };
+
+        $customClass->permissionName = 'name';
+
+        $this->actingAs(create_user());
+
+        $customClass->hydrate();
+
+        $this->assertTrue($customClass->called);
+    }
 }

@@ -27,7 +27,6 @@ class EditRoleComponent extends Component
      */
     public function mount(Role $role)
     {
-        $this->model = $this->role;
         $this->permissions = SaveRoleViewModel::buildRolePermissions($role->id);
     }
 
@@ -56,7 +55,7 @@ class EditRoleComponent extends Component
         $this->role->save();
 
         if (! $this->role->isAdmin()) {
-            $this->model->updatePermissions($this->permissions);
+            $this->role->updatePermissions($this->permissions);
         }
 
         msg_success('Role has been successfully updated.');

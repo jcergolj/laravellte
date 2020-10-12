@@ -39,15 +39,6 @@ class IndexRoleComponentTest extends TestCase
     }
 
     /** @test */
-    public function user_can_view_index_page()
-    {
-        $response = $this->actingAs($this->admin)
-            ->get(route('roles.index'));
-
-        $response->assertStatus(Response::HTTP_OK);
-    }
-
-    /** @test */
     public function render()
     {
         Livewire::actingAs($this->admin)

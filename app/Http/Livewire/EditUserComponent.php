@@ -24,7 +24,6 @@ class EditUserComponent extends Component
      */
     public function mount()
     {
-        $this->model = $this->user;
         if ($this->user->isHimself(auth()->user())) {
             throw new AuthorizationException();
         }
