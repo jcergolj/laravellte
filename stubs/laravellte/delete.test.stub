@@ -1,0 +1,48 @@
+<?php
+
+namespace Tests\Feature\Http\Livewire;
+
+use App\Http\Livewire\Delete{{ DummyText }}Component;
+use App\Http\Livewire\HasLivewireAuth;
+use App\Models\{{ DummyText }};
+use Database\Factories\{{ DummyText }}Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Tests\TestCase;
+
+/** @see \App\Http\Livewire\Delete{{ DummyText }}Component */
+class Delete{{ DummyText }}ComponentTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @var \App\Models\User */
+    private $admin;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->admin = create_admin();
+    }
+
+    /** @test */
+    public function assert_delete_{{ dummyText }}_component_uses_livewire_auth_trait()
+    {
+        $this->assertContains(HasLivewireAuth::class, class_uses(Delete{{ DummyText }}Component::class));
+    }
+
+    /** @test */
+    public function admin_can_delete_user()
+    {
+        // delete-review
+        ${{ dummyText }} = {{ DummyText }}Factory::new()->create();
+
+        Livewire::actingAs($this->admin)
+            ->test(Delete{{ DummyText }}Component::class, ['{{ dummyText }}' =>  ${{ dummyText }}])
+            ->call('destroy')
+            ->assertEmitted('entity-deleted')
+            ->assertDispatchedBrowserEvent('flash');
+
+        $this->assertNull({{ DummyText }}::find(${{ dummyText }}->id));
+    }
+}

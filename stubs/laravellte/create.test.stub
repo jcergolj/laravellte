@@ -21,7 +21,6 @@ class Create{{ DummyText }}ComponentTest extends TestCase
     public function setUp() : void
     {
         parent::setUp();
-
         $this->admin = create_admin();
     }
 
@@ -45,12 +44,13 @@ class Create{{ DummyText }}ComponentTest extends TestCase
     {
         Livewire::actingAs($this->admin)
             ->test(Create{{ DummyText }}Component::class)
-            //
+            // create-review-2
             ->call('store')
             ->assertRedirect('{{ dummyTextPlu }}');
 
         $this->assertTrue(session()->has('flash'));
 
+        // create-review
         ${{ dummyTextPlu }} = {{ DummyText }}::where('name', 'manager')
             ->where('label', 'Manager')
             ->get();
@@ -74,6 +74,7 @@ class Create{{ DummyText }}ComponentTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
+            // create-review
         ];
     }
 }

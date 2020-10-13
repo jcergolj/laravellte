@@ -18,12 +18,12 @@
 This is a boilerplate for opinionated Laravel 8.0 admin panel build with AdminLTE 3.0 theme, Alpinejs 2.0, Livewire 2.0, supported with tests and optional feature branches.
 
 ## Contents
-- [Have total control of the code](#control)
+- [Have total control of the code](#have-total-control-of-the-code)
 - [Summary](#summary)
-- [Feature Branches](#features)
+- [Feature Branches](#feature-branches)
 - [Installation](#installation)
-- [Care for the code](#code)
-- [Potentially useful code snippets](#snippets)
+- [Care for the code](#care-for-the-code)
+- [Files scaffolding](#files-scaffolding)
 - [Authorisation](#authorisation)
 - [Licence](#licence)
 - [Contributors](#contributors)
@@ -45,6 +45,7 @@ Don't like how a new user is added. No problem. You can amend the code however y
 * Option to assign route based permissions to role :heavy_check_mark:
 * Profile with change password, email and user's image option :heavy_check_mark:
 * Confirmation email to confirm a new user's email :heavy_check_mark:
+* File scaffolding :heavy_check_mark:
 * CI included (github actions) :heavy_check_mark:
 * Over 200 tests included :heavy_check_mark:
 
@@ -77,6 +78,14 @@ Let's face it. Sometimes we are sloppy, and we don't take the best care of the c
 - Are tests still slow? [johnkary/phpunit-speedtrap](https://github.com/johnkary/phpunit-speedtrap) package finds the slow tests for you.
 - Lastly [brainmaestro/composer-git-hooks](https://github.com/BrainMaestro/composer-git-hooks) package is utilized so everything is done automatically.
 <a href="https://github.com/jcergolj/laravellte/blob/master/composer.json#L45">See how</a>
+
+## Files Scaffolding
+For CRUD actions you might consider using built-in files scaffolding command. It generates files for Index, Create, Show, Edit and Delete actions like this:
+```
+php artisan make:ltd-component bla --index --create --show --edit --delete
+```
+You can omit any of the options. If you wish you can update the `stubs` files as you like.
+There are comments in scaffolded files acting as a reminder for you to amend the code. You can find then by typing: `index-review`, `create-review`, `show-review`, `edit-review`, `delete-review`. Factory and Model scaffolding aren't included in this command.
 
 ## Authorisation
 Laravellte uses role - permissions based authorisation system. Only users with Admin role can add new roles and assign permissions to it.

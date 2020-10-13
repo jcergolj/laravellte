@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\{{ DummyText }};
+use Livewire\Component;
+
+class Show{{ DummyText }}Component extends Component
+{
+    use HasLivewireAuth;
+
+    /** @var \App\Models\{{ DummyText }} */
+    public {{ DummyText }} ${{ dummyText }};
+
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        // show-review
+        return view('{{ dummyTextPlu }}.edit')
+            ->extends('layouts.app');
+    }
+}

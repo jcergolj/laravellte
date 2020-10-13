@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\{{ DummyText }};
+use Livewire\Component;
+
+class Index{{ DummyText }}Component extends Component
+{
+    use HasTable, HasLivewireAuth;
+
+    /** @var string */
+    public $sortField = '';
+
+    // index-review
+    /** @var array */
+    protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
+
+    /** @var array */
+    protected $allowedRoles = [];
+
+    /** @var array */
+    protected $listeners = ['entity-deleted' => 'render'];
+
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        // index-review-5
+        ${{ dummyTextPlu }} = {{ DummyText }}::filter([
+            'search' => $this->search,
+            'orderByField' => [$this->sortField, $this->sortDirection],
+        ])->paginate($this->perPage);
+
+        return view('{{ dummyText }}.index', ['{{ dummyTextPlu }}' => ${{ dummyTextPlu }}])
+            ->extends('layouts.app');
+    }
+}

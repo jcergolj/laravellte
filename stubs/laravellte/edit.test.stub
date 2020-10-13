@@ -1,0 +1,91 @@
+<?php
+
+namespace Tests\Feature\Http\Livewire;
+
+use App\Http\Livewire\Edit{{ DummyText }}Component;
+use App\Http\Livewire\HasLivewireAuth;
+use App\Models\{{ DummyText }};
+use Database\Factories\{{ DummyText }}Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
+use Livewire\Livewire;
+use Tests\TestCase;
+
+/** @see \App\Http\Livewire\Edit{{ DummyText }}Component */
+class Edit{{ DummyText }}ComponentTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @var \App\Models\User */
+    protected $admin;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->admin = create_admin();
+    }
+
+    /** @test */
+    public function assert_edit_{{ dummyText }}_component_uses_livewire_auth_trait()
+    {
+        $this->assertContains(HasLivewireAuth::class, class_uses(Edit{{ DummyText }}Component::class));
+    }
+
+    /** @test */
+    public function render()
+    {
+        ${{ dummyText }} = {{ DummyText }}Factory::new()->create();
+
+        Livewire::actingAs($this->admin)
+            ->test(EditUserComponent::class, ['{{ dummyText }}' => ${{ dummyText }}])
+            // edit-review
+            ->assertSee('Save')
+            ->assertStatus(Response::HTTP_OK);
+    }
+
+    /** @test */
+    public function update_existing_user()
+    {
+        ${{ dummyText }} = {{ DummyText }}Factory::new()->create();
+
+        $this->assertCount(1, {{ DummyText }}::all());
+
+        Livewire::actingAs($this->admin)
+            ->test(Edit{{ DummyText }}Component::class, ['{{ dummyText }}' => ${{ dummyText }}])
+            // edit-review
+            ->call('update')
+            ->assertRedirect('{{ dummyTextPlu }}');
+
+        $this->assertTrue(session()->has('flash'));
+
+        // edit-review
+        //${{ dummyTextPlu }} = {{ DummyText }}::where()->get();
+
+        $this->assertCount(1, {{ dummyTextPlu }});
+
+        $this->assertCount(1, {{ DummyText }}::all());
+    }
+
+    /**
+     * @test
+     * @dataProvider clientFormValidationProvider
+     */
+    public function test_update_validation_rules($clientFormInput, $clientFormValue, $rule)
+    {
+        ${{ dummyText }} = {{ DummyText }}Factory::new()->create();
+
+        Livewire::actingAs($this->admin)
+            ->test(Edit{{ DummyText }}Component::class, ['{{ dummyText }}' => ${{ dummyText }}])
+            ->set($clientFormInput, $clientFormValue)
+            ->call('update')
+            ->assertHasErrors([$clientFormInput => $rule]);
+    }
+
+    public function clientFormValidationProvider()
+    {
+        return [
+            // edit-review
+        ];
+    }
+}
