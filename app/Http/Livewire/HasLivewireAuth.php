@@ -29,10 +29,7 @@ trait HasLivewireAuth
             throw new AuthenticationException();
         }
 
-        if (! isset($this->permissionName)) {
-            $splitted = explode('-', self::getName());
-            $this->permissionName = Str::plural($splitted[1]).'.'.$splitted[0];
-        }
+        $this->getPermissionName();
 
         $this->authorize('for-route', [$this->permissionName, $this->getModel()]);
     }
@@ -48,10 +45,24 @@ trait HasLivewireAuth
             return $this->setModel();
         }
 
-        foreach (get_object_vars($this) as $var) {
-            if ($var instanceof Model) {
-                return $var;
-            }
+        return collect(get_object_vars($this))
+            ->filter(function ($variable) {
+                return $variable instanceof Model;
+            })->first();
+    }
+
+    /**
+     * Get permission name.
+     *
+     * @return void
+     */
+    public function getPermissionName()
+    {
+        if (isset($this->permissionName)) {
+            return;
         }
+
+        $splitted = explode('-', self::getName());
+        $this->permissionName = Str::plural($splitted[1]).'.'.$splitted[0];
     }
 }
