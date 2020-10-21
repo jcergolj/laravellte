@@ -33,4 +33,14 @@ class IndexRoleComponent extends Component
         return view('roles.index', ['roles' => $roles])
             ->extends('layouts.app');
     }
+
+    /**
+     * Reset pagination back to page one if search query is changed.
+     *
+     * @return void
+     */
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 }

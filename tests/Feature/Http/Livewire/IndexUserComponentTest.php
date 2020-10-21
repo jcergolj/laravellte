@@ -142,6 +142,22 @@ class IndexUserComponentTest extends TestCase
             ->assertDontSee('jane@example.com');
     }
 
+    /** @test */
+    public function on_search_field_update_pagination_page_is_reset()
+    {
+        Livewire::actingAs($this->admin)->test(IndexUserComponent::class, ['page' => 2])
+            ->set('search', 'something')
+            ->assertSet('page', 1);
+    }
+
+    /** @test */
+    public function on_role_id_field_update_pagination_page_is_reset()
+    {
+        Livewire::actingAs($this->admin)->test(IndexUserComponent::class, ['page' => 2])
+            ->set('roleId', 'something')
+            ->assertSet('page', 1);
+    }
+
     /** @test  */
     public function index_user_page_contains_delete_user_livewire_component()
     {

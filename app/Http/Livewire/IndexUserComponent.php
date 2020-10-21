@@ -47,4 +47,24 @@ class IndexUserComponent extends Component
         return view('users.index', ['users' => $users, 'roles' => $roles])
             ->extends('layouts.app');
     }
+
+    /**
+     * Reset pagination back to page one if search query is changed.
+     *
+     * @return void
+     */
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    /**
+     * Reset pagination back to page one if roleId query is changed.
+     *
+     * @return void
+     */
+    public function updatedRoleId()
+    {
+        $this->resetPage();
+    }
 }
