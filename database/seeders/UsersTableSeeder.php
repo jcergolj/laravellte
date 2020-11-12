@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Role;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;

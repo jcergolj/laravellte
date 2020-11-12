@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Database\Factories\PermissionFactory;
 use Illuminate\Database\Seeder;
 
