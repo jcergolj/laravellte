@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
         "laravel/framework": "^8.0.0",
-        "laravel/ui": "^2.0",
+        "laravel/ui": "^3.0",
         "livewire/livewire": "^2.0",
         "predis/predis": "^1.1"
     },
@@ -48,18 +48,16 @@
                 "STAGED_FILES=$(git diff --name-only --cached)",
                 "vendor/bin/php-cs-fixer fix",
                 "for FILE in $STAGED_FILES ; do git add $FILE; done",
-                "php artisan insights --no-interaction --min-quality=90 --min-complexity=85 --min-architecture=90 --min-style=95"
+                "php artisan insights --no-interaction --min-quality=80 --min-complexity=80 --min-architecture=80 --min-style=80"
             ]
         }
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "files": ["app/helpers.php"]
     },
     "autoload-dev": {

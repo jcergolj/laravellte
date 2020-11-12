@@ -1,0 +1,10 @@
+@section('title')
+    Show {{ DummyText }}
+@endsection
+
+@section('content-header')
+<x-content-header>
+    Show {{ DummyText }}
+    // show-review
+</x-content-header>
+@endsection

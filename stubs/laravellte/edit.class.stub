@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\{{ DummyText }};
+use Livewire\Component;
+
+class Edit{{ DummyText }}Component extends Component
+{
+    use HasLivewireAuth;
+
+    /** @var \App\Models\{{ DummyText }} */
+    public {{ DummyText }} ${{ dummyText }};
+
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        return view('users.edit')->extends('layouts.app');
+    }
+
+    /**
+     * Update existing {{ dummyText }}.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update()
+    {
+        $this->validate();
+
+        // edit-review
+        $this->{{ dummyText }}->save();
+
+        msg_success('{{ DummyText }} has been successfully updated.');
+
+        return redirect()->route('{{ dummyTextPlu }}.index');
+    }
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            // edit-review
+        ];
+    }
+}

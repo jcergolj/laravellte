@@ -119,6 +119,14 @@ class IndexRoleComponentTest extends TestCase
             ->assertDontSee('manager');
     }
 
+    /** @test */
+    public function on_search_field_update_pagination_page_is_reset()
+    {
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class, ['page' => 2])
+            ->set('search', 'something')
+            ->assertSet('page', 1);
+    }
+
     /** @test  */
     public function index_role_page_contains_livewire_delete_role_component()
     {

@@ -1,0 +1,38 @@
+<?php
+
+namespace Tests\Feature\Http\Livewire;
+
+use App\Http\Livewire\Show{{ DummyText }}Component;
+use App\Models\{{ DummyText }};
+use Database\Factories\{{ DummyText }}Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
+use Livewire\Livewire;
+use Tests\TestCase;
+
+/** @see \App\Http\Livewire\Show{{ DummyText }}Component */
+class Show{{ DummyText }}ComponentTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @var \App\Models\User */
+    protected $admin;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->admin = create_admin();
+    }
+
+    /** @test */
+    public function render()
+    {
+        ${{ dummyText }} = {{ DummyText }}Factory::new()->create();
+
+        Livewire::actingAs($this->admin)
+            ->test(Show{{ DummyText }}Component::class, ['{{ dummyText }}' => ${{ dummyText }}])
+            // show-review
+            ->assertStatus(Response::HTTP_OK);
+    }
+}

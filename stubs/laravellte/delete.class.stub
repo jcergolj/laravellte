@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use Livewire\Component;
+
+class Delete{{ DummyText }}Component extends Component
+{
+    use CanFlash, HasLivewireAuth;
+
+    /** @var \App\Models\{{ DummyText }} */
+    public ${{ dummyText }};
+
+    public function render()
+    {
+        return view('{{ dummyTextPlu }}.delete');
+    }
+
+    /**
+     * Delete {{ dummyText }}.
+     *
+     * @return void
+     */
+    public function destroy()
+    {
+        // delete-review
+
+        $this->{{ dummyText }}->delete();
+
+        $this->emit('entity-deleted');
+
+        $this->dispatchFlashSuccessEvent('{{ DummyText }} has been successfully deleted.');
+    }
+}
