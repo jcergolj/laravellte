@@ -12,16 +12,6 @@ class DeleteUserComponent extends Component
     /** @var \App\Models\User */
     public $user;
 
-    /**
-     * Component mount.
-     *
-     * @return void
-     */
-    public function mount()
-    {
-        $this->model = $this->user;
-    }
-
     public function render()
     {
         return view('users.delete');

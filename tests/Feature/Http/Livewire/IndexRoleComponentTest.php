@@ -39,15 +39,6 @@ class IndexRoleComponentTest extends TestCase
     }
 
     /** @test */
-    public function user_can_view_index_page()
-    {
-        $response = $this->actingAs($this->admin)
-            ->get(route('roles.index'));
-
-        $response->assertStatus(Response::HTTP_OK);
-    }
-
-    /** @test */
     public function render()
     {
         Livewire::actingAs($this->admin)
@@ -116,6 +107,14 @@ class IndexRoleComponentTest extends TestCase
             ->assertSee('admin')
             ->assertDontSee('writer')
             ->assertDontSee('manager');
+    }
+
+    /** @test */
+    public function on_search_field_update_pagination_page_is_reset()
+    {
+        Livewire::actingAs($this->admin)->test(IndexRoleComponent::class, ['page' => 2])
+            ->set('search', 'something')
+            ->assertSet('page', 1);
     }
 
     /** @test  */

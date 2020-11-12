@@ -26,7 +26,6 @@ class CreateRoleComponent extends Component
      */
     public function mount()
     {
-        $this->model = $this->role;
         $this->permissions = SaveRoleViewModel::buildRolePermissions();
     }
 

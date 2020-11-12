@@ -42,15 +42,6 @@ class IndexUserComponentTest extends TestCase
     }
 
     /** @test */
-    public function user_can_view_index_page()
-    {
-        $response = $this->actingAs($this->admin)
-            ->get(route('users.index'));
-
-        $response->assertStatus(Response::HTTP_OK);
-    }
-
-    /** @test */
     public function render()
     {
         Livewire::actingAs($this->admin)
@@ -149,6 +140,22 @@ class IndexUserComponentTest extends TestCase
             ->test(IndexUserComponent::class)
             ->assertSee('joe@example.com')
             ->assertDontSee('jane@example.com');
+    }
+
+    /** @test */
+    public function on_search_field_update_pagination_page_is_reset()
+    {
+        Livewire::actingAs($this->admin)->test(IndexUserComponent::class, ['page' => 2])
+            ->set('search', 'something')
+            ->assertSet('page', 1);
+    }
+
+    /** @test */
+    public function on_role_id_field_update_pagination_page_is_reset()
+    {
+        Livewire::actingAs($this->admin)->test(IndexUserComponent::class, ['page' => 2])
+            ->set('roleId', 'something')
+            ->assertSet('page', 1);
     }
 
     /** @test  */

@@ -2,18 +2,22 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Role;
+use App\Models\{{ DummyText }};
 use Livewire\Component;
 
-class IndexRoleComponent extends Component
+class Index{{ DummyText }}Component extends Component
 {
     use HasTable, HasLivewireAuth;
 
     /** @var string */
-    public $sortField = 'name';
+    public $sortField = '';
 
+    // index-review
     /** @var array */
     protected $queryString = ['perPage', 'sortField', 'sortDirection', 'search'];
+
+    /** @var array */
+    protected $allowedRoles = [];
 
     /** @var array */
     protected $listeners = ['entity-deleted' => 'render'];
@@ -25,22 +29,13 @@ class IndexRoleComponent extends Component
      */
     public function render()
     {
-        $roles = Role::filter([
+        // index-review-5
+        ${{ dummyTextPlu }} = {{ DummyText }}::filter([
             'search' => $this->search,
             'orderByField' => [$this->sortField, $this->sortDirection],
         ])->paginate($this->perPage);
 
-        return view('roles.index', ['roles' => $roles])
+        return view('{{ dummyText }}.index', ['{{ dummyTextPlu }}' => ${{ dummyTextPlu }}])
             ->extends('layouts.app');
-    }
-
-    /**
-     * Reset pagination back to page one if search query is changed.
-     *
-     * @return void
-     */
-    public function updatedSearch()
-    {
-        $this->resetPage();
     }
 }

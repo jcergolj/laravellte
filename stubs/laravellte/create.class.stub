@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\{{ DummyText }};
+use Livewire\Component;
+
+class Create{{ DummyText }}Component extends Component
+{
+    use HasLivewireAuth;
+
+    /** @var \App\Models\{{ DummyText }} */
+    public ${{ dummyText }};
+
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        return view('{{ dummyTextPlu }}.create')->extends('layouts.app');
+    }
+
+    /**
+     * Store new {{ dummyText }}.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store()
+    {
+        $this->validate();
+
+        // create-review
+        {{ DummyText }}::create([]);
+
+        msg_success('{{ DummyText }} has been successfully created.');
+
+        return redirect()->route('{{ dummyTextPlu }}.index');
+    }
+
+    /**
+     * Validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            // create-review
+        ];
+    }
+}

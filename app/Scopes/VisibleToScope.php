@@ -37,25 +37,6 @@ class VisibleToScope implements Scope
     }
 
     /**
-     * Should we return early form global scope.
-     *
-     * @param  \App\Models\User  $user
-     * @return bool
-     */
-    private function returnEarly($user)
-    {
-        if ($user === null) {
-            return true;
-        }
-
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Should we return early form global scope base on permission and owner field.
      *
      * @param  \App\Models\User  $user
@@ -71,6 +52,25 @@ class VisibleToScope implements Scope
         }
 
         if (! Schema::hasColumn($model->getTable(), AppServiceProvider::OWNER_FIELD)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Should we return early form global scope.
+     *
+     * @param  \App\Models\User  $user
+     * @return bool
+     */
+    private function returnEarly($user)
+    {
+        if ($user === null) {
+            return true;
+        }
+
+        if ($user->isAdmin()) {
             return true;
         }
 
