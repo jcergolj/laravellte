@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
-/** @see \App\Mails\InvitationMail */
+/** @see \App\Mail\InvitationMail */
 class InvitationMailTest extends TestCase
 {
     use RefreshDatabase;

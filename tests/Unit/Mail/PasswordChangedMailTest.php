@@ -5,7 +5,7 @@ namespace Tests\Unit\Mail;
 use App\Mail\PasswordChangedMail;
 use Tests\TestCase;
 
-/** @see \App\Mails\PasswordChangedMail */
+/** @see \App\Mail\PasswordChangedMail */
 class PasswordChangedMailTest extends TestCase
 {
     /** @test */

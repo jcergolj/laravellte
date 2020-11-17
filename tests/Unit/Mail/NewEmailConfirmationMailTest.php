@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
-/** @see \App\Mails\NewEmailConfirmationMail */
+/** @see \App\Mail\NewEmailConfirmationMail */
 class NewEmailConfirmationMailTest extends TestCase
 {
     use RefreshDatabase;
