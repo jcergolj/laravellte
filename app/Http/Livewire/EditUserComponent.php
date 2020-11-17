@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class EditUserComponent extends Component
@@ -49,7 +50,7 @@ class EditUserComponent extends Component
      */
     public function update()
     {
-        $this->validate($this->validationRules());
+        $this->validate($this->rules());
 
         $this->user->save();
 
@@ -63,34 +64,23 @@ class EditUserComponent extends Component
      *
      * @return array
      */
-    protected function validationRules()
+    protected function rules()
     {
+        $uniqueEmail = Rule::unique('users', 'email');
+
+        if (isset($this->user) && $this->user->exists) {
+            $uniqueEmail->ignore($this->user);
+        }
+
         return [
             'user.email' => [
                 'required',
                 'email',
-                'unique:users,email,'.$this->user->id,
+                $uniqueEmail,
             ],
             'user.role_id' => [
                 'required',
                 'exists:roles,id',
-            ],
-        ];
-    }
-
-    /**
-     * Validation rules.
-     *
-     * @return array
-     */
-    protected function rules()
-    {
-        return [
-            'user.email' => [
-                'required',
-            ],
-            'user.role_id' => [
-                'required',
             ],
         ];
     }
