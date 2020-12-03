@@ -117,8 +117,8 @@ class UpdatePasswordTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
-            'Test new password is required' => ['newPassword', '', 'app\_rules\_password_rule'],
-            'Test password must be greater than 7' => ['newPassword', '1234567', 'app\_rules\_password_rule'],
+            'Test new password is required' => ['newPassword', '', 'app\_rules\_password_with_confirmation_rule'],
+            'Test password must be greater than 7' => ['newPassword', '1234567', 'app\_rules\_password_with_confirmation_rule'],
             'Test current Password is required' => ['currentPassword', '', 'required'],
             'Test current Password must match auth user' => ['currentPassword', 'invalid-password', 'app\_rules\_password_check_rule'],
         ];

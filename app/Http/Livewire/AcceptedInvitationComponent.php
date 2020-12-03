@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Http\HasAcceptedInvitationAuth;
 use App\Models\User;
-use App\Rules\PasswordRule;
+use App\Rules\PasswordWithConfirmationRule;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
@@ -53,7 +53,7 @@ class AcceptedInvitationComponent extends Component
      */
     public function submit()
     {
-        $this->validate(['newPassword' => [new PasswordRule($this->newPasswordConfirmation)]]);
+        $this->validate(['newPassword' => [new PasswordWithConfirmationRule($this->newPasswordConfirmation)]]);
         $this->user->savePassword($this->newPassword);
 
         auth()->login($this->user);

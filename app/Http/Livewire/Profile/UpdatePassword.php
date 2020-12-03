@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Profile;
 use App\Http\Livewire\CanFlash;
 use App\Mail\PasswordChangedMail;
 use App\Rules\PasswordCheckRule;
-use App\Rules\PasswordRule;
+use App\Rules\PasswordWithConfirmationRule;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
@@ -89,7 +89,7 @@ class UpdatePassword extends Component
     {
         return [
             'newPassword' => [
-                new PasswordRule($this->newPasswordConfirmation),
+                new PasswordWithConfirmationRule($this->newPasswordConfirmation),
             ],
             'currentPassword' => [
                 'required',

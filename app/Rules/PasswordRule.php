@@ -8,22 +8,10 @@ use Illuminate\Validation\ValidationException;
 
 class PasswordRule implements ImplicitRule
 {
-    /** @var string */
-    protected $confirmationValue;
+    protected $rules = ['required', 'string', 'min:8'];
 
     /** @var string */
     private $message = '';
-
-    /**
-     * Create a new rule instance.
-     *
-     * @param  string|null  $confirmationValue
-     * @return void
-     */
-    public function __construct($confirmationValue = null)
-    {
-        $this->confirmationValue = $confirmationValue;
-    }
 
     /**
      * Determine if the validation rule passes.
@@ -35,25 +23,7 @@ class PasswordRule implements ImplicitRule
      */
     public function passes($attribute, $value)
     {
-        $rules[$attribute] = ['required', 'string', 'min:8'];
-        $data = [$attribute => $value];
-
-        if ($this->confirmationValue !== null) {
-            array_push($rules[$attribute], 'confirmed');
-            $data[$attribute.'_confirmation'] = $this->confirmationValue;
-        }
-
-        $validator = Validator::make($data, $rules);
-
-        try {
-            $validator->validate();
-        } catch (ValidationException $exception) {
-            $this->message = $validator->getMessageBag()->first();
-
-            return false;
-        }
-
-        return true;
+        return $this->validate($attribute, [$attribute => $value], $this->rules);
     }
 
     /**
@@ -64,5 +34,30 @@ class PasswordRule implements ImplicitRule
     public function message()
     {
         return $this->message;
+    }
+
+    /**
+     * Make validator and perform validation.
+     *
+     * @param  string  $attribute
+     * @param  array  $attributes
+     * @param  array  $rules
+     * @return bool
+     */
+    protected function validate($attribute, $attributes, $rules)
+    {
+        $validator = Validator::make($attributes, [
+            $attribute => $rules,
+        ]);
+
+        try {
+            $validator->validate();
+        } catch (ValidationException $exception) {
+            $this->message = $validator->getMessageBag()->first();
+
+            return false;
+        }
+
+        return true;
     }
 }

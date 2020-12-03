@@ -83,8 +83,8 @@ class AcceptedInvitationComponentTest extends TestCase
     public function clientFormValidationProvider()
     {
         return [
-            'Test new password is required' => ['newPassword', '', 'app\_rules\_password_rule'],
-            'Test password must be greater than 7' => ['newPassword', '1234567', 'app\_rules\_password_rule'],
+            'Test new password is required' => ['newPassword', '', 'app\_rules\_password_with_confirmation_rule'],
+            'Test password must be greater than 7' => ['newPassword', '1234567', 'app\_rules\_password_with_confirmation_rule'],
         ];
     }
 
@@ -96,7 +96,7 @@ class AcceptedInvitationComponentTest extends TestCase
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'invalid-password')
             ->call('submit')
-            ->assertHasErrors(['newPassword' => 'app\_rules\_password_rule']);
+            ->assertHasErrors(['newPassword' => 'app\_rules\_password_with_confirmation_rule']);
 
         $this->assertNull($this->user->fresh()->password);
     }
