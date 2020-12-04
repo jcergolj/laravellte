@@ -57,10 +57,14 @@ Here is the list of supported feature branches. By merging them into master you 
 ## Installation
 After installing <a href="https://laravel.com/docs/7.0/">Laravel</a> you should run those commands:
 ```
+git clone https://github.com/jcergolj/laravellte.git
+composer install
 cp .env.example .env
+php artisan key:generate
 npm install
 npm run dev
 composer cghooks update
+php artisan migrate:fresh --seed
 ```
 
 ## Care for the code
