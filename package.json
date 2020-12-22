@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "alpinejs": "^2.6.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "websocket-driver": "^0.7.4"
     }
 }
