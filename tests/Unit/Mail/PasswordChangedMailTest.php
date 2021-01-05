@@ -12,15 +12,20 @@ class PasswordChangedMailTest extends TestCase
     public function email_contains_password_changed_text()
     {
         $mail = new PasswordChangedMail();
-
-        $rendered = $mail->render();
-
-        $this->assertStringContainsString('your password has been changed', $rendered);
+        $mail->assertSeeInText('your password has been changed');
     }
 
     /** @test */
     public function email_has_a_subject()
     {
-        $this->assertEquals('Security notification regarding your password', (new PasswordChangedMail())->build()->subject);
+        $mail = new PasswordChangedMail();
+        $this->assertEquals('Security notification regarding your password', $mail->build()->subject);
+    }
+
+    /** @test */
+    public function email_has_a_sender()
+    {
+        $mail = new PasswordChangedMail();
+        $this->assertTrue($mail->build()->hasFrom('no-replay@laravellte.com', 'laravellte'));
     }
 }

@@ -27,9 +27,7 @@ class InvitationMailTest extends TestCase
             ['user' => $user->id]
         );
 
-        $rendered = $mail->render();
-
-        $this->assertStringContainsString(htmlspecialchars($signedUrl), $rendered);
+        $mail->assertSeeInHtml(htmlspecialchars($signedUrl));
     }
 
     /** @test */
@@ -37,5 +35,12 @@ class InvitationMailTest extends TestCase
     {
         $mail = new InvitationMail(create_user(), Carbon::tomorrow());
         $this->assertNotNull($mail->build()->subject);
+    }
+
+    /** @test */
+    public function email_has_a_sender()
+    {
+        $mail = new InvitationMail(create_user(), Carbon::tomorrow());
+        $this->assertTrue($mail->build()->hasFrom('no-replay@laravellte.com', 'laravellte'));
     }
 }

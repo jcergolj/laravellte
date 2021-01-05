@@ -27,10 +27,8 @@ class NewEmailConfirmationMailTest extends TestCase
             ['user' => $user->id, 'new_email' => 'joe@example.com']
         );
 
-        $rendered = $mail->render();
-
-        $this->assertStringContainsString(htmlspecialchars($signedUrl), $rendered);
-        $this->assertStringContainsString('joe@example.com', $rendered);
+        $mail->assertSeeInHtml(htmlspecialchars($signedUrl));
+        $mail->assertSeeInText('joe@example.com');
     }
 
     /** @test */
@@ -38,5 +36,12 @@ class NewEmailConfirmationMailTest extends TestCase
     {
         $mail = new NewEmailConfirmationMail(create_user(), Carbon::tomorrow(), 'joe@example.com');
         $this->assertNotNull($mail->build()->subject);
+    }
+
+    /** @test */
+    public function email_has_a_sender()
+    {
+        $mail = new NewEmailConfirmationMail(create_user(), Carbon::tomorrow(), 'joe@example.com');
+        $this->assertTrue($mail->build()->hasFrom('no-replay@laravellte.com', 'laravellte'));
     }
 }
