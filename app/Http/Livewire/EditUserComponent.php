@@ -66,17 +66,11 @@ class EditUserComponent extends Component
      */
     protected function rules()
     {
-        $uniqueEmail = Rule::unique('users', 'email');
-
-        if (isset($this->user) && $this->user->exists) {
-            $uniqueEmail->ignore($this->user);
-        }
-
         return [
             'user.email' => [
                 'required',
                 'email',
-                $uniqueEmail,
+                Rule::unique('users', 'email')->ignore($this->user->id),
             ],
             'user.role_id' => [
                 'required',

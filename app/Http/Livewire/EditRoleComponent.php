@@ -50,7 +50,7 @@ class EditRoleComponent extends Component
      */
     public function update()
     {
-        $this->validate($this->validationRules(), [], $this->attributes());
+        $this->validate($this->rules(), [], $this->attributes());
 
         $this->role->save();
 
@@ -68,7 +68,7 @@ class EditRoleComponent extends Component
      *
      * @return array
      */
-    protected function validationRules()
+    protected function rules()
     {
         return [
             'role.name' => [
@@ -86,23 +86,6 @@ class EditRoleComponent extends Component
             'permissions.*.owner_restricted' => [
                 'boolean',
                 new OwnerRestrictedRule($this->permissions),
-            ],
-        ];
-    }
-
-    /**
-     * Validation rules.
-     *
-     * @return array
-     */
-    protected function rules()
-    {
-        return [
-            'role.name' => [
-                'required',
-            ],
-            'role.label' => [
-                'required',
             ],
         ];
     }
