@@ -75,10 +75,6 @@ Let's face it. Sometimes we are sloppy, and we don't take the best care of the c
 ```
 "php artisan insights --no-interaction --min-quality=90 --min-complexity=85 --min-architecture=90 --min-style=95"
 ```
-- When testing [brianium/paratest](https://github.com/paratestphp/paratest) package runs tests in parallel.
-```
-./vendor/bin/paratest --processes 2 --runner=WrapperRunner
-```
 - Are tests still slow? [johnkary/phpunit-speedtrap](https://github.com/johnkary/phpunit-speedtrap) package finds the slow tests for you.
 - Lastly [brainmaestro/composer-git-hooks](https://github.com/BrainMaestro/composer-git-hooks) package is utilized so everything is done automatically.
 <a href="https://github.com/jcergolj/laravellte/blob/master/composer.json#L45">See how</a>

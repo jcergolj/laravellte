@@ -22,7 +22,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "brainmaestro/composer-git-hooks": "^2.0",
-        "brianium/paratest": "^6.1",
+        "brianium/paratest": "^6.2",
         "facade/ignition": "^2.5",
         "fzaninotto/faker": "^1.9.1",
         "jasonmccreary/laravel-test-assertions": "^1.0",
