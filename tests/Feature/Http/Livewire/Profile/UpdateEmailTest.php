@@ -82,6 +82,7 @@ class UpdateEmailTest extends TestCase
 
         Mail::assertQueued(NewEmailConfirmationMail::class, function ($mail) {
             $this->assertTrue($mail->hasTo('new.user.email@example.com'), 'Unexpected to');
+
             return true;
         });
     }
