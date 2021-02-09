@@ -81,7 +81,8 @@ class UpdatePasswordTest extends TestCase
             ->call('submit');
 
         Mail::assertQueued(PasswordChangedMail::class, function ($mail) {
-            return $mail->hasTo($this->user->email);
+            $this->assertTrue($mail->hasTo($this->user->email), 'Unexpected to');
+            return true;
         });
     }
 
