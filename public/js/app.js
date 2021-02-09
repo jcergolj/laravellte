@@ -4152,7 +4152,7 @@ window.nav = nav;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/vagrant/projects/laravellte/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/jc/work/projects/laravellte/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })
