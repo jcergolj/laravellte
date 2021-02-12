@@ -39,7 +39,7 @@ class PasswordRule implements ImplicitRule
             $attribute => $value,
             $attribute.'_confirmation' => $this->confirmationValue,
         ], [
-            $attribute => ['required', 'string', 'min:8', 'confirmed'],
+            $attribute => ['required', 'min:8', 'confirmed', 'pwned'],
         ]);
 
         try {

@@ -3,11 +3,21 @@
 namespace Tests\Unit\Rules;
 
 use App\Rules\PasswordRule;
+use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Rules\PasswordRule */
 class PasswordRuleTest extends TestCase
 {
+    use HasPwnedMock;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->mockPwned();
+    }
+
     /** @test */
     public function validation_passes()
     {
@@ -35,6 +45,16 @@ class PasswordRuleTest extends TestCase
     /** @test */
     public function password_must_be_confirmed()
     {
+        $rule = new PasswordRule('password-not-confirmed');
+
+        $this->assertFalse($rule->passes('password', 'password'));
+    }
+
+    /** @test */
+    public function password_must_not_be_pwned()
+    {
+        $this->mockPwned(false);
+
         $rule = new PasswordRule('password-not-confirmed');
 
         $this->assertFalse($rule->passes('password', 'password'));

@@ -13,12 +13,13 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\AcceptedInvitationComponent */
 class AcceptedInvitationComponentTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasPwnedMock;
 
     /** @var \App\Models\User */
     private $user;
@@ -30,6 +31,8 @@ class AcceptedInvitationComponentTest extends TestCase
         $this->user = UserFactory::new()->create([
             'password' => null,
         ]);
+
+        $this->mockPwned();
     }
 
     /** @test */
@@ -91,6 +94,21 @@ class AcceptedInvitationComponentTest extends TestCase
     /** @test */
     public function password_must_be_confirmed()
     {
+        $request = $this->buildRequest($this->user);
+        Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
+            ->set('newPassword', 'new-password')
+            ->set('newPasswordConfirmation', 'invalid-password')
+            ->call('submit')
+            ->assertHasErrors(['newPassword' => 'app\_rules\_password_rule']);
+
+        $this->assertNull($this->user->fresh()->password);
+    }
+
+    /** @test */
+    public function password_must_be_not_be_pwned()
+    {
+        $this->mockPwned(false);
+
         $request = $this->buildRequest($this->user);
         Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
             ->set('newPassword', 'new-password')

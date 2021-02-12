@@ -10,12 +10,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
+use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\Profile\UpdatePassword */
 class UpdatePasswordTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasPwnedMock;
 
     /** @var \App\Models\User */
     private $user;
@@ -27,6 +28,8 @@ class UpdatePasswordTest extends TestCase
         Mail::fake();
 
         $this->user = UserFactory::new()->create();
+
+        $this->mockPwned();
     }
 
     /** @test */
@@ -134,6 +137,20 @@ class UpdatePasswordTest extends TestCase
             ->set('newPassword', 'new-password')
             ->set('newPasswordConfirmation', 'invalid-password')
             ->call('submit');
+
+        $this->assertTrue(Hash::check('password', $this->user->fresh()->password));
+    }
+
+    /** @test */
+    public function password_must_not_be_pwned()
+    {
+        $this->mockPwned(false);
+
+        Livewire::actingAs($this->user)
+             ->test(UpdatePassword::class)
+             ->set('newPassword', 'new-password')
+             ->set('newPasswordConfirmation', 'new-password')
+             ->call('submit');
 
         $this->assertTrue(Hash::check('password', $this->user->fresh()->password));
     }

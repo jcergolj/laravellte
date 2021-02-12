@@ -7,12 +7,20 @@ use Illuminate\Auth\Passwords\DatabaseTokenRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Http\Controllers\Auth\ResetPasswordController */
 class ResetPasswordControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasPwnedMock;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->mockPwned();
+    }
 
     /** @test */
     public function user_can_view_reset_password_page()
@@ -130,6 +138,31 @@ class ResetPasswordControllerTest extends TestCase
         $validParams = $this->validParams($user, [
             'password' => 'password',
             'password_confirmation' => 'non-matching-password',
+        ]);
+
+        $response = $this->from(route('password.reset', ['token' => $validParams['token']]))
+            ->post('password/reset', $validParams);
+
+        $response->assertRedirect(route('password.reset', ['token' => $validParams['token']]))
+            ->assertSessionHasErrors('password');
+
+        $this->assertTrue(Hash::check('password', $user->fresh()->password));
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function password_must_not_be_pwned()
+    {
+        $this->mockPwned(false);
+
+        $user = UserFactory::new()->create([
+            'email' => 'joe@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $validParams = $this->validParams($user, [
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
         ]);
 
         $response = $this->from(route('password.reset', ['token' => $validParams['token']]))
