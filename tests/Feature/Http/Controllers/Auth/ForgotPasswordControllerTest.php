@@ -83,7 +83,7 @@ class ForgotPasswordControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_FOUND)
             ->assertRedirect(route('password.request'))
-            ->assertSessionHasErrors('email');
+            ->assertInvalid('email');
     }
 
     /** @test */
@@ -94,6 +94,6 @@ class ForgotPasswordControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_FOUND)
             ->assertRedirect(route('password.request'))
-            ->assertSessionHasErrors('email');
+            ->assertInvalid('email');
     }
 }

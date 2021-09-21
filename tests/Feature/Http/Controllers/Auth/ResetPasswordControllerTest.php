@@ -110,7 +110,7 @@ class ResetPasswordControllerTest extends TestCase
             ->post('password/reset', $validParams);
 
         $response->assertRedirect(route('password.reset', ['token' => $validParams['token']]))
-            ->assertSessionHasErrors($clientFormInput);
+            ->assertInvalid($clientFormInput);
 
         $this->assertTrue(Hash::check('password', $user->fresh()->password));
 
@@ -144,7 +144,7 @@ class ResetPasswordControllerTest extends TestCase
             ->post('password/reset', $validParams);
 
         $response->assertRedirect(route('password.reset', ['token' => $validParams['token']]))
-            ->assertSessionHasErrors('password');
+            ->assertInvalid('password');
 
         $this->assertTrue(Hash::check('password', $user->fresh()->password));
         $this->assertGuest();
@@ -169,7 +169,7 @@ class ResetPasswordControllerTest extends TestCase
             ->post('password/reset', $validParams);
 
         $response->assertRedirect(route('password.reset', ['token' => $validParams['token']]))
-            ->assertSessionHasErrors('password');
+            ->assertInvalid('password');
 
         $this->assertTrue(Hash::check('password', $user->fresh()->password));
         $this->assertGuest();

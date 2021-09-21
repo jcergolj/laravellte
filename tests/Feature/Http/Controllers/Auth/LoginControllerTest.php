@@ -50,7 +50,7 @@ class LoginControllerTest extends TestCase
 
         $response->assertRedirect('/')
             ->assertStatus(Response::HTTP_FOUND)
-            ->assertSessionHasErrors();
+            ->assertInvalid();
 
         $this->assertGuest();
     }
@@ -71,7 +71,7 @@ class LoginControllerTest extends TestCase
 
         $response->assertRedirect('login')
             ->assertStatus(Response::HTTP_FOUND)
-            ->assertSessionHasErrors();
+            ->assertInvalid();
 
         $this->assertGuest();
     }
@@ -92,7 +92,7 @@ class LoginControllerTest extends TestCase
 
         $response->assertRedirect('login')
             ->assertStatus(Response::HTTP_FOUND)
-            ->assertSessionHasErrors($clientFormInput);
+            ->assertInvalid($clientFormInput);
 
         $this->assertGuest();
     }
