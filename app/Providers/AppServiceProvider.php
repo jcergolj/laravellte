@@ -13,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public const OWNER_FIELD = 'owner_id';
 
+    public const MIN_PASSWORD_LENGTH = 8;
+
     /**
      * Register any application services.
      *

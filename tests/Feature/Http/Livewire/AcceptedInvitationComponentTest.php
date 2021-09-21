@@ -13,26 +13,28 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\AcceptedInvitationComponent */
 class AcceptedInvitationComponentTest extends TestCase
 {
-    use RefreshDatabase, HasPwnedMock;
+    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;
+
+    /** @var string */
+    private $password;
 
     public function setUp() : void
     {
         parent::setUp();
 
+        $this->password = password_generator();
+
         $this->user = UserFactory::new()->create([
             'password' => null,
         ]);
-
-        $this->mockPwned();
     }
 
     /** @test */
@@ -60,12 +62,12 @@ class AcceptedInvitationComponentTest extends TestCase
     {
         $request = $this->buildRequest($this->user);
         Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'new-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password)
             ->call('submit')
             ->assertRedirect(route('home.index'));
 
-        $this->assertTrue(Hash::check('new-password', $this->user->fresh()->password));
+        $this->assertTrue(Hash::check($this->password, $this->user->fresh()->password));
     }
 
     /**
@@ -87,7 +89,7 @@ class AcceptedInvitationComponentTest extends TestCase
     {
         return [
             'Test new password is required' => ['newPassword', '', 'app\_rules\_password_rule'],
-            'Test password must be greater than 7' => ['newPassword', '1234567', 'app\_rules\_password_rule'],
+            'Test password must be greater than 7' => ['newPassword', too_short_password(), 'app\_rules\_password_rule'],
         ];
     }
 
@@ -96,8 +98,8 @@ class AcceptedInvitationComponentTest extends TestCase
     {
         $request = $this->buildRequest($this->user);
         Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'invalid-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password.'invalid-password')
             ->call('submit')
             ->assertHasErrors(['newPassword' => 'app\_rules\_password_rule']);
 
@@ -105,14 +107,12 @@ class AcceptedInvitationComponentTest extends TestCase
     }
 
     /** @test */
-    public function password_must_be_not_be_pwned()
+    public function password_must_be_uncompromised()
     {
-        $this->mockPwned(false);
-
         $request = $this->buildRequest($this->user);
         Livewire::test(AcceptedInvitationComponent::class, ['request' => $request, 'user' => $this->user])
             ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'invalid-password')
+            ->set('newPasswordConfirmation', 'new-password')
             ->call('submit')
             ->assertHasErrors(['newPassword' => 'app\_rules\_password_rule']);
 

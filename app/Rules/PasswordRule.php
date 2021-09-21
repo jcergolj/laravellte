@@ -2,8 +2,10 @@
 
 namespace App\Rules;
 
+use App\Providers\AppServiceProvider;
 use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class PasswordRule implements ImplicitRule
@@ -39,7 +41,7 @@ class PasswordRule implements ImplicitRule
             $attribute => $value,
             $attribute.'_confirmation' => $this->confirmationValue,
         ], [
-            $attribute => ['required', 'min:8', 'confirmed', 'pwned'],
+            $attribute => ['required', 'confirmed', Password::min(AppServiceProvider::MIN_PASSWORD_LENGTH)->uncompromised()],
         ]);
 
         try {

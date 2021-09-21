@@ -10,16 +10,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
-use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Http\Livewire\Profile\UpdatePassword */
 class UpdatePasswordTest extends TestCase
 {
-    use RefreshDatabase, HasPwnedMock;
+    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;
+
+    /** @var string */
+    private $password;
 
     public function setUp() : void
     {
@@ -29,7 +31,7 @@ class UpdatePasswordTest extends TestCase
 
         $this->user = UserFactory::new()->create();
 
-        $this->mockPwned();
+        $this->password = password_generator();
     }
 
     /** @test */
@@ -54,8 +56,8 @@ class UpdatePasswordTest extends TestCase
     {
         Livewire::actingAs($this->user)
             ->test(UpdatePassword::class)
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'new-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password)
             ->set('currentPassword', 'password')
             ->call('submit')
             ->assertDispatchedBrowserEvent('flash');
@@ -66,8 +68,8 @@ class UpdatePasswordTest extends TestCase
     {
         Livewire::actingAs($this->user)
             ->test(UpdatePassword::class)
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'new-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password)
             ->set('currentPassword', 'password')
             ->call('submit')
             ->assertDispatchedBrowserEvent('close');
@@ -78,8 +80,8 @@ class UpdatePasswordTest extends TestCase
     {
         Livewire::actingAs($this->user)
             ->test(UpdatePassword::class)
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'new-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password)
             ->set('currentPassword', 'password')
             ->call('submit');
 
@@ -95,12 +97,12 @@ class UpdatePasswordTest extends TestCase
     {
         Livewire::actingAs($this->user)
             ->test(UpdatePassword::class)
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'new-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password)
             ->set('currentPassword', 'password')
             ->call('submit');
 
-        $this->assertTrue(Hash::check('new-password', $this->user->fresh()->password));
+        $this->assertTrue(Hash::check($this->password, $this->user->fresh()->password));
     }
 
     /**
@@ -123,7 +125,7 @@ class UpdatePasswordTest extends TestCase
     {
         return [
             'Test new password is required' => ['newPassword', '', 'app\_rules\_password_rule'],
-            'Test password must be greater than 7' => ['newPassword', '1234567', 'app\_rules\_password_rule'],
+            'Test password must be greater than 7' => ['newPassword', too_short_password(), 'app\_rules\_password_rule'],
             'Test current Password is required' => ['currentPassword', '', 'required'],
             'Test current Password must match auth user' => ['currentPassword', 'invalid-password', 'app\_rules\_password_check_rule'],
         ];
@@ -134,18 +136,16 @@ class UpdatePasswordTest extends TestCase
     {
         Livewire::actingAs($this->user)
             ->test(UpdatePassword::class)
-            ->set('newPassword', 'new-password')
-            ->set('newPasswordConfirmation', 'invalid-password')
+            ->set('newPassword', $this->password)
+            ->set('newPasswordConfirmation', $this->password.'invalid-password')
             ->call('submit');
 
         $this->assertTrue(Hash::check('password', $this->user->fresh()->password));
     }
 
     /** @test */
-    public function password_must_not_be_pwned()
+    public function password_must_be_uncompromised()
     {
-        $this->mockPwned(false);
-
         Livewire::actingAs($this->user)
              ->test(UpdatePassword::class)
              ->set('newPassword', 'new-password')

@@ -7,19 +7,21 @@ use Illuminate\Auth\Passwords\DatabaseTokenRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Http\Controllers\Auth\ResetPasswordController */
 class ResetPasswordControllerTest extends TestCase
 {
-    use RefreshDatabase, HasPwnedMock;
+    use RefreshDatabase;
+
+    /** @var string */
+    private $password;
 
     public function setUp() : void
     {
         parent::setUp();
 
-        $this->mockPwned();
+        $this->password = password_generator();
     }
 
     /** @test */
@@ -44,13 +46,13 @@ class ResetPasswordControllerTest extends TestCase
         $response = $this->post('password/reset', [
             'token' => $token,
             'email' => 'joe@example.com',
-            'password' => 'new-password',
-            'password_confirmation' => 'new-password',
+            'password' => $this->password,
+            'password_confirmation' => $this->password,
         ]);
 
         $response->assertRedirect(route('home.index'));
 
-        $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
+        $this->assertTrue(Hash::check($this->password, $user->fresh()->password));
 
         $this->assertAuthenticatedAs($user);
     }
@@ -123,7 +125,7 @@ class ResetPasswordControllerTest extends TestCase
             'Test email is required' => ['email', ''],
             'Test email is valid' => ['email', 'not-an-email'],
             'Test password is required' => ['password', ''],
-            'Test password must be greater than 7' => ['password', '1234567'],
+            'Test password must be greater than 7' => ['password', too_short_password()],
         ];
     }
 
@@ -136,8 +138,8 @@ class ResetPasswordControllerTest extends TestCase
         ]);
 
         $validParams = $this->validParams($user, [
-            'password' => 'password',
-            'password_confirmation' => 'non-matching-password',
+            'password' => $this->password,
+            'password_confirmation' => $this->password.'-non-matching-password',
         ]);
 
         $response = $this->from(route('password.reset', ['token' => $validParams['token']]))
@@ -151,18 +153,16 @@ class ResetPasswordControllerTest extends TestCase
     }
 
     /** @test */
-    public function password_must_not_be_pwned()
+    public function password_must_uncompromised()
     {
-        $this->mockPwned(false);
-
         $user = UserFactory::new()->create([
             'email' => 'joe@example.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('old-password'),
         ]);
 
         $validParams = $this->validParams($user, [
-            'password' => 'new-password',
-            'password_confirmation' => 'new-password',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ]);
 
         $response = $this->from(route('password.reset', ['token' => $validParams['token']]))
@@ -171,7 +171,7 @@ class ResetPasswordControllerTest extends TestCase
         $response->assertRedirect(route('password.reset', ['token' => $validParams['token']]))
             ->assertInvalid('password');
 
-        $this->assertTrue(Hash::check('password', $user->fresh()->password));
+        $this->assertTrue(Hash::check('old-password', $user->fresh()->password));
         $this->assertGuest();
     }
 
@@ -194,8 +194,8 @@ class ResetPasswordControllerTest extends TestCase
         return array_merge([
             'token' => $token,
             'email' => 'joe@example.com',
-            'password' => 'new-password',
-            'password_confirmation' => 'new-password',
+            'password' => $this->password,
+            'password_confirmation' => $this->password,
         ], $overrides);
     }
 }

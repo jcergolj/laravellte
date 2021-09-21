@@ -3,27 +3,26 @@
 namespace Tests\Unit\Rules;
 
 use App\Rules\PasswordRule;
-use Tests\HasPwnedMock;
 use Tests\TestCase;
 
 /** @see \App\Rules\PasswordRule */
 class PasswordRuleTest extends TestCase
 {
-    use HasPwnedMock;
+    /** @var string */
+    private $password;
 
     public function setUp() : void
     {
         parent::setUp();
-
-        $this->mockPwned();
+        $this->password = password_generator();
     }
 
     /** @test */
     public function validation_passes()
     {
-        $rule = new PasswordRule('password');
+        $rule = new PasswordRule($this->password);
 
-        $this->assertTrue($rule->passes('password', 'password'));
+        $this->assertTrue($rule->passes('password', $this->password));
     }
 
     /** @test */
@@ -35,27 +34,26 @@ class PasswordRuleTest extends TestCase
     }
 
     /** @test */
-    public function password_must_be_at_least_8_char_in_length()
+    public function password_must_be_at_least_x_char_in_length()
     {
-        $rule = new PasswordRule('1234567');
+        $password = too_short_password();
+        $rule = new PasswordRule($password);
 
-        $this->assertFalse($rule->passes('password', '1234567'));
+        $this->assertFalse($rule->passes('password', $password));
     }
 
     /** @test */
     public function password_must_be_confirmed()
     {
-        $rule = new PasswordRule('password-not-confirmed');
+        $rule = new PasswordRule($this->password.'-not-confirmed');
 
-        $this->assertFalse($rule->passes('password', 'password'));
+        $this->assertFalse($rule->passes('password', $this->password));
     }
 
     /** @test */
-    public function password_must_not_be_pwned()
+    public function password_must_be_uncompromised()
     {
-        $this->mockPwned(false);
-
-        $rule = new PasswordRule('password-not-confirmed');
+        $rule = new PasswordRule('password');
 
         $this->assertFalse($rule->passes('password', 'password'));
     }

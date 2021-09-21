@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17abcbc05da858268ce9816917bd5213",
+    "content-hash": "8328810bdcaf1b30aae90fb430d0173a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5580,55 +5580,6 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.3"
             },
             "time": "2020-07-13T06:12:54+00:00"
-        },
-        {
-            "name": "valorin/pwned-validator",
-            "version": "1.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/valorin/pwned-validator.git",
-                "reference": "d01a206f853b662e18d3b509360d27f1a3b4e7b2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/valorin/pwned-validator/zipball/d01a206f853b662e18d3b509360d27f1a3b4e7b2",
-                "reference": "d01a206f853b662e18d3b509360d27f1a3b4e7b2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "illuminate/support": "^5.5||^6.0||^7.0||^8.0",
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Valorin\\Pwned\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Valorin\\Pwned\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Stephen Rees-Carter",
-                    "email": "stephen@rees-carter.net"
-                }
-            ],
-            "description": "Super simple Laravel Validator for checking password via the Pwned Passwords service of Have I Been Pwned",
-            "support": {
-                "issues": "https://github.com/valorin/pwned-validator/issues",
-                "source": "https://github.com/valorin/pwned-validator/tree/1.3.4"
-            },
-            "time": "2020-09-10T01:56:23+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

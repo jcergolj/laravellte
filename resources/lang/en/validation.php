@@ -117,7 +117,7 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
     'password_check' => 'The :attribute value is invalid.',
-    'pwned' => 'Your password is insufficiently secure as it has been found in known password breaches, please choose a unique one.',
+    'uncompromised' => 'Your password is insufficiently secure as it has been found in known password breaches, please choose a unique one.',
 
     /*
     |--------------------------------------------------------------------------
