@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8328810bdcaf1b30aae90fb430d0173a",
+    "content-hash": "66f641d9d19dcbad687936c65065cfed",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7186,6 +7186,54 @@
             "time": "2021-02-20T13:23:21+00:00"
         },
         {
+            "name": "jcergolj/laravel-view-test-assertions",
+            "version": "v0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jcergolj/laravel-view-test-assertions.git",
+                "reference": "f50e8a0a75b578ef3cb2ac53f17153680ab8c293"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jcergolj/laravel-view-test-assertions/zipball/f50e8a0a75b578ef3cb2ac53f17153680ab8c293",
+                "reference": "f50e8a0a75b578ef3cb2ac53f17153680ab8c293",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "symfony/dom-crawler": "^5.3"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jcergolj\\LaravelViewTestAssertions\\LaravelViewTestAssertionsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jcergolj\\LaravelViewTestAssertions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Janez Cergolj",
+                    "email": "me@jcergolj.me.uk"
+                }
+            ],
+            "description": "Missing Laravel view's test assertions",
+            "support": {
+                "issues": "https://github.com/jcergolj/laravel-view-test-assertions/issues",
+                "source": "https://github.com/jcergolj/laravel-view-test-assertions/tree/v0.9"
+            },
+            "time": "2021-09-28T09:43:40+00:00"
+        },
+        {
             "name": "johnkary/phpunit-speedtrap",
             "version": "v3.3.0",
             "source": {
@@ -10369,6 +10417,81 @@
             "time": "2021-07-22T07:21:39+00:00"
         },
         {
+            "name": "symfony/dom-crawler",
+            "version": "v5.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dom-crawler.git",
+                "reference": "c7eef3a60ccfdd8eafe07f81652e769ac9c7146c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/c7eef3a60ccfdd8eafe07f81652e769ac9c7146c",
+                "reference": "c7eef3a60ccfdd8eafe07f81652e769ac9c7146c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/polyfill-php80": "^1.16"
+            },
+            "conflict": {
+                "masterminds/html5": "<2.6"
+            },
+            "require-dev": {
+                "masterminds/html5": "^2.6",
+                "symfony/css-selector": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/css-selector": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DomCrawler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Eases DOM navigation for HTML and XML documents",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/dom-crawler/tree/v5.3.7"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-08-29T19:32:13+00:00"
+        },
+        {
             "name": "symfony/filesystem",
             "version": "v5.3.4",
             "source": {
@@ -10821,5 +10944,5 @@
         "php": "^7.3.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

@@ -26,6 +26,7 @@
         "facade/ignition": "^2.5",
         "fzaninotto/faker": "^1.9.1",
         "jasonmccreary/laravel-test-assertions": "^1.0",
+        "jcergolj/laravel-view-test-assertions": "^0.9.0",
         "johnkary/phpunit-speedtrap": "^3.0",
         "laravel/tinker": "^2.0",
         "matt-allan/laravel-code-style": "^0.6.0",

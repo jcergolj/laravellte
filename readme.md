@@ -16,6 +16,8 @@
 </table>
 
 This is a boilerplate for opinionated Laravel 8.0 admin panel build with AdminLTE 3.0 theme, Alpinejs 2.0, Livewire 2.0, supported with tests and optional feature branches.
+<br/>
+You can check this repo I am actively working on [Laravel Castra](https://github.com/jcergolj/castra). Same idea, different tools (Hotwire Turbo). 
 
 ## Contents
 - [Have total control of the code](#have-total-control-of-the-code)
@@ -55,7 +57,7 @@ Here is the list of supported feature branches. By merging them into master you 
 2. [Simple Role Based Authorisation](https://github.com/jcergolj/laravellte/tree/feature/simple-role-based-auth)
 
 ## Installation
-After installing <a href="https://laravel.com/docs/7.0/">Laravel</a> you should run those commands:
+After installing <a href="https://laravel.com/docs/8.0/">Laravel</a> you should run those commands:
 ```
 git clone https://github.com/jcergolj/laravellte.git
 composer install
