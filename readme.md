@@ -17,7 +17,8 @@
 
 This is a boilerplate for opinionated Laravel 8.0 admin panel build with AdminLTE 3.0 theme, Alpinejs 2.0, Livewire 2.0, supported with tests and optional feature branches.
 <br/>
-You can check this repo I am actively working on [Laravel Castra](https://github.com/jcergolj/castra). Same idea, different tools (Hotwire Turbo). 
+<br/>
+**You can check this repo I am actively working on [Laravel Castra](https://github.com/jcergolj/castra). Same idea, different tools (Hotwire Turbo).**
 
 ## Contents
 - [Have total control of the code](#have-total-control-of-the-code)
