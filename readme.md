@@ -141,7 +141,7 @@ Licensed under the [MIT license](https://github.com/deployphp/deployer/blob/mast
 </a>
 </td>
 <td>
-<a href="https://github.comq/horaciod">
+<a href="https://github.com/horaciod">
 <img src="https://avatars3.githubusercontent.com/u/1373814?s=400&u=eee905c70aa654bd5ee2aba896e531ab6b7949d4&v=4" width="100px">
 <br />
 <sub>
