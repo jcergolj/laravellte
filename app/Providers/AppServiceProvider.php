@@ -22,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
+
         Blade::directive('errorClass', function ($field) {
             $ifStatement = "if(session()->has('errors') && session('errors')->has(${field}))";
 
