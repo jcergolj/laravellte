@@ -28,12 +28,12 @@
 
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown user-menu" x-data="{ open: false }">
-                    <a href="#" class="nav-link" x-on:click="open= true">
+                    <a href="javascript:void(0)" class="nav-link" x-on:click="open= true">
                         <img src="{{ auth()->user()->imageFile }}" class="user-image img-circle elevation-2" alt="User Image">
                         <span class="d-none d-md-inline">{{ auth()->user()->email }}</span>
                     </a>
 
-                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" x-bind:class="{ 'show': open }" x-on:click.away="open= false" x-cloak>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" x-show="open" x-bind:class="{ 'show': open }" x-on:click.away="open= false" x-cloak>
                         <li class="user-header bg-primary">
                             <img src="{{ auth()->user()->imageFile }}" class="img-circle elevation-2">
                             <p>

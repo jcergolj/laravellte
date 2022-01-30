@@ -1,14 +1,16 @@
-import "alpinejs";
+import Alpine from 'alpinejs'
+
+window.Alpine = Alpine
 
 window.axios = require("axios");
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-var nav = {
+window.nav = {
     width: 990,
     make() {
         return {
-            collapsed: function() {
+            collapsed: function () {
                 if (window.innerWidth < this.width) {
                     return true;
                 }
@@ -33,9 +35,26 @@ var nav = {
                     this.$refs.body.classList.remove("sidebar-open");
                     this.collapsed = true;
                 }
-            },
+            }
         };
     },
 };
 
-window.nav = nav;
+window.permissions = () => {
+    return {
+        checkAll(id, css) {
+            document.getElementById(id).checked = Array.from(document.querySelectorAll('.' + css)).every((element) => {
+                return element.checked === true
+            });
+        },
+        reCheckedSelectAll(el, css) {
+            let event = new Event('change');
+            Array.from(document.querySelectorAll('.' + css)).forEach((element) => {
+                element.checked = el.checked
+                element.dispatchEvent(event);
+            });
+        }
+    }
+};
+
+Alpine.start()
