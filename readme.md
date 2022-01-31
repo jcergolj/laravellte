@@ -158,5 +158,14 @@ Licensed under the [MIT license](https://github.com/deployphp/deployer/blob/mast
 </sub>
 </a>
 </td>
+<td>
+<a href="https://github.com/madurapa">
+<img src="https://avatars.githubusercontent.com/u/4289578?v=4" width="100px">
+<br />
+<sub>
+<b>Maduka Jayalath</b>
+</sub>
+</a>
+</td>
 </tr>
 </table>
