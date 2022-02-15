@@ -20,7 +20,8 @@ class Authorization
         $component = $request->route()->action['controller'];
 
         $model = (new ImplicitRouteBinding(new Container()))->resolveComponentProps(
-            $request->route(), new $component()
+            $request->route(),
+            new $component()
         );
 
         Gate::authorize('for-route', [$request->route()->getName(), $model->first() ?? null]);

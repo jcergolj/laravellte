@@ -23,7 +23,7 @@ class SaveRoleViewModel
         foreach ($permissions as $permission) {
             $assignedPermissions[$permission->id]['group'] = $permission->group;
             $assignedPermissions[$permission->id]['description'] = $permission->description;
-            $assignedPermissions[$permission->id]['allowed'] = key_exists($permission->id, $rolePermissions);
+            $assignedPermissions[$permission->id]['allowed'] = array_key_exists($permission->id, $rolePermissions);
             $assignedPermissions[$permission->id]['owner_restricted'] = $rolePermissions[$permission->id] ?? false;
         }
 

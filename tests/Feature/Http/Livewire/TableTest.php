@@ -16,7 +16,9 @@ class TableTest extends TestCase
     {
         $table = new class() {
             use HasTable;
+
             public $sortField = 'name';
+
             public $sortDirection = 'asc';
         };
 

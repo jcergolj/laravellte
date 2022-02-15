@@ -38,6 +38,7 @@ class UpdateImage extends Component
      */
     public function mount()
     {
+        // only if allowed
         $this->user = auth()->user();
     }
 
@@ -48,6 +49,7 @@ class UpdateImage extends Component
      */
     public function submit()
     {
+        // only if allowed
         $this->validate($this->validationRules());
 
         if ($this->user->image !== null) {

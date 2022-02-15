@@ -8,49 +8,44 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3.0",
+        "php": "^8.1",
+        "fruitcake/laravel-cors": "^2.0.5",
+        "guzzlehttp/guzzle": "^7.2",
+        "laravel/framework": "^9.0",
+        "laravel/tinker": "^2.7",
         "doctrine/dbal": "^3.0",
-        "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0",
         "intervention/image": "^2.0",
-        "laravel/framework": "^8.0",
         "laravel/ui": "^3.0",
         "livewire/livewire": "^2.0",
         "predis/predis": "^1.1"
     },
     "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0",
         "barryvdh/laravel-debugbar": "^3.5",
-        "brainmaestro/composer-git-hooks": "^2.0",
         "brianium/paratest": "^6.2",
-        "facade/ignition": "^2.5",
-        "fzaninotto/faker": "^1.9.1",
-        "jasonmccreary/laravel-test-assertions": "^1.0",
+        "jasonmccreary/laravel-test-assertions": "^2.0",
         "jcergolj/laravel-view-test-assertions": "^2.0",
-        "johnkary/phpunit-speedtrap": "^3.0",
-        "laravel/tinker": "^2.0",
-        "matt-allan/laravel-code-style": "^0.6.0",
-        "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^5.0",
-        "nunomaduro/phpinsights": "^1.0",
-        "phpunit/phpunit": "^9.5"
+        "johnkary/phpunit-speedtrap": "^4.0",
+        "laravel/dusk": "^6.19",
+        "nunomaduro/phpinsights": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true
+        }
     },
     "extra": {
         "laravel": {
             "dont-discover": []
-        },
-        "hooks": {
-            "pre-commit": [
-                "STAGED_FILES=$(git diff --name-only --cached)",
-                "vendor/bin/php-cs-fixer fix",
-                "for FILE in $STAGED_FILES ; do git add $FILE; done",
-                "php artisan insights --no-interaction --min-quality=80 --min-complexity=80 --min-architecture=80 --min-style=80"
-            ]
         }
     },
     "autoload": {
@@ -80,6 +75,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "cghooks": "vendor/bin/cghooks"
+        "insights": "@php artisan insights --no-interaction --min-quality=80 --min-complexity=80 --min-architecture=80 --min-style=80 --fix -v",
+        "phpcs": "vendor/bin/php-cs-fixer fix",
+        "analyse": [
+            "@phpcs",
+            "@insights"
+        ]
     }
 }
